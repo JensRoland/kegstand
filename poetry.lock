@@ -23,14 +23,14 @@ tests-no-zope = ["cloudpickle", "cloudpickle", "hypothesis", "hypothesis", "mypy
 
 [[package]]
 name = "aws-cdk-asset-awscli-v1"
-version = "2.2.93"
+version = "2.2.97"
 description = "A library that contains the AWS CLI for use in Lambda Layers"
 category = "main"
 optional = false
 python-versions = "~=3.7"
 
 [package.dependencies]
-jsii = ">=1.76.0,<2.0.0"
+jsii = ">=1.77.0,<2.0.0"
 publication = ">=0.0.3"
 typeguard = ">=2.13.3,<2.14.0"
 
@@ -49,60 +49,14 @@ typeguard = ">=2.13.3,<2.14.0"
 
 [[package]]
 name = "aws-cdk-asset-node-proxy-agent-v5"
-version = "2.0.75"
+version = "2.0.77"
 description = "@aws-cdk/asset-node-proxy-agent-v5"
 category = "main"
 optional = false
 python-versions = "~=3.7"
 
 [package.dependencies]
-jsii = ">=1.76.0,<2.0.0"
-publication = ">=0.0.3"
-typeguard = ">=2.13.3,<2.14.0"
-
-[[package]]
-name = "aws-cdk-aws-apigatewayv2-alpha"
-version = "2.67.0a0"
-description = "The CDK Construct Library for AWS::APIGatewayv2"
-category = "main"
-optional = false
-python-versions = "~=3.7"
-
-[package.dependencies]
-aws-cdk-lib = ">=2.67.0,<3.0.0"
-constructs = ">=10.0.0,<11.0.0"
-jsii = ">=1.76.0,<2.0.0"
-publication = ">=0.0.3"
-typeguard = ">=2.13.3,<2.14.0"
-
-[[package]]
-name = "aws-cdk-aws-apigatewayv2-integrations-alpha"
-version = "2.67.0a0"
-description = "Integrations for AWS APIGateway V2"
-category = "main"
-optional = false
-python-versions = "~=3.7"
-
-[package.dependencies]
-"aws-cdk.aws-apigatewayv2-alpha" = "2.67.0.a0"
-aws-cdk-lib = ">=2.67.0,<3.0.0"
-constructs = ">=10.0.0,<11.0.0"
-jsii = ">=1.76.0,<2.0.0"
-publication = ">=0.0.3"
-typeguard = ">=2.13.3,<2.14.0"
-
-[[package]]
-name = "aws-cdk-aws-lambda-python-alpha"
-version = "2.67.0a0"
-description = "The CDK Construct Library for AWS Lambda in Python"
-category = "main"
-optional = false
-python-versions = "~=3.7"
-
-[package.dependencies]
-aws-cdk-lib = ">=2.67.0,<3.0.0"
-constructs = ">=10.0.0,<11.0.0"
-jsii = ">=1.76.0,<2.0.0"
+jsii = ">=1.77.0,<2.0.0"
 publication = ">=0.0.3"
 typeguard = ">=2.13.3,<2.14.0"
 
@@ -125,14 +79,14 @@ typeguard = ">=2.13.3,<2.14.0"
 
 [[package]]
 name = "boto3"
-version = "1.26.84"
+version = "1.26.86"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 3.7"
 
 [package.dependencies]
-botocore = ">=1.29.84,<1.30.0"
+botocore = ">=1.29.86,<1.30.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.6.0,<0.7.0"
 
@@ -141,7 +95,7 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.29.84"
+version = "1.29.86"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -188,14 +142,14 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 
 [[package]]
 name = "constructs"
-version = "10.1.268"
+version = "10.1.270"
 description = "A programming model for software-defined state"
 category = "main"
 optional = false
 python-versions = "~=3.7"
 
 [package.dependencies]
-jsii = ">=1.76.0,<2.0.0"
+jsii = ">=1.77.0,<2.0.0"
 publication = ">=0.0.3"
 typeguard = ">=2.13.3,<2.14.0"
 
@@ -257,6 +211,21 @@ perf = ["ipython"]
 testing = ["flake8 (<5)", "flufl.flake8", "importlib-resources (>=1.3)", "packaging", "pyfakefs", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-flake8", "pytest-mypy (>=0.9.1)", "pytest-perf (>=0.9.2)"]
 
 [[package]]
+name = "importlib-resources"
+version = "5.12.0"
+description = "Read resources from Python packages"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+zipp = {version = ">=3.1.0", markers = "python_version < \"3.10\""}
+
+[package.extras]
+docs = ["furo", "jaraco.packaging (>=9)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
+testing = ["flake8 (<5)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-flake8", "pytest-mypy (>=0.9.1)"]
+
+[[package]]
 name = "iniconfig"
 version = "2.0.0"
 description = "brain-dead simple config-ini parsing"
@@ -296,7 +265,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "jsii"
-version = "1.76.0"
+version = "1.77.0"
 description = "Python client for jsii runtime"
 category = "main"
 optional = false
@@ -305,6 +274,7 @@ python-versions = "~=3.7"
 [package.dependencies]
 attrs = ">=21.2,<23.0"
 cattrs = ">=1.8,<22.3"
+importlib-resources = ">=5.2.0"
 publication = ">=0.0.3"
 python-dateutil = "*"
 typeguard = ">=2.13.3,<2.14.0"
@@ -508,7 +478,7 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "10d295f4b5bcbfe931272ae653c99ea8849d970ec727e2b0d991b8e16ad3ec27"
+content-hash = "a890f5fd273781c4eb49ec8d2d33992fc8f4031cca5b4b3af93afb9cbf450db7"
 
 [metadata.files]
 atomicwrites = [
@@ -519,40 +489,28 @@ attrs = [
     {file = "attrs-22.2.0.tar.gz", hash = "sha256:c9227bfc2f01993c03f68db37d1d15c9690188323c067c641f1a35ca58185f99"},
 ]
 aws-cdk-asset-awscli-v1 = [
-    {file = "aws-cdk.asset-awscli-v1-2.2.93.tar.gz", hash = "sha256:004072b1187a722c10218a2f7c98895fed166e0c8e00ab4981e22c1d5190a9ca"},
-    {file = "aws_cdk.asset_awscli_v1-2.2.93-py3-none-any.whl", hash = "sha256:a5ecdc8ec9ceab86563bd5094f8f2dffd0cd1d7fded9575126394926fb7af31c"},
+    {file = "aws-cdk.asset-awscli-v1-2.2.97.tar.gz", hash = "sha256:6a1b5ebecea476010b9324dbd28dd1bf007e44f06b2b75986d9fc06fb84c687d"},
+    {file = "aws_cdk.asset_awscli_v1-2.2.97-py3-none-any.whl", hash = "sha256:28738b4ee23805b0987ea6c889f4b1b024a69fad729a5958a97bf860383c052c"},
 ]
 aws-cdk-asset-kubectl-v20 = [
     {file = "aws-cdk.asset-kubectl-v20-2.1.1.tar.gz", hash = "sha256:9834cdb150c5590aea4e5eba6de2a89b4c60617451181c524810c5a75154565c"},
     {file = "aws_cdk.asset_kubectl_v20-2.1.1-py3-none-any.whl", hash = "sha256:a2fad1a5a35a94a465efe60859f91e45dacc33261fb9bbf1cf9bbc6e2f70e9d6"},
 ]
 aws-cdk-asset-node-proxy-agent-v5 = [
-    {file = "aws-cdk.asset-node-proxy-agent-v5-2.0.75.tar.gz", hash = "sha256:c18dec3efc27cc635af54babe432ca3c712eafbf42c9dc28cc59607d5be703ac"},
-    {file = "aws_cdk.asset_node_proxy_agent_v5-2.0.75-py3-none-any.whl", hash = "sha256:a4b7ad9dab60a28340699c191a6927f617ceccb051cc3ca5b96704dd6ed5d4f6"},
-]
-aws-cdk-aws-apigatewayv2-alpha = [
-    {file = "aws-cdk.aws-apigatewayv2-alpha-2.67.0a0.tar.gz", hash = "sha256:373a1de9389af6a3ef21e0a420271561a3e4e0d822f7043e217f8cf1a83105d6"},
-    {file = "aws_cdk.aws_apigatewayv2_alpha-2.67.0a0-py3-none-any.whl", hash = "sha256:0df684bd0834b8ac81a754e68c2dcedf2a84368f58e6b189ead7d4c7c281cddf"},
-]
-aws-cdk-aws-apigatewayv2-integrations-alpha = [
-    {file = "aws-cdk.aws-apigatewayv2-integrations-alpha-2.67.0a0.tar.gz", hash = "sha256:cc92277a7ff882c26236d9dc6d66579378343813da492c16569ba8e8065fae73"},
-    {file = "aws_cdk.aws_apigatewayv2_integrations_alpha-2.67.0a0-py3-none-any.whl", hash = "sha256:0dcd3b87d8f1150a68cf8b2323256f03d87130a73889a6ac90120a8c49226cc7"},
-]
-aws-cdk-aws-lambda-python-alpha = [
-    {file = "aws-cdk.aws-lambda-python-alpha-2.67.0a0.tar.gz", hash = "sha256:0bcdf42733fb7f13b80cbcffdecc3ffde45287b7776de008520e8971fcf62598"},
-    {file = "aws_cdk.aws_lambda_python_alpha-2.67.0a0-py3-none-any.whl", hash = "sha256:2ee5e001a048834180d4d6dc7b31ebf4e2f8b433a275817f1b12114a7aae1aa0"},
+    {file = "aws-cdk.asset-node-proxy-agent-v5-2.0.77.tar.gz", hash = "sha256:c5d8984cc7fa6a14d84f927d03cd56cc7cae26b77c2e6d2ec5ec47a3a331ea32"},
+    {file = "aws_cdk.asset_node_proxy_agent_v5-2.0.77-py3-none-any.whl", hash = "sha256:17f91a70a38651cf481b825ccf454bfa4a74aa15e2a9e313362533f54f3a94f5"},
 ]
 aws-cdk-lib = [
     {file = "aws-cdk-lib-2.67.0.tar.gz", hash = "sha256:fe07c44051222f9fdf6d24250e8c332f3c067c26459ad68169f9035558bf60fb"},
     {file = "aws_cdk_lib-2.67.0-py3-none-any.whl", hash = "sha256:6b3638a31a0ab6c5c0000ad28f6373c30752d5a908aafca40082c1cf5df4b206"},
 ]
 boto3 = [
-    {file = "boto3-1.26.84-py3-none-any.whl", hash = "sha256:d97176a7ffb37539bc53671cb0bf1c5b304f1c78bbd748553df549a9d4f92a9e"},
-    {file = "boto3-1.26.84.tar.gz", hash = "sha256:7ab7bb335b726e2f472b5c050028198d16338560c83c40b2bd2bd4e4018ec802"},
+    {file = "boto3-1.26.86-py3-none-any.whl", hash = "sha256:e981703b76d2fb9274ce5cdda6ea382e29c9e7c65bc400c94c0a259b26f8914a"},
+    {file = "boto3-1.26.86.tar.gz", hash = "sha256:7e8fc7bfef6481e48380d13e18a0a036413d126dc7eda37eadc1a052a3426323"},
 ]
 botocore = [
-    {file = "botocore-1.29.84-py3-none-any.whl", hash = "sha256:0f976427ad0a2602624ba784b5db328a865c2e9e0cc1bb6d8cffb6c0a2d177e1"},
-    {file = "botocore-1.29.84.tar.gz", hash = "sha256:a36f7f6f8eae5dbd4a1cc8cb6fc747f6315500541181eff2093ee0529fc8e4bc"},
+    {file = "botocore-1.29.86-py3-none-any.whl", hash = "sha256:6083c649791559dd916c9ff7ac62486b391f6f9464d3cf6964582a489c866b11"},
+    {file = "botocore-1.29.86.tar.gz", hash = "sha256:8a4afc6d540c01890e434b9a31fb1b17f8c759001e12c7ad7c49f55ea5805993"},
 ]
 cattrs = [
     {file = "cattrs-22.2.0-py3-none-any.whl", hash = "sha256:bc12b1f0d000b9f9bee83335887d532a1d3e99a833d1bf0882151c97d3e68c21"},
@@ -567,8 +525,8 @@ colorama = [
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 constructs = [
-    {file = "constructs-10.1.268-py3-none-any.whl", hash = "sha256:d1956a5f31fc49832d98058eb86413e78071e203cd7a23a0b475096851986189"},
-    {file = "constructs-10.1.268.tar.gz", hash = "sha256:cef66b5db280ec4b07fd3c0f797634c89ae0487b69b096ac06b9d3f36ea1ca60"},
+    {file = "constructs-10.1.270-py3-none-any.whl", hash = "sha256:f017c78dfd27fad0d9098d27680093ae5aeccae71b455a473943b30e6da0f3f6"},
+    {file = "constructs-10.1.270.tar.gz", hash = "sha256:3e52447923e6a6d66797540ba98e5f9da4542b23c98150884e7b7ebcdde85ed7"},
 ]
 coverage = [
     {file = "coverage-6.5.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:ef8674b0ee8cc11e2d574e3e2998aea5df5ab242e012286824ea3c6970580e53"},
@@ -634,6 +592,10 @@ importlib-metadata = [
     {file = "importlib_metadata-6.0.0-py3-none-any.whl", hash = "sha256:7efb448ec9a5e313a57655d35aa54cd3e01b7e1fbcf72dce1bf06119420f5bad"},
     {file = "importlib_metadata-6.0.0.tar.gz", hash = "sha256:e354bedeb60efa6affdcc8ae121b73544a7aa74156d047311948f6d711cd378d"},
 ]
+importlib-resources = [
+    {file = "importlib_resources-5.12.0-py3-none-any.whl", hash = "sha256:7b1deeebbf351c7578e09bf2f63fa2ce8b5ffec296e0d349139d43cca061a81a"},
+    {file = "importlib_resources-5.12.0.tar.gz", hash = "sha256:4be82589bf5c1d7999aedf2a45159d10cb3ca4f19b2271f8792bc8e6da7b22f6"},
+]
 iniconfig = [
     {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
     {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
@@ -651,8 +613,8 @@ jmespath = [
     {file = "jmespath-1.0.1.tar.gz", hash = "sha256:90261b206d6defd58fdd5e85f478bf633a2901798906be2ad389150c5c60edbe"},
 ]
 jsii = [
-    {file = "jsii-1.76.0-py3-none-any.whl", hash = "sha256:0a1a7bf53d8ddc297788a0970b91afb42973e6f226e24548157a6cb222125f7a"},
-    {file = "jsii-1.76.0.tar.gz", hash = "sha256:441b679924157ea3bf4b7a37834039e7db177f6e954d8d62faecf2e13f985b52"},
+    {file = "jsii-1.77.0-py3-none-any.whl", hash = "sha256:553e04a20b8fb9927d93d8b5e96f984f514c5acc4b06bd63b4e7130228d0c7fc"},
+    {file = "jsii-1.77.0.tar.gz", hash = "sha256:28f070f3bce79e9c2d822607a960fe927e5179cf99416c94c39fb41581250854"},
 ]
 markupsafe = [
     {file = "MarkupSafe-2.1.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:665a36ae6f8f20a4676b53224e33d456a6f5a72657d9c83c2aa00765072f31f7"},
