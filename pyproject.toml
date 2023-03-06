@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "proustcli"
+version = "0.1.0"
+description = "A lightweight Lambda/API framework"
+authors = ["JensRoland <mail@jensroland.com>"]
+license = "MIT"
+packages = [
+    { include = "proustcli", from = "src" },
+]
+
+[tool.poetry.scripts]
+proust = "proustcli.cli.__main__:proustcli"
+
+[tool.poetry.dependencies]
+aws-cdk-lib = "^2.67.0"
+boto3 = "^1.17.113"
+click = "^8.0.3"
+constructs = ">=10.0.0,<11.0.0"
+flask = "^2.1.0"
+pyjwt = "^2.1.0"
+python = "^3.9"
+tomli = { version = "^2.0.1", python = "<3.11" }
+xxhash = "^3.2.0"
+aws-cdk-aws-lambda-python-alpha = {version = "^2.67.0a0", allow-prereleases = true}
+aws-cdk-aws-apigatewayv2-alpha = {version = "^2.67.0a0", allow-prereleases = true}
+aws-cdk-aws-apigatewayv2-integrations-alpha = {version = "^2.67.0a0", allow-prereleases = true}
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^6.0"
+pytest = "^6.2.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
