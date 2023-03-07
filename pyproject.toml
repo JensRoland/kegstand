@@ -16,6 +16,7 @@ aws-cdk-lib = "^2.67.0"
 boto3 = "^1.17.113"
 click = "^8.0.3"
 constructs = ">=10.0.0,<11.0.0"
+copier = "^6.2.0"  # 7.0.1 has a bug that deletes the template folder, see https://github.com/copier-org/copier/issues/1029
 flask = "^2.1.0"
 pyjwt = "^2.1.0"
 python = "^3.9"
