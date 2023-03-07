@@ -2,7 +2,7 @@ from proust.decorators import (
     ApiResource
 )
 
-hello = ApiResource("hello")
+hello = ApiResource("/hello")
 
 @hello.get()
 def hello_world(_params):

@@ -21,7 +21,7 @@ def deploy(ctx, stack_name, region):
         'deploy',
         '--app', 'python infra/app.py',
         '--output', f'{project_dir}/cdk.out',
-        '--hotswap',
+        # '--hotswap',
         '--context', f'stack_name={stack_name}',
         '--context', f'region={region}',
         '--context', f'project_dir={project_dir}',

@@ -15,7 +15,7 @@ class ApiStack(Stack):
         api_lambda = _lambda.Function(
             self, 'ApiLambda',
             code=_lambda.Code.from_asset(f'{config["project_dir"]}/dist'),
-            handler="api.handler",
+            handler=config["api"]["entrypoint"],
             runtime=_lambda.Runtime.PYTHON_3_8,
             memory_size=256
         )
