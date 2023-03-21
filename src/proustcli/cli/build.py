@@ -18,10 +18,7 @@ def build(ctx):
 
     # Handle the different types ('modules') of build
     if "api" in config:
-        build_api(config, project_dir, create_empty_folder(build_dir, 'api'))
-
-    # if "cdk" in config:
-    #     build_cdk(config, project_dir, create_empty_folder(build_dir, 'cdk'))
+        build_api(config, project_dir, create_empty_folder(build_dir, 'api_src'))
 
 
 def build_api(config: dict, project_dir: str, module_build_dir: str):
