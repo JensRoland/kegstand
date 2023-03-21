@@ -41,7 +41,7 @@ if "api" in config:
     logger.info(f"Creating stack for [api] '{config['api']['name']}'...")
     # Use the api name from the config as the stack name
     api_stack_name = config['api']['name'].replace(' ', '-')
-    cognito_stack = CognitoStack(app, "CognitoStack", env={'region': region})
+    cognito_stack = CognitoStack(app, "proust-auth", env={'region': region})
     LambdaRestApiStack(app, api_stack_name, config, user_pool=cognito_stack.user_pool, env={'region': region})
 
 app.synth()

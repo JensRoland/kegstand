@@ -1,4 +1,5 @@
 [api]
 name = "My API"
 description = "My API description"
+entrypoint = "api.handler"
 version = "0.1.0"

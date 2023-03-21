@@ -13,9 +13,8 @@ class CognitoStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         self.user_pool = cognito.UserPool(
-            self, "UserPool",
-            user_pool_name="MyUserPool",
-            self_sign_up_enabled=True,  # Enable self sign up
+            self, "ProustUserPool",
+            self_sign_up_enabled=False,  # Disable self sign up
             password_policy=cognito.PasswordPolicy(
                 min_length=8,
                 require_digits=True,
@@ -47,14 +46,14 @@ class CognitoStack(Stack):
         )
 
         # Domain is required for Cognito to work with OAuth
-        self.user_pool.add_domain("CognitoDomain",
+        self.user_pool.add_domain("ProustCognitoDomain",
             cognito_domain=cognito.CognitoDomainOptions(
-                domain_prefix="my-appything"
+                domain_prefix="proust-cog"
             )
         )
 
         self.user_pool_client = cognito.UserPoolClient(
-            self, "UserPoolClient",
+            self, "ProustUserPoolClient",
             user_pool=self.user_pool,
             generate_secret=True,  # Enable the authorization code grant flow
             auth_flows=cognito.AuthFlow(
@@ -80,18 +79,17 @@ class LambdaRestApiStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         api = apigw.RestApi(
-            self, 'MyApi',
-            rest_api_name='my-api'
+            self, f"{id}-RestApi"
         )
 
         # Configure the Cognito User Pool authorizer
         authorizer = apigw.CognitoUserPoolsAuthorizer(
-            self, "MyApiAuthorizer", cognito_user_pools=[user_pool]
+            self, f"{id}-Authorizer", cognito_user_pools=[user_pool]
         )
 
         # Endpoint logic Lambda function
         lambda_function = lambda_.Function(
-            self, "ApiLambda",
+            self, f"{id}-Function",
             runtime=lambda_.Runtime.PYTHON_3_8,
             handler=config["api"]["entrypoint"],
             code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_src'),
