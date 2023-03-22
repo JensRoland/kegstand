@@ -1,13 +1,10 @@
 import logging
-from proust.decorators import (
-    ApiResource,
-    ApiError
-)
+import proust
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-api = ApiResource("/hello")
+api = proust.Resource("/hello")
 
 @api.get()
 def hello_world(_params):
@@ -21,7 +18,7 @@ def greet(params):
 @api.post("/:name", auth=True)
 def greet_with_data(params, data, authorized_user):
     if not authorized_user["custom:is_moderator"]:
-        raise ApiError("You are not a moderator!", 403)
+        raise proust.ApiError("You are not a moderator!", 403)
     name = params.get("name")
     msg = data.get("msg", "[n/a]")
     return {"message": f"Ahoy-hoy, {name}! A message for you: {msg}", }
