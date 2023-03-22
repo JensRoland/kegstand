@@ -7,7 +7,7 @@ logger.setLevel(logging.INFO)
 api = proust.Resource("/hello")
 
 @api.get()
-def hello_world(_params):
+def hello_world():
     return {"message": "Hello, world!"}
 
 @api.get("/:name")
