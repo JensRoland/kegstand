@@ -4,11 +4,14 @@ import shutil
 import click
 
 from copier import run_copy
-from proustcli.cli.config import get_proust_config
 
 @click.command()
 @click.argument('project_dir')
 def new(project_dir):
+    new_command(project_dir)
+
+
+def new_command(project_dir):
     project_name = os.path.basename(project_dir)
     project_parent_dir = os.path.dirname(project_dir)
 

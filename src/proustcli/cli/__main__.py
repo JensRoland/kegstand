@@ -16,10 +16,8 @@ def proustcli(ctx, config):
     ctx.obj = {'config': os.path.abspath(config),
                'project_dir': project_dir}
 
-proustcli.add_command(new)
-proustcli.add_command(build)
-proustcli.add_command(deploy)
-proustcli.add_command(teardown)
+for command in [new, build, deploy, teardown]:
+    proustcli.add_command(command)
 
 if __name__ == '__main__':
     proustcli(obj={})

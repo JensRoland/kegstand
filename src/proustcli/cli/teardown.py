@@ -8,7 +8,10 @@ import click
 @click.option('--region', default='eu-west-1', help='AWS region to deploy to')
 def teardown(ctx, region):
     project_dir = ctx.obj['project_dir']
+    teardown_command(project_dir, region)
 
+
+def teardown_command(project_dir, region):
     # Get the dir of the Proust CLI package itself (one level up from here)
     proustcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,4 +25,3 @@ def teardown(ctx, region):
         '--context', f'project_dir={project_dir}',
         '--force'
     ], cwd=proustcli_dir, check=True)
-

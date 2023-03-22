@@ -1,7 +1,6 @@
 import os
 import subprocess
 import shutil
-import zipfile
 
 import click
 
@@ -11,6 +10,10 @@ from proustcli.cli.config import get_proust_config
 @click.pass_context
 def build(ctx):
     project_dir = ctx.obj['project_dir']
+    build_command(project_dir)
+
+
+def build_command(project_dir):
     config = get_proust_config(project_dir)
 
     # Create a directory to hold the build artifacts, and make sure it is empty
