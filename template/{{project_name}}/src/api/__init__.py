@@ -1,13 +1,11 @@
+import os
 from proust.api import ProustApi
-
-# Import resources
-from api.resources.hello import hello
 
 # Create the API
 api = ProustApi()
 
-# Add resources to the API
-api.add_resource(hello)
+# Scan folders and add resources to the API
+api.find_and_add_resources(os.path.dirname(os.path.abspath(__file__)))
 
 # Export the API as a single Lambda-compatible handler function
 handler = api.export()
