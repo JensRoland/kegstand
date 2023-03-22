@@ -1,8 +1,7 @@
-import logging
 import proust
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+# Structured logging fields: https://awslabs.github.io/aws-lambda-powertools-python/2.9.0/core/logger/#standard-structured-keys
+logger = proust.Logger()
 
 api = proust.Resource("/hello")
 
