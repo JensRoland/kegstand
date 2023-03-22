@@ -78,17 +78,17 @@ class LambdaRestApiStack(Stack):
     def __init__(self, scope: Construct, id: str, config: dict, user_pool, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        api = apigw.RestApi(
+        self.api = apigw.RestApi(
             self, f"{id}-RestApi"
         )
 
         # Configure the Cognito User Pool authorizer
-        authorizer = apigw.CognitoUserPoolsAuthorizer(
+        self.authorizer = apigw.CognitoUserPoolsAuthorizer(
             self, f"{id}-Authorizer", cognito_user_pools=[user_pool]
         )
 
         # Endpoint logic Lambda function
-        lambda_function = lambda_.Function(
+        self.lambda_function = lambda_.Function(
             self, f"{id}-Function",
             runtime=lambda_.Runtime.PYTHON_3_8,
             handler=config["api"]["entrypoint"],
@@ -97,10 +97,10 @@ class LambdaRestApiStack(Stack):
         )
 
         # Create a Proxy+ ANY method for the root resource
-        api.root.add_proxy(
-            default_integration=apigw.LambdaIntegration(lambda_function),
+        self.api.root.add_proxy(
+            default_integration=apigw.LambdaIntegration(self.lambda_function),
             default_method_options=apigw.MethodOptions(
-                authorizer=authorizer,  # Apply the authorizer
+                authorizer=self.authorizer,  # Apply the authorizer
             ),
         )
 
