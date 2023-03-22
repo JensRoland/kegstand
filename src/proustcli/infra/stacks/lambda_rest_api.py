@@ -90,7 +90,7 @@ class LambdaRestApiStack(Stack):
         # Endpoint logic Lambda function
         self.lambda_function = lambda_.Function(
             self, f"{id}-Function",
-            runtime=lambda_.Runtime.PYTHON_3_8,
+            runtime=lambda_.Runtime.PYTHON_3_9,
             handler=config["api"]["entrypoint"],
             code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_src'),
             memory_size=256
