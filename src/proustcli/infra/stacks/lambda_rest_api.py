@@ -7,6 +7,8 @@ from aws_cdk import (
 )
 from constructs import Construct
 
+from proustcli.utils import find_resource_modules
+
 
 class CognitoStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
@@ -97,19 +99,26 @@ class LambdaRestApiStack(Stack):
         )
 
         # Create a Proxy+ ANY method for the root resource
-        self.api.root.add_proxy(
-            default_integration=apigw.LambdaIntegration(self.lambda_function),
-            default_method_options=apigw.MethodOptions(
-                authorizer=self.authorizer,  # Apply the authorizer
-            ),
-        )
+        # self.api.root.add_proxy(
+        #     default_integration=apigw.LambdaIntegration(self.lambda_function),
+        #     default_method_options=apigw.MethodOptions(
+        #         authorizer=self.authorizer,  # Apply the authorizer
+        #     ),
+        # )
 
         # For each resource, create API Gateway endpoints with the Lambda integration
-        # for resource in find_resource_modules(f'{config["project_dir"]}/dist/api_src/api'):
-        #     api_root = api.root.add_resource(resource["name"])
-        #     api_root.add_method(
-        #         "ANY",
-        #         apigw.LambdaIntegration(lambda_function),
-        #         authorizer=authorizer,  # Apply the authorizer
-        #         proxy=True,
-        #     )
+        for resource in find_resource_modules(f'{config["project_dir"]}/dist/api_src/api'):
+            resource_root = self.api.root.add_resource(resource["name"])
+            if resource["require_auth"]:
+                # Private, auth required endpoints
+                resource_root.add_proxy(
+                    default_integration=apigw.LambdaIntegration(self.lambda_function),
+                    default_method_options=apigw.MethodOptions(
+                        authorizer=self.authorizer,  # Apply the authorizer
+                    ),
+                )
+            else:
+                # Public, no auth required endpoints
+                resource_root.add_proxy(
+                    default_integration=apigw.LambdaIntegration(self.lambda_function),
+                )
