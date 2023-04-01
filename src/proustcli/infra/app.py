@@ -28,7 +28,10 @@ config = get_proust_config(project_dir)
 logger.info(f"Creating app with config: {config}")
 
 parent_stack_name = config['project']['name'].replace(' ', '-')
-parent_stack = cdk.Stack(app, parent_stack_name, env={'region': region})
+parent_stack = cdk.Stack(
+    app, parent_stack_name,
+    description=f"{config['project']['name']} v.{config['project']['version']}",
+    env={'region': region})
 
 # Create stacks
 modules = {}
