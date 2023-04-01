@@ -6,3 +6,4 @@ version = "0.1.0"
 [api]
 name = "My Service API"
 entrypoint = "api.handler"
+# user_pool_id = "eu-west-1_vatofacid"

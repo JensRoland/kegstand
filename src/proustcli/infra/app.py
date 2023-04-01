@@ -51,7 +51,7 @@ if "api" in config:
     api_construct = LambdaRestApi(parent_stack, api_construct_name, config, user_pool=user_pool)
 
     # Add custom environment variables if provided
-    if "environment_variables" in modules['custom_infra']:
+    if "custom_infra" in modules and "environment_variables" in modules['custom_infra']:
         for key, value in modules['custom_infra']['environment_variables'].items():
             api_construct.lambda_function.add_environment(key, value)
 
