@@ -1,5 +1,8 @@
-[api]
-name = "My API"
-description = "My API description"
-entrypoint = "api.handler"
+[project]
+name = "My Service"
+description = "My service description"
 version = "0.1.0"
+
+[api]
+name = "My Service API"
+entrypoint = "api.handler"

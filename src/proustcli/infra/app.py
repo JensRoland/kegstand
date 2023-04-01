@@ -4,10 +4,12 @@ import os
 import sys
 
 import aws_cdk as cdk
+from aws_cdk import (
+    aws_cognito as cognito,
+)
 
 from proustcli.infra.stacks.lambda_rest_api import (
-    CognitoStack,
-    LambdaRestApiStack
+    LambdaRestApi
 )
 from proustcli.cli.config import get_proust_config
 
@@ -25,38 +27,39 @@ config = get_proust_config(project_dir)
 
 logger.info(f"Creating app with config: {config}")
 
+parent_stack_name = config['project']['name'].replace(' ', '-')
+parent_stack = cdk.Stack(app, parent_stack_name, env={'region': region})
 
 # Create stacks
 modules = {}
 
 if "cdk" in config:
-    logger.info(f"Creating additional resources [cdk]...")
+    logger.info("Creating additional resources [cdk]...")
     # Import the project's infra module
     project_infra_path = os.path.join(project_dir, config['cdk']['path_to_infra'])
     sys.path.append(project_infra_path)
     from main import custom_infra
-    custom_infra_config = custom_infra(app, region)
+    custom_infra_config = custom_infra(parent_stack, region)
     modules['custom_infra'] = custom_infra_config
 
 if "api" in config:
-    logger.info(f"Creating stack for [api] '{config['api']['name']}'...")
-    # Use the api name from the config as the stack name
-    api_stack_name = config['api']['name'].replace(' ', '-')
-    cognito_stack = CognitoStack(app, "proust-auth", env={'region': region})
-    api_stack = LambdaRestApiStack(app, api_stack_name, config, user_pool=cognito_stack.user_pool, env={'region': region})
+    logger.info("Creating stack for [api]...")
+
+    user_pool = cognito.UserPool.from_user_pool_id(parent_stack, "UserPool", config['api']['user_pool_id']) if "user_pool_id" in config['api'] else None
+
+    api_construct_name = config['api']['name'].replace(' ', '-')
+    api_construct = LambdaRestApi(parent_stack, api_construct_name, config, user_pool=user_pool)
 
     # Add custom environment variables if provided
     if "environment_variables" in modules['custom_infra']:
         for key, value in modules['custom_infra']['environment_variables'].items():
-            api_stack.lambda_function.add_environment(key, value)
+            api_construct.lambda_function.add_environment(key, value)
 
-    modules['api'] = api_stack
-
-
+    modules['api'] = api_construct
 
 # Finally, we can set custom permissions between stacks if needed
 if "cdk" in config:
     from main import permissions
-    permissions(app, **modules)
+    permissions(parent_stack, **modules)
 
 app.synth()
