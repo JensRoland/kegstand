@@ -8,10 +8,10 @@ from aws_cdk import (
     aws_cognito as cognito,
 )
 
-from proustcli.infra.stacks.lambda_rest_api import (
+from kegstandcli.infra.stacks.lambda_rest_api import (
     LambdaRestApi
 )
-from proustcli.cli.config import get_proust_config
+from kegstandcli.cli.config import get_kegstand_config
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -22,8 +22,8 @@ app = cdk.App()
 region = app.node.try_get_context('region')
 project_dir = app.node.try_get_context('project_dir')
 
-# Get the Proust config
-config = get_proust_config(project_dir)
+# Get the Kegstand config
+config = get_kegstand_config(project_dir)
 
 logger.info(f"Creating app with config: {config}")
 

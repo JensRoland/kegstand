@@ -25,7 +25,7 @@ def new_command(project_dir):
             'project_name': project_name,
         }, quiet=True)
 
-        click.echo(f'Created new Proust project: {project_name}')
+        click.echo(f'Created new Kegstand project: {project_name}')
 
     except Exception as e:
         click.echo(f'Error creating project: {e}')

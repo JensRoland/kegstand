@@ -7,7 +7,7 @@ from aws_cdk import (
 from aws_solutions_constructs import aws_apigateway_lambda as apigw_lambda
 from constructs import Construct
 
-from proustcli.utils import find_resource_modules
+from kegstandcli.utils import find_resource_modules
 
 class LambdaRestApi(Construct):
     def __init__(self, scope: Construct, id: str, config: dict, user_pool) -> None:

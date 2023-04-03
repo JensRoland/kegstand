@@ -12,8 +12,8 @@ def teardown(ctx, region):
 
 
 def teardown_command(project_dir, region):
-    # Get the dir of the Proust CLI package itself (one level up from here)
-    proustcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Get the dir of the Kegstand CLI package itself (one level up from here)
+    kegstandcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     subprocess.run([
         'cdk',
@@ -24,4 +24,4 @@ def teardown_command(project_dir, region):
         '--context', f'region={region}',
         '--context', f'project_dir={project_dir}',
         '--force'
-    ], cwd=proustcli_dir, check=True)
+    ], cwd=kegstandcli_dir, check=True)

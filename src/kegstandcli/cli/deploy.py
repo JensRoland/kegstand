@@ -3,7 +3,7 @@ import subprocess
 
 import click
 
-from proustcli.cli.build import build_command
+from kegstandcli.cli.build import build_command
 
 @click.command()
 @click.pass_context
@@ -18,8 +18,8 @@ def deploy(ctx, region, hotswap, skip_build):
 
 
 def deploy_command(project_dir, region, hotswap):
-    # Get the dir of the ProustCLI package (one level up from here)
-    proustcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Get the dir of the kegstandcli package (one level up from here)
+    kegstandcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     command = [
         'cdk',
@@ -34,4 +34,4 @@ def deploy_command(project_dir, region, hotswap):
     if hotswap:
         command.append('--hotswap')
 
-    subprocess.run(command, cwd=proustcli_dir, check=True)
+    subprocess.run(command, cwd=kegstandcli_dir, check=True)

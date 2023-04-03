@@ -1,15 +1,15 @@
 [tool.poetry]
-name = "proustcli"
+name = "kegstandcli"
 version = "0.1.0"
-description = "A lightweight Lambda/API framework"
+description = "The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS"
 authors = ["JensRoland <mail@jensroland.com>"]
 license = "MIT"
 packages = [
-    { include = "proustcli", from = "src" },
+    { include = "kegstandcli", from = "src" },
 ]
 
 [tool.poetry.scripts]
-proust = "proustcli.cli.__main__:proustcli"
+keg = "kegstandcli.cli.__main__:kegstandcli"
 
 [tool.poetry.dependencies]
 aws-cdk-lib = "^2.67.0"

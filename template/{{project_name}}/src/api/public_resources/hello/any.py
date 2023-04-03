@@ -1,6 +1,6 @@
-import proust
+import kegstand
 
-api = proust.Resource("/hello")
+api = kegstand.Resource("/hello")
 
 @api.get()
 def hello_world():

@@ -4,7 +4,7 @@ import shutil
 
 import click
 
-from proustcli.cli.config import get_proust_config
+from kegstandcli.cli.config import get_kegstand_config
 
 @click.command()
 @click.pass_context
@@ -14,7 +14,7 @@ def build(ctx):
 
 
 def build_command(project_dir):
-    config = get_proust_config(project_dir)
+    config = get_kegstand_config(project_dir)
 
     # Create a directory to hold the build artifacts, and make sure it is empty
     build_dir = create_empty_folder(project_dir, 'dist')

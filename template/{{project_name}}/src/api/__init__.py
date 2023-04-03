@@ -1,8 +1,8 @@
 import os
-import proust
+import kegstand
 
 # Create the API
-api = proust.Api()
+api = kegstand.Api()
 
 # Scan folders and add resources to the API
 api.find_and_add_resources(os.path.dirname(os.path.abspath(__file__)))
