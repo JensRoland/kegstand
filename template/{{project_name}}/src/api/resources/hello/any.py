@@ -1,6 +1,6 @@
 import kegstand
 
-api = kegstand.Resource("/hello")
+api = kegstand.ApiResource("/hello", method_defaults={"auth": kegstand.PublicAccess()})
 
 @api.get()
 def hello_world():

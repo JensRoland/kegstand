@@ -6,13 +6,17 @@ authors = ["Your Name <you@example.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-kegstand = {path = "../kegstand", develop = true}
+kegstand = "^0.2.0"
 python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
 moto = "^4.1.5"
-kegstandcli = {path = "../kegstandcli", develop = true}
+kegstandcli = "^0.2.0"
 pytest = "^7.2.2"
+
+[tool.kegstand.api]
+name = "My Service API"
+# user_pool_id = "eu-west-1_vatofacid"
 
 [tool.pytest.ini_options]
 pythonpath = "src"

@@ -2,7 +2,6 @@ from aws_cdk import (
     Stack,
     aws_lambda as lambda_,
     aws_apigateway as apigw,
-    aws_cognito as cognito,
 )
 from aws_solutions_constructs import aws_apigateway_lambda as apigw_lambda
 from constructs import Construct
@@ -65,8 +64,7 @@ class LambdaRestApi(Construct):
         # For each resource, create API Gateway endpoints with the Lambda integration
         for resource in resource_modules:
             resource_root = self.api.root.add_resource(resource["name"])
-            if resource["require_auth"]:
-                # TODO: add a nice error message if a user pool was not passed in (authorizer is None)
+            if provision_with_authorizer:
                 # Private, auth required endpoints
                 resource_root.add_proxy(
                     default_integration=apigw.LambdaIntegration(self.lambda_function),
