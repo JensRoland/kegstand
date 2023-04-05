@@ -5,7 +5,7 @@
 </p>
 
 <h3 align="center">The Developer's Toolbelt For Accelerating <em>Mean Time To Party</em> on AWS</h3>
-<p align="center"></p>
+<p align="center">created by <a href="https://jensroland.com/">Jens Roland</a> and fueled by a non-zero amount of alcohol</p>
 <p align="center"><a href="https://kegstand.dev/demo">Watch a 3-minute demo</a></p>
 
 <br />
@@ -183,7 +183,7 @@ my-service
                 └── any.py            # Logic for /diary/
 ```
 
-(Remember to sprinkle in some __init__.py files until it looks like a Python project.)
+(Remember to sprinkle in some `__init__.py` files until it looks like a Python project.)
 
 In the `api/resources/diary/any.py` file, add the following code:
 
@@ -239,7 +239,7 @@ When most popular serverless productivity tools call it a night, Kegstand taps t
 
 ...(more to come)
 
-## Our Philosophy
+## The Philosophy
 
 - Convention over configuration: As long as the conventions are reasonable, easy to learn, and increase developer velocity, the benefits outweigh the resulting decrease in configurability.
 - Opinionated and domain-optimized is better than agnostic but generic. An opinionated solution that works today is better than a tech-agnostic solution that you have to spend weeks configuring.
@@ -304,9 +304,10 @@ Here are some notable changes, fixes and features that are planned for future re
 - [ ] Support HTTP method-specific files (e.g. `get.py`, `post.py`, etc.)
 - [ ] Upgrade Copier once the [template-deleting bugfix](https://github.com/copier-org/copier/pull/1037) is released
 
-
 ## Comparison to other tools
 
-Why not just use SAM? Or Serverless Framework? Or Chalice? Or...? There are a lot of tools out there for building serverless applications, and they all have their strengths and weaknesses. Kegstand might not be right for you or your team. Maybe you need something more opinionated - or less? Maybe you need a tool backed by a large organisation or with a large community? Maybe you just don't like to be productive and happy? Who knows! Here are some key differences between Kegstand and some of the other tools out there.
+Why not just use SAM? Or Serverless Framework? Or Chalice? Or...? There are a lot of tools out there for building serverless applications, and they all have their strengths and weaknesses. Kegstand might not be right for you or your team. Maybe you need something more opinionated - or less? Maybe you need a tool backed by a large organisation or with a large community? Maybe you just don't like to be productive and happy? Who knows!
 
+Anyway, Here are some key differences between Kegstand and some of the other tools out there.
 
+...(more to come)
