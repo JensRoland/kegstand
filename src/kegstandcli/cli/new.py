@@ -22,8 +22,8 @@ def new_command(verbose: bool, project_dir: str):
 
     try:
         # Copy all the files from the template folder to the project folder
-        template_dir = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'template')
-        run_copy(src_path=template_dir, dst_path=project_parent_dir, data={
+        template_path = "gh:JensRoland/kegstand-project-template.git"
+        run_copy(src_path=template_path, dst_path=project_parent_dir, data={
             'project_name': project_name,
         }, quiet=not verbose)
 

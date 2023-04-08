@@ -260,8 +260,8 @@ Here are some notable changes, fixes and features that are planned for developme
 ### 0.3.0
 
 - [ ] Website up on [kegstand.dev](https://kegstand.dev)
-- [ ] Rename repos: kegstand should have been kegstand-framework-python. And kegstand-cli repo should be kegstand
-- [ ] Use the Copier template from github, not /template
+- [X] Rename repos: kegstand should have been kegstand-framework-python. And kegstand-cli repo should be kegstand
+- [X] Use the Copier template from github, not /template
 - [ ] Refactor README - move docs under /docs
 
 ## 0.4.0
