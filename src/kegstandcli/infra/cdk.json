@@ -2,9 +2,7 @@
   "app": "python3 app.py",
   "requireApproval": "never",
   "watch": {
-    "include": [
-      "**"
-    ],
+    "include": ["**"],
     "exclude": [
       "README.md",
       "cdk*.json",
