@@ -1,3 +1,5 @@
+<!-- markdownlint-disable line-length -->
+
 # Kegstand documentation
 
 ## The configuration file
@@ -28,7 +30,7 @@ name = "My Service API"
 
 For the version numbering we recommend following [Semantic Versioning](https://semver.org/), although this is not strictly enforced by Kegstand.
 
-For a full list of configuration options, see the [Configuration Reference](https://kegstand.dev/docs/configuration-reference) on the Kegstand website.
+For a full list of configuration options, see the [Configuration Reference](https://kegstand.dev/docs/configuration-reference) on the Kegstand website.<!-- markdown-link-check-disable-line -->
 
 ## Developing with Kegstand
 
@@ -74,7 +76,7 @@ Content-Type: application/json
 
 This time, we will make a REST API endpoint `/diary/<entry_date>`which lets us POST new entries to an online diary. We will require that the user is authorized and that their email matches `you@example.com` to be allowed to post to the diary.
 
-Creating an authorized API endpoint with Kegstand assumes that you have an existing [Cognito User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) which you can use to generate OAuth 2.0 JWT tokens with the `openid` scope. If you don't already have a user pool, you can set one up in just a few minutes with [Authie](https://github.com/JensRoland/authie), which, by the way, is powered by Kegstand. Yes, this party *definitely* has a drum circle on the back lawn.
+Creating an authorized API endpoint with Kegstand assumes that you have an existing [Cognito User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) which you can use to generate OAuth 2.0 JWT tokens with the `openid` scope. If you don't already have a user pool, you can set one up in just a few minutes with [Authie](https://github.com/JensRoland/authie), which, by the way, is powered by Kegstand. Yes, this party _definitely_ has a drum circle on the back lawn.<!-- markdown-link-check-disable-line -->
 
 Once you have a Cognito User Pool, add the User Pool ID to the `[tool.kegstand.api]` section of the `pyproject.toml` file:
 
@@ -94,7 +96,7 @@ my-service
     └── api
         └── resources
             ├── hello
-            │   └── any.py            # Logic for /hello/ 
+            │   └── any.py            # Logic for /hello/
             └── diary
                 └── any.py            # Logic for /diary/
 ```

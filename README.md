@@ -1,3 +1,4 @@
+<!-- markdownlint-disable first-line-h1 line-length no-inline-html -->
 <p align="center">
   <a href="https://kegstand.dev/">
     <img src="https://kegstand.dev/assets/kegstand-logotype.png" width="540px" alt="Kegstand logo" />
@@ -6,13 +7,13 @@
 
 <h3 align="center">The Developer's Toolbelt For Accelerating <em>Mean Time To Party</em> on AWS</h3>
 <p align="center">created by <a href="https://jensroland.com/">Jens Roland</a> and fueled by a non-zero amount of alcohol</p>
-<p align="center"><a href="https://kegstand.dev/demo">Watch a 3-minute demo</a></p>
+<p align="center"><a href="https://kegstand.dev/demo">Watch a 3-minute demo</a></p><!-- markdown-link-check-disable-line -->
 
 <br />
 
 ## 🥂💃🕺 Welcome to the Party! 🥂💃🕺
 
-Kegstand is a free and open-source framework for creating Python APIs and services. It allows you to rapidly build and deploy services on AWS. We all have better things to do than `print(json.dumps(event))` all day long, and Kegstand is here to help you get to the party &mdash; *and into Prod* &mdash; a lot faster.
+Kegstand is a free and open-source framework for creating Python APIs and services. It allows you to rapidly build and deploy services on AWS. We all have better things to do than `print(json.dumps(event))` all day long, and Kegstand is here to help you get to the party &mdash; _and into Prod_ &mdash; a lot faster.
 
 **It provides:**
 
@@ -31,14 +32,15 @@ Learn more on the [Kegstand website](https://kegstand.dev/).
 - An [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 - The [CDK CLI configured on the local machine and initialized on the AWS account](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
 - AWS CLI [configured with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
-- [Copier](https://copier.readthedocs.io/en/stable/installation.html) project scaffolding tool (recommended)
+- [Copier](https://copier.readthedocs.io/en/stable/#installation) project scaffolding tool (recommended)
+- [npx](https://docs.npmjs.com/cli/v9/commands/npx) for installing CLI tools (recommended)
 - A well-poured [Belgian style brown ale](https://www.grimbergen.com/)
 
 ## Quick start
 
 To create a service with Kegstand, you'll need a Python project with a few dependencies and a folder structure following the Kegstand convention.
 
-You can create this in a few seconds, either with the Kegstand CLI or using [Copier](https://copier.readthedocs.io/en/stable/installation.html).
+You can create this in a few seconds, either with the Kegstand CLI or using [Copier](https://copier.readthedocs.io/en/stable/#installation).
 
 ```shell
 # Using the Kegstand CLI
@@ -86,7 +88,7 @@ You should now be able to access the API endpoint at `https://<api-id>.execute-a
 
 ## Documentation
 
-For more information, see the [official Kegstand documentation](https://kegstand.dev/docs).
+For more information, see the [official Kegstand documentation](https://kegstand.dev/docs).<!-- markdown-link-check-disable-line -->
 
 ## Roadmap
 
@@ -97,12 +99,13 @@ Here are some notable changes, fixes and features that are planned for developme
 - [ ] Website up on [kegstand.dev](https://kegstand.dev)
 - [X] Rename repos: kegstand should have been kegstand-framework-python. And kegstand-cli repo should be kegstand
 - [X] Use the Copier template from github, not /template
-- [ ] Refactor README - move docs under /docs
+- [X] Refactor README - move docs under /docs
+- [X] Lint code with [Black](https://black.readthedocs.io/en/stable/) etc.
 
 ## 0.4.0
 
 - [ ] Custom domain names
-- [ ] Command/workflow to fetch team-configurable "repo tools" bundles, such as linters, Github Actions, etc.
+- [/] Command/workflow to fetch team-configurable "repo tools" bundles, such as linters, Github Actions, etc.
 
 ### Pre-1.0.0
 
@@ -125,7 +128,6 @@ Here are some notable changes, fixes and features that are planned for developme
 - [ ] Easily add [AWS Lambda Layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html)
 - [ ] Add support for APIs using [FastAPI](https://fastapi.tiangolo.com/) with [Mangum](https://mangum.io/) instead of the default Kegstand API framework, and just provide deployment helpers for the API Gateway and Lambda
 - [ ] Improved output from deploy command; friendly post-deploy instructions for testing your API
-- [ ] Lint code with [Black](https://black.readthedocs.io/en/stable/)
 - [ ] Version bumper with [bump2version](https://pypi.org/project/bump2version/)
 - [ ] Include more goodies from [Lambda Powertools](https://awslabs.github.io/aws-lambda-powertools-python/2.11.0/) - tracing, metrics, etc.
 - [ ] Add support for APIs using pure [Lambda Powertools](https://awslabs.github.io/aws-lambda-powertools-python/2.11.0/) instead of the default Kegstand API framework, and just provide deployment helpers for the API Gateway and Lambda
