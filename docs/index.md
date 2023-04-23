@@ -36,7 +36,7 @@ For a full list of configuration options, see the [Configuration Reference](http
 
 ### Example 1 &mdash; Creating a simple API
 
-Creating a public REST API endpoint is as easy as editing the `any.py` file in the `resources` folder. Here's an example of a simple API that greets a user by name:
+Creating a public REST API endpoint is as easy as editing the `any.py` file in the correct resource subfolder. Here's an example of a simple API that greets a user by name:
 
 ```python
 import kegstand

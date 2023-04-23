@@ -21,7 +21,8 @@ Kegstand is a free and open-source framework for creating Python APIs and servic
 - A decorator based API abstracting away the boilerplate of Lambda, API Gateway, Cognito, and more.
 - The full power of CDK to define and deploy arbitrary AWS resources with your services.
 
-Experience a streamlined cloud development process, enhanced productivity, and hit that "party" button sooner with Kegstand!
+> _"Experience a streamlined cloud development process, enhanced productivity, and hit that "party" button sooner with Kegstand!"_
+> **&mdash; GPT-4, official spokesbot for the Kegstand team**
 
 Learn more on the [Kegstand website](https://kegstand.dev/).
 
@@ -31,7 +32,7 @@ Learn more on the [Kegstand website](https://kegstand.dev/).
 - [Poetry](https://python-poetry.org/docs/#installation) (recommended)
 - An [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 - The [CDK CLI configured on the local machine and initialized on the AWS account](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
-- AWS CLI [configured with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
+- The AWS CLI [configured with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 - [Copier](https://copier.readthedocs.io/en/stable/#installation) project scaffolding tool (recommended)
 - [npx](https://docs.npmjs.com/cli/v9/commands/npx) for installing CLI tools (recommended)
 - A well-poured [Belgian style brown ale](https://www.grimbergen.com/)
@@ -76,11 +77,6 @@ To install the dependencies for the new project:
 Finally, to build and deploy the service to AWS:
 
 ```shell
-# Either activate the virtual environment first:
-> poetry shell
-> keg deploy
-
-# Or simply run:
 > poetry run keg deploy
 ```
 
@@ -88,23 +84,17 @@ You should now be able to access the API endpoint at `https://<api-id>.execute-a
 
 ## Documentation
 
-For more information, see the [official Kegstand documentation](https://kegstand.dev/docs).<!-- markdown-link-check-disable-line -->
+For further examples and more advanced usage, see the [official documentation](https://github.com/JensRoland/kegstand/blob/main/docs/index.md).
 
 ## Roadmap
 
 Here are some notable changes, fixes and features that are planned for development:
 
-### 0.3.0
-
-- [ ] Website up on [kegstand.dev](https://kegstand.dev)
-- [X] Rename repos: kegstand should have been kegstand-framework-python. And kegstand-cli repo should be kegstand
-- [X] Use the Copier template from github, not /template
-- [X] Refactor README - move docs under /docs
-- [X] Lint code with [Black](https://black.readthedocs.io/en/stable/) etc.
-
 ## 0.4.0
 
+- [ ] More content on [kegstand.dev](https://kegstand.dev)
 - [ ] Custom domain names
+- [ ] Maybe simplify the folder structure from `src/api/resources/<resource-name>/<method>.py` to `src/api/<resource-name>.py`
 
 ### Pre-1.0.0
 
