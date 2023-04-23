@@ -25,6 +25,8 @@ def get_kegstand_config(verbose, project_dir: str, config_file: str):
                 config["project"][property] = (
                     parsed_toml_config.get("tool", {}).get("poetry", {}).get(property)
                 )
+    else:
+        config = parsed_toml_config
 
     # Validate that the name follows PEP 508
     name_regex = r"^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$"
