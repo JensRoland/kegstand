@@ -1,0 +1,3 @@
+[switchblade]
+mode = "python-poetry"
+bundle = "../sentient-switchblade/bundles/python-poetry-base"

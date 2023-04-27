@@ -18,7 +18,7 @@ app = cdk.App()
 region = app.node.try_get_context("region")
 project_dir = app.node.try_get_context("project_dir")
 config_file = app.node.try_get_context("config_file") or "kegstand.toml"
-verbose = app.node.try_get_context("config_file") or False
+verbose = app.node.try_get_context("verbose") or False
 
 # Get the Kegstand config
 config = get_kegstand_config(verbose, project_dir, config_file)

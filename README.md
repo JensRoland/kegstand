@@ -21,8 +21,7 @@ Kegstand is a free and open-source framework for creating Python APIs and servic
 - A decorator based API abstracting away the boilerplate of Lambda, API Gateway, Cognito, and more.
 - The full power of CDK to define and deploy arbitrary AWS resources with your services.
 
-> _"Experience a streamlined cloud development process, enhanced productivity, and hit that "party" button sooner with Kegstand!"_
-> **&mdash; GPT-4, official spokesbot for the Kegstand team**
+> _"Experience a streamlined cloud development process, enhanced productivity, and hit that "party" button sooner with Kegstand!"_ > **&mdash; GPT-4, official spokesbot for the Kegstand team**
 
 Learn more on the [Kegstand website](https://kegstand.dev/).
 

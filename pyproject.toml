@@ -4,8 +4,9 @@ version = "0.3.0"
 description = "The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS"
 authors = ["JensRoland <mail@jensroland.com>"]
 license = "MIT"
-repository = "https://github.com/jensroland/kegstand-cli"
+repository = "https://github.com/jensroland/kegstand"
 homepage = "https://kegstand.dev"
+readme = "README.md"
 packages = [
     { include = "kegstandcli", from = "src" },
 ]
@@ -42,6 +43,8 @@ xxhash = "^3.2.0"
 [tool.poetry.group.dev.dependencies]
 coverage = "^7.2.3"
 pytest = "^7.3.0"
+pytest-subprocess = "^1.5.0"
+sentient-switchblade = {path = "../sentient-switchblade", develop = true}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

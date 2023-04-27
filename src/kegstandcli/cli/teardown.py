@@ -6,7 +6,9 @@ import click
 
 @click.command()
 @click.pass_context
-@click.option("--region", default="eu-west-1", help="AWS region the stack is deployed to")
+@click.option(
+    "--region", default="eu-west-1", help="AWS region the stack is deployed to"
+)
 def teardown(ctx, region):
     project_dir = ctx.obj["project_dir"]
     teardown_command(project_dir, region)
