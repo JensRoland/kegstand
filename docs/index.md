@@ -36,7 +36,7 @@ For a full list of configuration options, see the [Configuration Reference](http
 
 ### Example 1 &mdash; Creating a simple API
 
-Creating a public REST API endpoint is as easy as editing the `any.py` file in the correct resource subfolder. Here's an example of a simple API that greets a user by name:
+Creating a public REST API endpoint is as easy as editing the `<resource_name>.py` file in the `api` folder. Here's an example of a simple API that greets a user by name:
 
 ```python
 import kegstand
@@ -86,7 +86,7 @@ name = "My Service API"
 user_pool_id = "__USER_POOL_ID__"
 ```
 
-Then, create a new folder `diary` under `src/api/resources` for our new API resource. The folder structure should now look like this:
+Then, create a new file `diary.py` under `src/api` for our new API resource. The folder structure should now look like this:
 
 ```shell
 my-service
@@ -94,16 +94,13 @@ my-service
 ├── pyproject.toml                    # Project configuration
 └── src
     └── api
-        └── resources
-            ├── hello
-            │   └── any.py            # Logic for /hello/
-            └── diary
-                └── any.py            # Logic for /diary/
+        └── hello.py                  # Logic for /hello/
+        └── diary.py                  # Logic for /diary/
 ```
 
 (Remember to sprinkle in some `__init__.py` files until it looks like a Python project.)
 
-In the `api/resources/diary/any.py` file, add the following code:
+In the `api/diary.py` file, add the following code:
 
 ```python
 import kegstand

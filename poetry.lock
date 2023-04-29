@@ -15,7 +15,7 @@ tests-no-zope = ["cloudpickle", "cloudpickle", "hypothesis", "hypothesis", "mypy
 
 [[package]]
 name = "aws-cdk-asset-awscli-v1"
-version = "2.2.154"
+version = "2.2.155"
 description = "A library that contains the AWS CLI for use in Lambda Layers"
 category = "main"
 optional = false
@@ -41,7 +41,7 @@ typeguard = ">=2.13.3,<2.14.0"
 
 [[package]]
 name = "aws-cdk-asset-node-proxy-agent-v5"
-version = "2.0.129"
+version = "2.0.130"
 description = "@aws-cdk/asset-node-proxy-agent-v5"
 category = "main"
 optional = false
@@ -200,7 +200,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 
 [[package]]
 name = "constructs"
-version = "10.2.9"
+version = "10.2.10"
 description = "A programming model for software-defined state"
 category = "main"
 optional = false
@@ -676,7 +676,7 @@ crt = ["botocore[crt] (>=1.20.29,<2.0a.0)"]
 
 [[package]]
 name = "sentient-switchblade"
-version = "0.2.1"
+version = "0.2.2"
 description = "Unleash Dev Tool Mastery with a Flick of Your Wrist"
 category = "dev"
 optional = false
@@ -785,7 +785,7 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "aadedbf611d0e2e437746e762dee91b96a5252743f7ab9958ccbaf569b87b8cf"
+content-hash = "cd48debe8bea2cdeebe1081d14c6a90c28be8559a18c2a2e3255cb251c6bb739"
 
 [metadata.files]
 attrs = [
@@ -793,16 +793,16 @@ attrs = [
     {file = "attrs-22.2.0.tar.gz", hash = "sha256:c9227bfc2f01993c03f68db37d1d15c9690188323c067c641f1a35ca58185f99"},
 ]
 aws-cdk-asset-awscli-v1 = [
-    {file = "aws-cdk.asset-awscli-v1-2.2.154.tar.gz", hash = "sha256:77f89b6db90a52384b817a8bba3381babcfc7ad9ded881d55112ef09cc5346d3"},
-    {file = "aws_cdk.asset_awscli_v1-2.2.154-py3-none-any.whl", hash = "sha256:08a93a30b6037ab15120803c0e26b67bf35f7ad77a796c83c180002e5efd45c1"},
+    {file = "aws-cdk.asset-awscli-v1-2.2.155.tar.gz", hash = "sha256:336a1e46712a7c55bc2916a22358c0b12c686a2a48d55aa479214fdb09b0b800"},
+    {file = "aws_cdk.asset_awscli_v1-2.2.155-py3-none-any.whl", hash = "sha256:ec5fcffe23be5958b0b780327af2cc6e2c832c56dc94edfa09457ab395d819c3"},
 ]
 aws-cdk-asset-kubectl-v20 = [
     {file = "aws-cdk.asset-kubectl-v20-2.1.1.tar.gz", hash = "sha256:9834cdb150c5590aea4e5eba6de2a89b4c60617451181c524810c5a75154565c"},
     {file = "aws_cdk.asset_kubectl_v20-2.1.1-py3-none-any.whl", hash = "sha256:a2fad1a5a35a94a465efe60859f91e45dacc33261fb9bbf1cf9bbc6e2f70e9d6"},
 ]
 aws-cdk-asset-node-proxy-agent-v5 = [
-    {file = "aws-cdk.asset-node-proxy-agent-v5-2.0.129.tar.gz", hash = "sha256:ea600e09144dcf8cbe438fffb1f124181c6030498b5ad79db53b3860f81fe56b"},
-    {file = "aws_cdk.asset_node_proxy_agent_v5-2.0.129-py3-none-any.whl", hash = "sha256:0c0df41132bf0d8ed4f67ba6fbc3a7d0cc3912398a529ac8c234cd76c8ea5012"},
+    {file = "aws-cdk.asset-node-proxy-agent-v5-2.0.130.tar.gz", hash = "sha256:8ee51c29d1749849ac5c7f0022572b3ccc009d4a4592e305c63757f2e7763cf5"},
+    {file = "aws_cdk.asset_node_proxy_agent_v5-2.0.130-py3-none-any.whl", hash = "sha256:6e4136ec4defc162f6a445601c05506e7ce5299be04d4282609c9621fced9292"},
 ]
 aws-cdk-lib = [
     {file = "aws-cdk-lib-2.77.0.tar.gz", hash = "sha256:4b5911787cb510e315fdb77074986a1b661ff6b1f5214486536cbc98a3571cf1"},
@@ -988,8 +988,8 @@ colorama = [
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 constructs = [
-    {file = "constructs-10.2.9-py3-none-any.whl", hash = "sha256:418849b9eb8f687b8cbade9f5ea7dceb5814d3a4435a38f31a0867f2b91c2529"},
-    {file = "constructs-10.2.9.tar.gz", hash = "sha256:75dbc414e3fa232061a1911823e6218bd731b7053554675f081ea8c258ae8e21"},
+    {file = "constructs-10.2.10-py3-none-any.whl", hash = "sha256:054051ba97de54586dd5452c5853479fa0e86b37a5426c37a00018bd1b86820a"},
+    {file = "constructs-10.2.10.tar.gz", hash = "sha256:da8c404edbcb16ff1f8c7c27c08f9e96ca7309256c640447f05bc9d88e022c5d"},
 ]
 copier = [
     {file = "copier-6.2.0-py3-none-any.whl", hash = "sha256:ae8aeb7a060035d56fe05ebdc4bce85d3516ceb7e97408437e869451e619d679"},
@@ -1324,8 +1324,8 @@ s3transfer = [
     {file = "s3transfer-0.6.0.tar.gz", hash = "sha256:2ed07d3866f523cc561bf4a00fc5535827981b117dd7876f036b0c1aca42c947"},
 ]
 sentient-switchblade = [
-    {file = "sentient_switchblade-0.2.1-py3-none-any.whl", hash = "sha256:28594e02dcdb070f9d8d44bdc160dc1ef92a6ab36dff7753e0b8e86f47fe0230"},
-    {file = "sentient_switchblade-0.2.1.tar.gz", hash = "sha256:7e75c7d798ab69fadce544030e357ca695f75db9ae3c098f5ad8790c79e401a6"},
+    {file = "sentient_switchblade-0.2.2-py3-none-any.whl", hash = "sha256:99752212530568584757648c91c0844947674d49d0e0b0da1331ff560100181e"},
+    {file = "sentient_switchblade-0.2.2.tar.gz", hash = "sha256:9bb31b6a73941c2e12d4dfc7f1f9cbf49fe518fd8825665fd1714e5b489a8db1"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},

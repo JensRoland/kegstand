@@ -59,12 +59,10 @@ my-service
 ├── pyproject.toml                    # Project configuration
 └── src
     └── api
-        └── resources
-            └── hello
-                └── any.py            # Logic for /hello/
+        └── hello.py                  # Logic for /hello/
 ```
 
-Kegstand projects are minimal by design, so a fresh project folder contains just those 3 files. Well, apart from a few empty `__init__.py` gatecrashers, but we can safely ignore those.
+Kegstand projects are minimal by design, so a fresh project folder contains just those 3 files. Well, apart from a single, empty `__init__.py` gatecrasher, but we can safely ignore that one.
 
 To install the dependencies for the new project:
 
@@ -93,7 +91,7 @@ Here are some notable changes, fixes and features that are planned for developme
 
 - [ ] More content on [kegstand.dev](https://kegstand.dev)
 - [ ] Custom domain names
-- [ ] Maybe simplify the folder structure from `src/api/resources/<resource-name>/<method>.py` to `src/api/<resource-name>.py`
+- [X] Maybe simplify the folder structure from `src/api/resources/<resource-name>/<method>.py` to `src/api/<resource-name>.py`
 
 ### Pre-1.0.0
 
