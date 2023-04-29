@@ -11,10 +11,12 @@ import click
 )
 def teardown(ctx, region):
     project_dir = ctx.obj["project_dir"]
-    teardown_command(project_dir, region)
+    config_file = ctx.obj["config"]
+    verbose = ctx.obj["verbose"]
+    teardown_command(verbose, project_dir, config_file, region)
 
 
-def teardown_command(project_dir, region):
+def teardown_command(verbose, project_dir, config_file, region):
     # Get the dir of the Kegstand CLI package itself (one level up from here)
     kegstandcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -31,6 +33,10 @@ def teardown_command(project_dir, region):
             f"region={region}",
             "--context",
             f"project_dir={project_dir}",
+            "--context",
+            f"config_file={config_file}",
+            "--context",
+            f"verbose={verbose}",
             "--force",
         ],
         cwd=kegstandcli_dir,
