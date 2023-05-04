@@ -14,12 +14,18 @@ def find_resource_modules(api_dir: str) -> list:
         if os.path.isdir(os.path.join(api_dir, file_descriptor)):
             continue
         # Skip dotfiles and special files
-        if file_descriptor.startswith('.') or file_descriptor.startswith('__') or file_descriptor == 'lambda.py':
+        if (
+            file_descriptor.startswith(".")
+            or file_descriptor.startswith("__")
+            or file_descriptor == "lambda.py"
+        ):
             continue
         resource_name = os.path.splitext(file_descriptor)[0]
-        resources.append({
-            'name': resource_name,
-            'module_path': f'api.{resource_name}',
-            'fromlist': [resource_name]
-        })
+        resources.append(
+            {
+                "name": resource_name,
+                "module_path": f"api.{resource_name}",
+                "fromlist": [resource_name],
+            }
+        )
     return resources

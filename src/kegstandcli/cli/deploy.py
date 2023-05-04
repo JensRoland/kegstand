@@ -1,5 +1,6 @@
 import os
 import subprocess  # nosec
+from operator import itemgetter
 
 import click
 
@@ -22,9 +23,9 @@ from kegstandcli.cli.build import build_command
     help="Skip building the project before deploying",
 )
 def deploy(ctx, region, hotswap, skip_build):
-    project_dir = ctx.obj["project_dir"]
-    config_file = ctx.obj["config"]
-    verbose = ctx.obj["verbose"]
+    project_dir, config_file, verbose = itemgetter(
+        "project_dir", "config_file", "verbose"
+    )(ctx.obj)
     if not skip_build:
         build_command(verbose, project_dir, config_file)
 
@@ -36,7 +37,7 @@ def deploy_command(verbose, project_dir, config_file, region, hotswap):
     kegstandcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     click.echo("Deploying...")
-    command = [
+    command = [  # pylint: disable=duplicate-code
         "cdk",
         "deploy",
         "--app",

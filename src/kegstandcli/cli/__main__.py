@@ -3,6 +3,7 @@ import os
 import click
 
 from kegstandcli.cli.build import build
+from kegstandcli.cli.config import find_config_file, get_kegstand_config
 from kegstandcli.cli.deploy import deploy
 from kegstandcli.cli.new import new
 from kegstandcli.cli.teardown import teardown
@@ -25,11 +26,11 @@ class AliasedGroup(click.Group):
 # We pass the project directory to all subcommands via the context
 # so they can use it to find the kegstand.toml file
 @click.group(cls=AliasedGroup)
-@click.option("--config", help="Path to Kegstand configuration file.")
+@click.option("--config", "config_file", help="Path to Kegstand configuration file.")
 @click.option("--verbose", is_flag=True, default=False, help="Show verbose output")
 @click.pass_context
 def kegstandcli(
-    ctx, config, verbose
+    ctx, config_file, verbose
 ):  # ANSI art generated with https://dom111.github.io/image-to-ansi/
     """\b
     \033[49m                        \033[38;5;232;48;5;52m▄\033[38;5;234;48;5;52m▄\033[38;5;232;49m▄▄▄\033[38;5;236;48;5;52m▄\033[38;5;245;48;5;233m▄\033[38;5;252;48;5;232m▄\033[38;5;230;48;5;233m▄\033[38;5;230;48;5;234m▄\033[38;5;230;48;5;233m▄\033[38;5;253;48;5;232m▄\033[38;5;248;48;5;232m▄\033[38;5;59;48;5;52m▄\033[38;5;233;49m▄\033[38;5;232;49m▄\033[49m     \033[38;5;52;49m▄\033[49m       \033[m
@@ -63,19 +64,16 @@ def kegstandcli(
     ██   ██ ███████  ██████  ███████    ██    ██   ██ ██   ████ ██████
     ===================================================================
     The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS\033[m"""  # noqa: E501
-    # Locate the correct Kegstand configuration file
-    if config is None:
-        for name in CONFIG_FILE_NAMES:
-            if os.path.exists(name):
-                config = name
-                break
 
-    if not os.path.exists(config):
-        raise click.ClickException(f"Configuration file not found: {config}")
+    config_file = find_config_file(verbose, config_file)
 
-    project_dir = os.path.abspath(os.path.dirname(config))
+    project_dir = os.path.abspath(os.path.dirname(config_file))
+
+    config = get_kegstand_config(verbose, project_dir, config_file)
+
     ctx.obj = {
-        "config": os.path.abspath(config),
+        "config": config,
+        "config_file": os.path.abspath(config_file),
         "project_dir": project_dir,
         "verbose": verbose,
     }

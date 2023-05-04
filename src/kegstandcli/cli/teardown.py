@@ -1,5 +1,6 @@
 import os
 import subprocess  # nosec
+from operator import itemgetter
 
 import click
 
@@ -10,9 +11,9 @@ import click
     "--region", default="eu-west-1", help="AWS region the stack is deployed to"
 )
 def teardown(ctx, region):
-    project_dir = ctx.obj["project_dir"]
-    config_file = ctx.obj["config"]
-    verbose = ctx.obj["verbose"]
+    project_dir, config_file, verbose = itemgetter(
+        "project_dir", "config_file", "verbose"
+    )(ctx.obj)
     teardown_command(verbose, project_dir, config_file, region)
 
 
@@ -21,7 +22,7 @@ def teardown_command(verbose, project_dir, config_file, region):
     kegstandcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     subprocess.run(
-        [
+        [  # pylint: disable=duplicate-code
             "cdk",
             "destroy",
             "--app",

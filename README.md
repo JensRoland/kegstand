@@ -91,7 +91,7 @@ Here are some notable changes, fixes and features that are planned for developme
 
 - [ ] More content on [kegstand.dev](https://kegstand.dev)
 - [ ] Custom domain names
-- [X] Maybe simplify the folder structure from `src/api/resources/<resource-name>/<method>.py` to `src/api/<resource-name>.py`
+- [x] Maybe simplify the folder structure from `src/api/resources/<resource-name>/<method>.py` to `src/api/<resource-name>.py`
 
 ### Pre-1.0.0
 

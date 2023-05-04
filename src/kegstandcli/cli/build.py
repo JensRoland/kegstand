@@ -1,24 +1,21 @@
 import os
 import shutil
 import subprocess  # nosec
+from operator import itemgetter
 
 import click
-
-from kegstandcli.cli.config import get_kegstand_config
 
 
 @click.command()
 @click.pass_context
 def build(ctx):
-    project_dir = ctx.obj["project_dir"]
-    config_file = ctx.obj["config"]
-    verbose = ctx.obj["verbose"]
-    build_command(verbose, project_dir, config_file)
+    project_dir, config, verbose = itemgetter("project_dir", "config", "verbose")(
+        ctx.obj
+    )
+    build_command(verbose, project_dir, config)
 
 
-def build_command(verbose: bool, project_dir: str, config_file: str):
-    config = get_kegstand_config(verbose, project_dir, config_file)
-
+def build_command(verbose: bool, project_dir: str, config: dict):
     # Create a directory to hold the build artifacts, and make sure it is empty
     build_dir = create_empty_folder(project_dir, "dist")
 
