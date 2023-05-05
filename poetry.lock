@@ -15,7 +15,7 @@ tests-no-zope = ["cloudpickle", "cloudpickle", "hypothesis", "hypothesis", "mypy
 
 [[package]]
 name = "aws-cdk-asset-awscli-v1"
-version = "2.2.161"
+version = "2.2.162"
 description = "A library that contains the AWS CLI for use in Lambda Layers"
 category = "main"
 optional = false
@@ -41,7 +41,7 @@ typeguard = ">=2.13.3,<2.14.0"
 
 [[package]]
 name = "aws-cdk-asset-node-proxy-agent-v5"
-version = "2.0.135"
+version = "2.0.136"
 description = "@aws-cdk/asset-node-proxy-agent-v5"
 category = "main"
 optional = false
@@ -102,14 +102,14 @@ typeguard = ">=2.13.3,<2.14.0"
 
 [[package]]
 name = "boto3"
-version = "1.26.127"
+version = "1.26.129"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 3.7"
 
 [package.dependencies]
-botocore = ">=1.29.127,<1.30.0"
+botocore = ">=1.29.129,<1.30.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.6.0,<0.7.0"
 
@@ -118,7 +118,7 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.29.127"
+version = "1.29.129"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -200,7 +200,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 
 [[package]]
 name = "constructs"
-version = "10.2.15"
+version = "10.2.16"
 description = "A programming model for software-defined state"
 category = "main"
 optional = false
@@ -676,7 +676,7 @@ crt = ["botocore[crt] (>=1.20.29,<2.0a.0)"]
 
 [[package]]
 name = "sentient-switchblade"
-version = "0.3.2"
+version = "0.3.3"
 description = "Unleash Dev Tool Mastery with a Flick of Your Wrist"
 category = "dev"
 optional = false
@@ -785,7 +785,7 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c9df89628a8c817615b1f1c151df83a44b30c388f669532beb28ce9233a95a78"
+content-hash = "8b2be969d80906502bd05e2caa08e04f0f90c4385bd3cc71729be62083b57c84"
 
 [metadata.files]
 attrs = [
@@ -793,16 +793,16 @@ attrs = [
     {file = "attrs-22.2.0.tar.gz", hash = "sha256:c9227bfc2f01993c03f68db37d1d15c9690188323c067c641f1a35ca58185f99"},
 ]
 aws-cdk-asset-awscli-v1 = [
-    {file = "aws-cdk.asset-awscli-v1-2.2.161.tar.gz", hash = "sha256:937479ca32b3e097e3cb0dd920ec894095997ff41004a814079a51729c0122ef"},
-    {file = "aws_cdk.asset_awscli_v1-2.2.161-py3-none-any.whl", hash = "sha256:0be6a9a75ab4361798979232f4d7261556403cdbbfadbad5c3d83a73ed5181cd"},
+    {file = "aws-cdk.asset-awscli-v1-2.2.162.tar.gz", hash = "sha256:e2f5981d0a5431dd3d2621b4783a3af4735a36d655de78c33b4c38a4ced358a3"},
+    {file = "aws_cdk.asset_awscli_v1-2.2.162-py3-none-any.whl", hash = "sha256:9e638e6ba5ba44d3dafeb4596661a8a8c9fede7c6faef7bf0de7131327575f4a"},
 ]
 aws-cdk-asset-kubectl-v20 = [
     {file = "aws-cdk.asset-kubectl-v20-2.1.1.tar.gz", hash = "sha256:9834cdb150c5590aea4e5eba6de2a89b4c60617451181c524810c5a75154565c"},
     {file = "aws_cdk.asset_kubectl_v20-2.1.1-py3-none-any.whl", hash = "sha256:a2fad1a5a35a94a465efe60859f91e45dacc33261fb9bbf1cf9bbc6e2f70e9d6"},
 ]
 aws-cdk-asset-node-proxy-agent-v5 = [
-    {file = "aws-cdk.asset-node-proxy-agent-v5-2.0.135.tar.gz", hash = "sha256:9e97fcc1e7e879a61f34df8d9c26fcb0f9e0177f67f313f81b30e3cfc7fa11a6"},
-    {file = "aws_cdk.asset_node_proxy_agent_v5-2.0.135-py3-none-any.whl", hash = "sha256:0a309116d192e27f7757b52df2bf88561ddc9c327dee7815684db81d588514a6"},
+    {file = "aws-cdk.asset-node-proxy-agent-v5-2.0.136.tar.gz", hash = "sha256:7a4fc44c8c8b21092130d329507a8b6f0d562beb28e2bcc3d2d57d68fa845381"},
+    {file = "aws_cdk.asset_node_proxy_agent_v5-2.0.136-py3-none-any.whl", hash = "sha256:89b1d26fadc5567791c8def7b1955bd9cb6c577a89487ecd0251ea6c171d52c9"},
 ]
 aws-cdk-lib = [
     {file = "aws-cdk-lib-2.78.0.tar.gz", hash = "sha256:f258a686a86f341f84070baa6d60e578c9acf3fa17d1408c17dde2ba0385c0da"},
@@ -817,12 +817,12 @@ aws-solutions-constructs-core = [
     {file = "aws_solutions_constructs.core-2.39.0-py3-none-any.whl", hash = "sha256:9529d7a6df62413af7a95b6f97cc4e03f03d50779d620f168e5a3307cf802114"},
 ]
 boto3 = [
-    {file = "boto3-1.26.127-py3-none-any.whl", hash = "sha256:ded836536be41de9f9bd6a75e9feeb74d61b8c58ed7dc4ea89095082d7a616af"},
-    {file = "boto3-1.26.127.tar.gz", hash = "sha256:ed31b2d35aad31418bd8093c5732c6296f785cc234333330df6b81396424d93b"},
+    {file = "boto3-1.26.129-py3-none-any.whl", hash = "sha256:1dab3fcbeada61a3b5a42ea25a89143511a5b22626775c685e31e313f327cf3c"},
+    {file = "boto3-1.26.129.tar.gz", hash = "sha256:0686a62f424c4f3375a706555b765d1e24d03d70e7d317ffcb2d411b39aa8139"},
 ]
 botocore = [
-    {file = "botocore-1.29.127-py3-none-any.whl", hash = "sha256:cf41d871b2a17d40bd579ce44dace18c875659ac13139a66680540fdf6f1c304"},
-    {file = "botocore-1.29.127.tar.gz", hash = "sha256:d2f9d00df16058cb4a3572a66bb1831e846e5aaa7c0a3033dd47f9a80e2dd58b"},
+    {file = "botocore-1.29.129-py3-none-any.whl", hash = "sha256:f44460236324727615c518c229690c3cc3ea3162a55a2ac242ba771e8fa41553"},
+    {file = "botocore-1.29.129.tar.gz", hash = "sha256:80370e835ccf12e0429d4c6cc0e9d03cf47b72c41ec5916b01fb9544765f314d"},
 ]
 cattrs = [
     {file = "cattrs-22.2.0-py3-none-any.whl", hash = "sha256:bc12b1f0d000b9f9bee83335887d532a1d3e99a833d1bf0882151c97d3e68c21"},
@@ -988,8 +988,8 @@ colorama = [
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 constructs = [
-    {file = "constructs-10.2.15-py3-none-any.whl", hash = "sha256:c3c185f90206e1907e6a1ec6818b6e2dd2faa2de61cb9b91db6eee62179e482a"},
-    {file = "constructs-10.2.15.tar.gz", hash = "sha256:15289d0049e1ae437454ae7d543c85c50c4ab4df02fa4f32eec24d9f43889b35"},
+    {file = "constructs-10.2.16-py3-none-any.whl", hash = "sha256:0de7a58c19253082826b621ae2ee8cb0a026d1f2c2efc3ad0c2cbc80ca2114cc"},
+    {file = "constructs-10.2.16.tar.gz", hash = "sha256:3a02207b0b281415764bcafa3e12c8e9370163e520b866f4e3a6e75b6e8b81c9"},
 ]
 copier = [
     {file = "copier-6.2.0-py3-none-any.whl", hash = "sha256:ae8aeb7a060035d56fe05ebdc4bce85d3516ceb7e97408437e869451e619d679"},
@@ -1324,8 +1324,8 @@ s3transfer = [
     {file = "s3transfer-0.6.1.tar.gz", hash = "sha256:640bb492711f4c0c0905e1f62b6aaeb771881935ad27884852411f8e9cacbca9"},
 ]
 sentient-switchblade = [
-    {file = "sentient_switchblade-0.3.2-py3-none-any.whl", hash = "sha256:67f610cd13f956203836509d2e71f1c7cea4f63af56aa105d1044ab3471a5a1c"},
-    {file = "sentient_switchblade-0.3.2.tar.gz", hash = "sha256:2e1d361e95a78170a05bdba1c1478ed2fd7bc3988ec86dbf69e855d7e6e7150e"},
+    {file = "sentient_switchblade-0.3.3-py3-none-any.whl", hash = "sha256:68eb707037e477cb1ee94a391f80bb09771443448cc51d9a7c3498634dda4253"},
+    {file = "sentient_switchblade-0.3.3.tar.gz", hash = "sha256:e54d1a27d48fca3634e33b9b6484909c2681ee84de43e58b2470a0c6ede28425"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
