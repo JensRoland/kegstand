@@ -23,11 +23,11 @@ from kegstandcli.cli.build import build_command
     help="Skip building the project before deploying",
 )
 def deploy(ctx, region, hotswap, skip_build):
-    project_dir, config_file, verbose = itemgetter(
-        "project_dir", "config_file", "verbose"
+    project_dir, config_file, config, verbose = itemgetter(
+        "project_dir", "config_file", "config", "verbose"
     )(ctx.obj)
     if not skip_build:
-        build_command(verbose, project_dir, config_file)
+        build_command(verbose, project_dir, config)
 
     deploy_command(verbose, project_dir, config_file, region, hotswap)
 

@@ -90,8 +90,9 @@ Here are some notable changes, fixes and features that are planned for developme
 ## 0.4.0
 
 - [ ] More content on [kegstand.dev](https://kegstand.dev)
-- [ ] Custom domain names
-- [x] Maybe simplify the folder structure from `src/api/resources/<resource-name>/<method>.py` to `src/api/<resource-name>.py`
+- [x] Custom domain names
+- [ ] Support multiple repos using the same domain (and API Gateway)
+- [x] Simplify the folder structure from `src/api/resources/<resource-name>/<method>.py` to `src/api/<resource-name>.py`
 
 ### Pre-1.0.0
 

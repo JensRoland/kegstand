@@ -30,7 +30,10 @@ parent_stack = cdk.Stack(
     app,
     parent_stack_name,
     description=f"{config['project']['name']} v.{config['project']['version']}",
-    env={"region": region},
+    env=cdk.Environment(
+        account=os.environ["CDK_DEFAULT_ACCOUNT"],
+        region=region
+    )
 )
 
 # Create stacks/modules
