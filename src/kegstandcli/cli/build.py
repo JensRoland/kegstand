@@ -20,10 +20,28 @@ def build_command(verbose: bool, project_dir: str, config: dict):
     build_dir = create_empty_folder(project_dir, "dist")
 
     # Handle the different types ('modules') of build
+    if "api_gateway" in config:
+        build_api_gateway(
+            config, verbose, project_dir, create_empty_folder(build_dir, "api_gw_src")
+        )
     if "api" in config:
         build_api(
             config, verbose, project_dir, create_empty_folder(build_dir, "api_src")
         )
+    click.echo("Finished building application!")
+
+
+def build_api_gateway(config: dict, verbose: bool, project_dir: str, module_build_dir: str):
+    create_empty_folder(module_build_dir, "api")
+
+    # Inject health check endpoint
+    lambda_file = os.path.join(module_build_dir, "api", "lambda.py")
+    shutil.copyfile(
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "rest_api_gateway_health_check.py.tmpl"
+        ),
+        lambda_file,
+    )
 
 
 def build_api(config: dict, verbose: bool, project_dir: str, module_build_dir: str):
@@ -78,7 +96,6 @@ def build_api(config: dict, verbose: bool, project_dir: str, module_build_dir: s
     subprocess.run(
         install_command, check=True, stdout=subprocess.DEVNULL if not verbose else None
     )  # nosec B603
-    click.echo("Finished building application!")
 
 
 def create_empty_folder(parent_folder: str, folder_name: str):

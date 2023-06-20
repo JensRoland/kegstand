@@ -1,0 +1,8 @@
+import json
+
+# Basic Lambda handler that displays the API Gateway info / health check
+def handler(_event, _context):
+    return {
+        "statusCode": 200,
+        "body": json.dumps({"message": "Health status: API Gateway is live"})
+    }

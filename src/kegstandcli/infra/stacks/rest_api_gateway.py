@@ -1,6 +1,5 @@
 import click
 
-from aws_cdk import Stack
 from aws_cdk import aws_apigateway as apigw
 from aws_cdk import aws_lambda as lambda_
 from aws_cdk import aws_certificatemanager as acm
@@ -9,62 +8,62 @@ from aws_cdk import aws_route53_targets as targets
 from aws_solutions_constructs import aws_apigateway_lambda as apigw_lambda
 from constructs import Construct
 
-from kegstandcli.utils import find_resource_modules, hosted_zone_from_domain
+from kegstandcli.utils import hosted_zone_from_domain
 
+MODULE_CONFIG_KEY = "api_gateway"
 
-class LambdaRestApi(Construct):
+class RestApiGateway(Construct):
     def __init__(self, scope: Construct, id: str, config: dict, user_pool) -> None:
         super().__init__(scope, id)
 
         provision_with_authorizer = user_pool is not None
 
-        # Find all the resource modules in the API source directory
-        resource_modules = find_resource_modules(
-            f'{config["project_dir"]}/dist/api_src/api'
-        )
-
-        powertools_layer_package = {
-            "x86_64": "AWSLambdaPowertoolsPythonV2:25",
-            "arm64": "AWSLambdaPowertoolsPythonV2-Arm64:25",
-        }[
-            "x86_64"
-        ]  # TODO: make this configurable
-
         # Lambda API backend
-        lambda_function_props=lambda_.FunctionProps(
-            function_name=f"{id}-Function",
+        default_function_props=lambda_.FunctionProps(
+            function_name=f"{id}-DefaultGatewayFunction",
             runtime=lambda_.Runtime.PYTHON_3_9,
-            handler=config["api"]["entrypoint"],
-            code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_src'),
-            layers=[  # Lambda Powertools: https://awslabs.github.io/aws-lambda-powertools-python/2.4.0/
-                lambda_.LayerVersion.from_layer_version_arn(
-                    self,
-                    "PowertoolsLayer",
-                    layer_version_arn=f"arn:aws:lambda:{Stack.of(self).region}:017000801446:layer:{powertools_layer_package}",  # noqa: E501
-                )
-            ],
+            handler="api.lambda.handler",
+            code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_gw_src'),
             memory_size=256,
             tracing=lambda_.Tracing.ACTIVE,
             environment={
                 "LOG_LEVEL": "INFO",
-                "POWERTOOLS_LOGGER_SAMPLE_RATE": "0.05",  # Use log level DEBUG for 5% of invocations
+                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00", # "0.05",  # Use log level DEBUG for 5% of invocations
                 "POWERTOOLS_LOGGER_LOG_EVENT": "true",
-                "POWERTOOLS_SERVICE_NAME": f"{id}-Function",
+                "POWERTOOLS_SERVICE_NAME": f"{id}-DefaultGatewayFunction",
+            },
+        )
+
+        health_lambda_function = lambda_.Function(
+            self, f"{id}-HealthCheckFunction",
+            function_name=f"{id}-HealthCheckFunction",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            handler="api.lambda.handler",
+            code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_gw_src'),
+            memory_size=256,
+            tracing=lambda_.Tracing.ACTIVE,
+            environment={
+                "LOG_LEVEL": "INFO",
+                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00", # "0.05",  # Use log level DEBUG for 5% of invocations
+                "POWERTOOLS_LOGGER_LOG_EVENT": "true",
+                "POWERTOOLS_SERVICE_NAME": f"{id}-HealthCheckFunction",
             },
         )
 
         # If a custom domain name is specified, we create a Route53 record
         # and add the domain name to the API Gateway
-        if "domain_name" in config["api"]:
+        if "domain_name" in config[MODULE_CONFIG_KEY]:
             # Return an error if domain_certificate_arn is not specified
-            if "domain_certificate_arn" not in config["api"]:
+            if "domain_certificate_arn" not in config[MODULE_CONFIG_KEY]:
                 click.ClickException(
-                    "A domain_certificate_arn must be specified when using a custom domain name."
+                    "Config [api_gateway].domain_certificate_arn must be specified when using a custom domain name."
                 )
 
             # API Gateway w. custom domain name
-            api_gateway_props=apigw.RestApiProps(
+            api_gateway_props=apigw.LambdaRestApiProps(
                 rest_api_name=f"{id}-RestApi",
+                handler=health_lambda_function,
+                proxy=False,  # Disable default proxy resource
                 default_method_options=apigw.MethodOptions(
                     authorization_type=apigw.AuthorizationType.NONE
                 ),
@@ -74,11 +73,11 @@ class LambdaRestApi(Construct):
                     tracing_enabled=True,
                 ),
                 domain_name=apigw.DomainNameOptions(
-                    domain_name=config["api"]["domain_name"],
+                    domain_name=config[MODULE_CONFIG_KEY]["domain_name"],
                     certificate=acm.Certificate.from_certificate_arn(
                         self,
                         "ApiCertificate",
-                        certificate_arn=config["api"]["domain_certificate_arn"],
+                        certificate_arn=config[MODULE_CONFIG_KEY]["domain_certificate_arn"],
                     ),
                 ),
             )
@@ -88,16 +87,16 @@ class LambdaRestApi(Construct):
             api_gateway_to_lambda = apigw_lambda.ApiGatewayToLambda(
                 self,
                 f"{id}-ApiGatewayConstruct",
-                lambda_function_props=lambda_function_props,
+                lambda_function_props=default_function_props,
                 api_gateway_props=api_gateway_props,
             )
             api = api_gateway_to_lambda.api_gateway
 
             # Add the Route53 record for the API subdomain
-            hosted_zone = route53.HostedZone.from_lookup(self, "HostedZone", domain_name=hosted_zone_from_domain(config["api"]["domain_name"]))
+            hosted_zone = route53.HostedZone.from_lookup(self, "HostedZone", domain_name=hosted_zone_from_domain(config[MODULE_CONFIG_KEY]["domain_name"]))
             route53.ARecord(
                 self,
-                "ApiRecord",
+                "ApiSubdomainDnsRecord",
                 record_name="api",
                 zone=hosted_zone,
                 target=route53.RecordTarget.from_alias(targets.ApiGateway(api)),
@@ -105,8 +104,10 @@ class LambdaRestApi(Construct):
 
         else:
             # API Gateway w/o custom domain name
-            api_gateway_props=apigw.RestApiProps(
+            api_gateway_props=apigw.LambdaRestApiProps(
                 rest_api_name=f"{id}-RestApi",
+                handler=health_lambda_function,
+                proxy=False,  # Disable default proxy resource
                 default_method_options=apigw.MethodOptions(
                     authorization_type=apigw.AuthorizationType.NONE
                 ),
@@ -122,35 +123,32 @@ class LambdaRestApi(Construct):
             api_gateway_to_lambda = apigw_lambda.ApiGatewayToLambda(
                 self,
                 f"{id}-ApiGatewayConstruct",
-                lambda_function_props=lambda_function_props,
+                lambda_function_props=default_function_props,
                 api_gateway_props=api_gateway_props,
             )
 
         self.api = api_gateway_to_lambda.api_gateway
-        self.lambda_function = api_gateway_to_lambda.lambda_function
+        self.health_check_function = api_gateway_to_lambda.lambda_function
 
         self.authorizer = None
-        if provision_with_authorizer:
-            self.authorizer = apigw.CognitoUserPoolsAuthorizer(
-                self, f"{id}-Authorizer", cognito_user_pools=[user_pool]
-            )
+        # if provision_with_authorizer:
+        #     click.echo("Creating Cognito authorizer for API Gateway...")
+        #     self.authorizer = apigw.CognitoUserPoolsAuthorizer(
+        #         self, f"{id}-Authorizer", cognito_user_pools=[user_pool]
+        #     )
+            # Add the authorizer to the API Gateway
+            # self.api.root.add_proxy(
+            #     default_method_options=apigw.MethodOptions(
+            #         authorization_type=apigw.AuthorizationType.COGNITO,
+            #         authorizer=self.authorizer,  # Apply the authorizer
+            #     ),
+            # )
 
         # For each resource, create API Gateway endpoints with the Lambda integration
-        for resource in resource_modules:
-            resource_root = self.api.root.add_resource(resource["name"])
-            if provision_with_authorizer:
-                # Private, auth required endpoints
-                resource_root.add_proxy(
-                    default_integration=apigw.LambdaIntegration(self.lambda_function),
-                    default_method_options=apigw.MethodOptions(
-                        authorization_type=apigw.AuthorizationType.COGNITO,
-                        authorizer=self.authorizer,  # Apply the authorizer
-                    ),
-                )
-            else:
-                # Public (no auth required) endpoints
-                resource_root.add_proxy(
-                    default_integration=apigw.LambdaIntegration(self.lambda_function)
-                )
+        resource_root = self.api.root.add_resource("health")
+        # Health endpoint is always public (no auth required)
+        resource_root.add_proxy(
+            default_integration=apigw.LambdaIntegration(health_lambda_function)
+        )
 
         self.deployment = apigw.Deployment(self, f"{id}-Deployment", api=self.api)
