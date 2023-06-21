@@ -13,6 +13,9 @@ The Kegstand configuration uses TOML, and it looks like this:
 name = "My-Service"  # No spaces, must be PEP 508 compliant
 version = "0.1.0"
 
+[api_gateway]
+name = "My API Gateway"
+
 [api]
 name = "My Service API"
 ```
@@ -23,6 +26,9 @@ If you are using the `pyproject.toml` file, the Kegstand configuration should be
 # Note: project keys 'name', 'description' and 'version' are automatically
 # inherited from the [tool.poetry] section, so the [tool.kegstand.project]
 # section can usually be omitted when using pyproject.toml.
+
+[tool.kegstand.api_gateway]
+name = "My API Gateway"
 
 [tool.kegstand.api]
 name = "My Service API"
@@ -36,14 +42,14 @@ For a full list of configuration options, see the [Configuration Reference](http
 
 ### Example 1 &mdash; Creating a simple API
 
-Creating a public REST API endpoint is as easy as editing the `<resource_name>.py` file in the `api` folder. Here's an example of a simple API that greets a user by name:
+Creating a public REST API endpoint is as easy as editing the `<resource_name>.py` file in the `api/public` folder. Here's an example of a simple API that greets a user by name:
 
 ```python
 import kegstand
 
 api = kegstand.ApiResource("/hello")
 
-@api.get("/:name", auth=kegstand.PublicAccess())
+@api.get("/:name")
 def greet(params):
     return {
         "message": f"Hello, {params.get('name')}!"
@@ -78,11 +84,11 @@ This time, we will make a REST API endpoint `/diary/<entry_date>`which lets us P
 
 Creating an authorized API endpoint with Kegstand assumes that you have an existing [Cognito User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) which you can use to generate OAuth 2.0 JWT tokens with the `openid` scope. If you don't already have a user pool, you can set one up in just a few minutes with [Authie](https://github.com/JensRoland/authie), which, by the way, is powered by Kegstand. Yes, this party _definitely_ has a drum circle on the back lawn.<!-- markdown-link-check-disable-line -->
 
-Once you have a Cognito User Pool, add the User Pool ID to the `[tool.kegstand.api]` section of the `pyproject.toml` file:
+Once you have a Cognito User Pool, add the User Pool ID to the `[tool.kegstand.api_gateway]` section of the `pyproject.toml` file:
 
 ```toml
-[tool.kegstand.api]
-name = "My Service API"
+[tool.kegstand.api_gateway]
+name = "My API Gateway"
 user_pool_id = "__USER_POOL_ID__"
 ```
 
@@ -94,8 +100,9 @@ my-service
 ├── pyproject.toml                    # Project configuration
 └── src
     └── api
-        └── hello.py                  # Logic for /hello/
-        └── diary.py                  # Logic for /diary/
+        ├── diary.py                  # Logic for /diary/
+        └── public
+            └── hello.py              # Logic for /hello/
 ```
 
 (Remember to sprinkle in some `__init__.py` files until it looks like a Python project.)
