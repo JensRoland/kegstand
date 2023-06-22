@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import boto3
 import click
 import os
 import sys
@@ -71,13 +72,34 @@ if "api_gateway" in config:
 if "api" in config:
     click.echo("Creating stack for [api]...")
 
-    gateway = (
-        apigw.RestApi.from_rest_api_id(
-            parent_stack, "RestApiGatewayReference", config["api"]["api_gateway_id"]
+    if "api_gateway_id" in config["api"]:
+        rest_api_id = config["api"]["api_gateway_id"]
+        # TODO: Move this to utils.py
+        # Get the root resource ID from the API Gateway
+        apigw_client = boto3.client("apigateway", region_name=region)
+        response = apigw_client.get_resources(
+            restApiId=rest_api_id
         )
-        if "api_gateway_id" in config["api"]
-        else modules["api_gateway"].api if "api_gateway" in modules else None
-    )
+        root_resource_id = [
+            resource["id"]
+            for resource in response["items"]
+            if resource["path"] == "/"
+        ]
+        if len(root_resource_id) == 0:
+            raise Exception("Could not find root resource ID for API Gateway")
+        click.echo(f"Found API Gateway root resource ID: {root_resource_id[0]}")
+        root_resource_id = root_resource_id[0]
+
+        gateway = apigw.RestApi.from_rest_api_attributes(
+            parent_stack,
+            "RestApiGatewayReference",
+            rest_api_id=rest_api_id,
+            root_resource_id=root_resource_id,
+        )
+    else:
+        gateway = modules["api_gateway"].api if "api_gateway" in modules else None
+
+    
     user_pool = parent_stack.node.try_find_child("UserPool") if "api_gateway" in modules else (
         cognito.UserPool.from_user_pool_id(
             parent_stack, "UserPool", config["api"]["user_pool_id"]

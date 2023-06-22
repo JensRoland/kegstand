@@ -78,6 +78,7 @@ class RestApiBackend(Construct):
                         authorizer=self.authorizer,  # Apply the authorizer
                     ),
                 )
+                resource_root.add_method("ANY", apigw.LambdaIntegration(self.lambda_function))
                 resource_root.add_proxy()
             else:
                 # Public (no auth required) endpoints
@@ -85,6 +86,7 @@ class RestApiBackend(Construct):
                     resource["name"],
                     default_integration=apigw.LambdaIntegration(self.lambda_function)
                 )
+                resource_root.add_method("ANY", apigw.LambdaIntegration(self.lambda_function))
                 resource_root.add_proxy()
 
         self.deployment = apigw.Deployment(self, f"{id}-Deployment", api=rest_api_gw)

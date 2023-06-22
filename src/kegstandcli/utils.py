@@ -1,5 +1,7 @@
 import os
 
+import click
+
 
 def find_resource_modules(api_src_dir: str) -> list:
     # Look through folder structure and create a list of resource modules found.
@@ -18,6 +20,11 @@ def find_resource_modules(api_src_dir: str) -> list:
     # Loop over folders in api_src_dir and list the resource modules
     for api_folder in api_folders:
         api_folder_full = os.path.join(api_src_dir, api_folder["name"])
+        if not os.path.isdir(api_folder_full):
+            click.echo(
+                f"API source folder {api_folder_full} does not exist, skipping..."
+            )
+            continue
         for file_descriptor in os.listdir(api_folder_full):
             # Ignore folders, only look at files
             if os.path.isdir(os.path.join(api_folder_full, file_descriptor)):

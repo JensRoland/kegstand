@@ -130,25 +130,8 @@ class RestApiGateway(Construct):
         self.api = api_gateway_to_lambda.api_gateway
         self.health_check_function = api_gateway_to_lambda.lambda_function
 
-        self.authorizer = None
-        # if provision_with_authorizer:
-        #     click.echo("Creating Cognito authorizer for API Gateway...")
-        #     self.authorizer = apigw.CognitoUserPoolsAuthorizer(
-        #         self, f"{id}-Authorizer", cognito_user_pools=[user_pool]
-        #     )
-            # Add the authorizer to the API Gateway
-            # self.api.root.add_proxy(
-            #     default_method_options=apigw.MethodOptions(
-            #         authorization_type=apigw.AuthorizationType.COGNITO,
-            #         authorizer=self.authorizer,  # Apply the authorizer
-            #     ),
-            # )
-
         # For each resource, create API Gateway endpoints with the Lambda integration
         resource_root = self.api.root.add_resource("health")
-        # Health endpoint is always public (no auth required)
-        resource_root.add_proxy(
-            default_integration=apigw.LambdaIntegration(health_lambda_function)
-        )
+        resource_root.add_method("GET", apigw.LambdaIntegration(health_lambda_function))
 
         self.deployment = apigw.Deployment(self, f"{id}-Deployment", api=self.api)

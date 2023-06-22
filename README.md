@@ -48,7 +48,7 @@ You can create this in a few seconds, either with the Kegstand CLI or using [Cop
 > keg new my-service
 
 # Using Copier
-> copier gh:JensRoland/kegstand-project-template my-service
+> copier copy -d project_name=my-service gh:JensRoland/kegstand-project-template .
 ```
 
 Either method will create a new project folder called `my-service` containing:
