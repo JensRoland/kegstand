@@ -24,8 +24,8 @@ If you are using the `pyproject.toml` file, the Kegstand configuration should be
 
 ```toml
 # Note: project keys 'name', 'description' and 'version' are automatically
-# inherited from the [tool.poetry] section, so the [tool.kegstand.project]
-# section can usually be omitted when using pyproject.toml.
+# inherited from the [project] section, so the [tool.kegstand.project]
+# section should be omitted when using pyproject.toml.
 
 [tool.kegstand.api_gateway]
 name = "My API Gateway"

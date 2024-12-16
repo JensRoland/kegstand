@@ -96,24 +96,20 @@ def build_api(
         "uv",
         "pip",
         "compile",
-        "--exclude-extras",
-        "dev",
-        "--exclude-extras",
-        "lambda-builtins",
+        str(Path(project_dir) / "pyproject.toml"),
         "-o",
         str(requirements_file),
-        ".",
     ]
     if verbose:
         export_command.append("--verbose")
 
-    subprocess.run(
+    subprocess.run(  # noqa: S603
         export_command,
         check=True,
         shell=False,
         stdout=subprocess.DEVNULL if not verbose else None,
         cwd=project_dir,
-    )  # noqa: S603
+    )
 
     # Install the dependencies to the build folder using pip
     click.echo("Installing dependencies in module build folder...")
@@ -126,13 +122,13 @@ def build_api(
         "--target",
         module_build_dir,
     ]
-    subprocess.run(
+    subprocess.run(  # noqa: S603
         install_command,
         check=True,
         shell=False,
         stdout=subprocess.DEVNULL if not verbose else None,
         cwd=project_dir,
-    )  # noqa: S603
+    )
 
 
 def create_empty_folder(parent_folder: str, folder_name: str) -> str:

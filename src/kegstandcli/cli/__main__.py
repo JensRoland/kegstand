@@ -2,7 +2,6 @@
 
 import contextlib
 from pathlib import Path
-from typing import Any
 
 import click
 
@@ -29,7 +28,7 @@ class AliasedGroup(click.Group):
             Command if found, None otherwise
         """
         with contextlib.suppress(KeyError):
-            cmd_name = ALIASES[cmd_name].name
+            cmd_name = ALIASES[cmd_name].name  # type: ignore
         return super().get_command(ctx, cmd_name)
 
 

@@ -43,7 +43,7 @@ if "cdk" in config:
     # Import the project's infra module
     project_infra_path = Path(project_dir) / config["cdk"]["path_to_infra"]
     sys.path.append(str(project_infra_path))
-    from main import custom_infra  # pylint: disable=import-error
+    from main import custom_infra  # type: ignore
 
     custom_infra_config = custom_infra(parent_stack, region)
     modules["custom_infra"] = custom_infra_config
@@ -71,31 +71,33 @@ if "api_gateway" in config:
 if "api" in config:
     click.echo("Creating stack for [api]...")
 
+    gateway: apigw.IRestApi | None = None
+
     if "api_gateway_id" in config["api"]:
         rest_api_id = config["api"]["api_gateway_id"]
         # TODO: Move this to utils.py
         # Get the root resource ID from the API Gateway
         apigw_client = boto3.client("apigateway", region_name=region)
         response = apigw_client.get_resources(restApiId=rest_api_id)
-        root_resource_id = [
+        root_resource_id: list[str] = [
             resource["id"] for resource in response["items"] if resource["path"] == "/"
         ]
         if len(root_resource_id) == 0:
             raise click.ClickException("Could not find root resource ID for API Gateway")
+
         click.echo(f"Found API Gateway root resource ID: {root_resource_id[0]}")
-        root_resource_id = root_resource_id[0]
 
         gateway = apigw.RestApi.from_rest_api_attributes(
             parent_stack,
             "RestApiGatewayReference",
             rest_api_id=rest_api_id,
-            root_resource_id=root_resource_id,
+            root_resource_id=root_resource_id[0],
         )
-    else:
-        gateway = modules["api_gateway"].api if "api_gateway" in modules else None
+    elif "api_gateway" in modules:
+        gateway = modules["api_gateway"].api
 
     user_pool = (
-        parent_stack.node.try_find_child("UserPool")
+        parent_stack.node.try_find_child("UserPool")  # type: ignore
         if "api_gateway" in modules
         else (
             cognito.UserPool.from_user_pool_id(
@@ -113,7 +115,7 @@ if "api" in config:
         parent_stack,
         api_construct_name,
         config,
-        rest_api_gw=gateway,
+        rest_api_gw=gateway,  # type: ignore
         user_pool=user_pool,
     )
 

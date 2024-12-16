@@ -6,6 +6,7 @@ from typing import Any
 import click
 from aws_cdk import Stack
 from aws_cdk import aws_apigateway as apigw
+from aws_cdk import aws_cognito as cognito
 from aws_cdk import aws_lambda as lambda_
 from constructs import Construct
 
@@ -27,8 +28,8 @@ class RestApiBackend(Construct):
         scope: Construct,
         construct_id: str,
         config: dict[str, Any],
-        rest_api_gw: apigw.RestApi,
-        user_pool: Any | None,
+        rest_api_gw: apigw.IRestApi,
+        user_pool: cognito.IUserPool | None,
     ) -> None:
         """Initialize the REST API backend.
 
@@ -92,7 +93,9 @@ class RestApiBackend(Construct):
         if provision_with_authorizer:
             click.echo("Creating Cognito authorizer for API...")
             self.authorizer = apigw.CognitoUserPoolsAuthorizer(
-                self, f"{construct_id}-Authorizer", cognito_user_pools=[user_pool]
+                self,
+                f"{construct_id}-Authorizer",
+                cognito_user_pools=[user_pool],  # type: ignore
             )
 
         # For each resource, create API Gateway endpoints with the Lambda integration

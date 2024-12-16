@@ -30,7 +30,7 @@ def find_resource_modules(api_src_dir: str) -> list[dict[str, Any]]:
 
     # Loop over folders in api_src_dir and list the resource modules
     for api_folder in api_folders:
-        api_folder_path = Path(api_src_dir) / api_folder["name"]
+        api_folder_path = Path(api_src_dir) / str(api_folder["name"])
         if not api_folder_path.is_dir():
             click.echo(f"API source folder {api_folder_path} does not exist, skipping...")
             continue
@@ -48,7 +48,7 @@ def find_resource_modules(api_src_dir: str) -> list[dict[str, Any]]:
             resources.append(
                 {
                     "name": resource_name,
-                    "module_path": f"{api_folder['name'].replace('/', '.')}.{resource_name}",
+                    "module_path": f"{str(api_folder['name']).replace('/', '.')}.{resource_name}",
                     "fromlist": [resource_name],
                     "is_public": api_folder["resources_are_public"],
                 }

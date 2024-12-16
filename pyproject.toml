@@ -30,9 +30,13 @@ dependencies = [
     "xxhash>=3.2.0",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
+    "boto3-stubs>=1.35.82",
+    "directory-tree>=1.0.0",
+    "mypy>=1.13.0",
     "pytest>=7.3.0",
+    "pytest-cov>=4.0.0",
     "pytest-subprocess>=1.5.0",
     "ruff>=0.1.9",
 ]
@@ -47,6 +51,16 @@ Repository = "https://github.com/jensroland/kegstand"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+# Directories that are not visited by pytest collector:
+norecursedirs =["dist", "docs", ".tox", ".git", "__pycache__", ".ruff_cache"]
+pythonpath = "src/kegstandcli"
+
+[tool.coverage.report]
+fail_under = 70
+show_missing = true
+skip_empty = true
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -125,3 +139,8 @@ indent-style = "space"
 skip-magic-trailing-comma = false
 # Automatically detect the appropriate line ending.
 line-ending = "auto"
+
+[tool.mypy]
+exclude = [
+    "^tests/test_data/",
+]
