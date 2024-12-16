@@ -5,6 +5,7 @@ from operator import itemgetter
 import click
 
 from kegstandcli.cli.build import build_command
+from kegstandcli.cli.teardown import teardown_command
 
 
 @click.command()
@@ -22,10 +23,21 @@ from kegstandcli.cli.build import build_command
     default=False,
     help="Skip building the project before deploying",
 )
-def deploy(ctx, region, hotswap, skip_build):
+@click.option(
+    "--force-redeploy",
+    is_flag=True,
+    default=False,
+    help="Teardown existing stack before deploying",
+)
+def deploy(ctx, region, hotswap, skip_build, force_redeploy):
     project_dir, config_file, config, verbose = itemgetter(
         "project_dir", "config_file", "config", "verbose"
     )(ctx.obj)
+
+    if force_redeploy:
+        click.echo("Tearing down existing stack...")
+        teardown_command(verbose, project_dir, config_file, region)
+
     if not skip_build:
         build_command(verbose, project_dir, config)
 
