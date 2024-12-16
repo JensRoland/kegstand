@@ -1,3 +1,7 @@
+"""REST API backend infrastructure stack."""
+
+from typing import Any
+
 import click
 from aws_cdk import Stack
 from aws_cdk import aws_apigateway as apigw
@@ -10,24 +14,38 @@ MODULE_CONFIG_KEY = "api"
 
 
 class RestApiBackend(Construct):
+    """Construct for creating a REST API backend with Lambda integration.
+
+    This construct creates a Lambda function and API Gateway endpoints for each resource
+    module found in the API source directory. It optionally supports Cognito user pool
+    authorization for non-public endpoints.
+    """
+
     def __init__(
         self,
         scope: Construct,
-        id: str,
-        config: dict,
+        construct_id: str,
+        config: dict[str, Any],
         rest_api_gw: apigw.RestApi,
-        user_pool,
+        user_pool: Any | None,
     ) -> None:
-        super().__init__(scope, id)
+        """Initialize the REST API backend.
+
+        Args:
+            scope: CDK construct scope
+            construct_id: Unique identifier for the construct
+            config: Project configuration dictionary
+            rest_api_gw: API Gateway REST API instance
+            user_pool: Optional Cognito user pool for authorization
+        """
+        super().__init__(scope, construct_id)
 
         provision_with_authorizer = user_pool is not None
 
         # Find all the resource modules in the API source directory
-        resource_modules = find_resource_modules(
-            f'{config["project_dir"]}/dist/api_src'
-        )
+        resource_modules = find_resource_modules(f'{config["project_dir"]}/dist/api_src')
 
-        # Output all modules found, each module contains:
+        # Output all modules found
         click.echo("API backend: Found the following resource modules:")
         for resource in resource_modules:
             click.echo(f" - Name: {resource['name']}")
@@ -43,25 +61,28 @@ class RestApiBackend(Construct):
         # Lambda API backend
         self.lambda_function = lambda_.Function(
             self,
-            f"{id}-Backend",
-            function_name=f"{id}-Function",
+            f"{construct_id}-Backend",
+            function_name=f"{construct_id}-Function",
             runtime=lambda_.Runtime.PYTHON_3_9,
             handler=config[MODULE_CONFIG_KEY]["entrypoint"],
             code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_src'),
-            layers=[  # Lambda Powertools: https://awslabs.github.io/aws-lambda-powertools-python/2.4.0/
+            layers=[  # See Lambda Powertools: https://awslabs.github.io/aws-lambda-powertools-python/2.4.0/
                 lambda_.LayerVersion.from_layer_version_arn(
                     self,
                     "PowertoolsLayer",
-                    layer_version_arn=f"arn:aws:lambda:{Stack.of(self).region}:017000801446:layer:{powertools_layer_package}",  # noqa: E501
+                    layer_version_arn=(
+                        f"arn:aws:lambda:{Stack.of(self).region}:017000801446:layer:"
+                        f"{powertools_layer_package}"
+                    ),
                 )
             ],
             memory_size=256,
             tracing=lambda_.Tracing.ACTIVE,
             environment={
                 "LOG_LEVEL": "INFO",
-                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00",  # "0.05",  # Use log level DEBUG for 5% of invocations
+                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00",
                 "POWERTOOLS_LOGGER_LOG_EVENT": "true",
-                "POWERTOOLS_SERVICE_NAME": f"{id}-Function",
+                "POWERTOOLS_SERVICE_NAME": f"{construct_id}-Function",
             },
         )
 
@@ -69,7 +90,7 @@ class RestApiBackend(Construct):
         if provision_with_authorizer:
             click.echo("Creating Cognito authorizer for API...")
             self.authorizer = apigw.CognitoUserPoolsAuthorizer(
-                self, f"{id}-Authorizer", cognito_user_pools=[user_pool]
+                self, f"{construct_id}-Authorizer", cognito_user_pools=[user_pool]
             )
 
         # For each resource, create API Gateway endpoints with the Lambda integration
@@ -81,12 +102,10 @@ class RestApiBackend(Construct):
                     default_integration=apigw.LambdaIntegration(self.lambda_function),
                     default_method_options=apigw.MethodOptions(
                         authorization_type=apigw.AuthorizationType.COGNITO,
-                        authorizer=self.authorizer,  # Apply the authorizer
+                        authorizer=self.authorizer,  # This applies the authorizer
                     ),
                 )
-                resource_root.add_method(
-                    "ANY", apigw.LambdaIntegration(self.lambda_function)
-                )
+                resource_root.add_method("ANY", apigw.LambdaIntegration(self.lambda_function))
                 resource_root.add_proxy()
             else:
                 # Public (no auth required) endpoints
@@ -94,9 +113,7 @@ class RestApiBackend(Construct):
                     resource["name"],
                     default_integration=apigw.LambdaIntegration(self.lambda_function),
                 )
-                resource_root.add_method(
-                    "ANY", apigw.LambdaIntegration(self.lambda_function)
-                )
+                resource_root.add_method("ANY", apigw.LambdaIntegration(self.lambda_function))
                 resource_root.add_proxy()
 
-        self.deployment = apigw.Deployment(self, f"{id}-Deployment", api=rest_api_gw)
+        self.deployment = apigw.Deployment(self, f"{construct_id}-Deployment", api=rest_api_gw)

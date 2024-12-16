@@ -1,3 +1,6 @@
+"""Main entry point for the Kegstand CLI."""
+
+import contextlib
 import os
 
 import click
@@ -10,28 +13,32 @@ from kegstandcli.cli.teardown import teardown
 
 ALIASES = {"init": new, "up": deploy, "party": deploy, "down": teardown}
 
-CONFIG_FILE_NAMES = ["kegstand.toml", ".kegstand", "pyproject.toml"]
-
 
 class AliasedGroup(click.Group):
-    def get_command(self, ctx, cmd_name):
-        try:
+    """Click group that supports command aliases."""
+
+    def get_command(self, ctx: click.Context, cmd_name: str) -> click.Command | None:
+        """Get command by name or alias.
+
+        Args:
+            ctx: Click context
+            cmd_name: Command name or alias
+
+        Returns:
+            Command if found, None otherwise
+        """
+        with contextlib.suppress(KeyError):
             cmd_name = ALIASES[cmd_name].name
-        except KeyError:
-            pass
         return super().get_command(ctx, cmd_name)
 
 
-# pylint: disable=line-too-long
-# We pass the project directory to all subcommands via the context
-# so they can use it to find the kegstand.toml file
 @click.group(cls=AliasedGroup)
 @click.option("--config", "config_file", help="Path to Kegstand configuration file.")
 @click.option("--verbose", is_flag=True, default=False, help="Show verbose output")
 @click.pass_context
 def kegstandcli(
-    ctx, config_file, verbose
-):  # ANSI art generated with https://dom111.github.io/image-to-ansi/
+    ctx: click.Context, config_file: str | None, verbose: bool
+) -> None:  # ANSI art generated with https://dom111.github.io/image-to-ansi/
     """\b
     \033[49m                        \033[38;5;232;48;5;52m▄\033[38;5;234;48;5;52m▄\033[38;5;232;49m▄▄▄\033[38;5;236;48;5;52m▄\033[38;5;245;48;5;233m▄\033[38;5;252;48;5;232m▄\033[38;5;230;48;5;233m▄\033[38;5;230;48;5;234m▄\033[38;5;230;48;5;233m▄\033[38;5;253;48;5;232m▄\033[38;5;248;48;5;232m▄\033[38;5;59;48;5;52m▄\033[38;5;233;49m▄\033[38;5;232;49m▄\033[49m     \033[38;5;52;49m▄\033[49m       \033[m
     \033[49m                        \033[49;38;5;52m▀\033[38;5;52;48;5;236m▄\033[38;5;237;48;5;188m▄\033[38;5;254;48;5;252m▄\033[38;5;230;48;5;253m▄\033[38;5;230;48;5;230m▄\033[38;5;222;48;5;223m▄\033[38;5;222;48;5;222m▄▄▄▄▄▄\033[38;5;222;48;5;229m▄\033[38;5;222;48;5;253m▄\033[38;5;229;48;5;242m▄\033[38;5;249;48;5;232m▄\033[38;5;234;48;5;52m▄\033[38;5;52;49m▄\033[49m  \033[38;5;52;48;5;233m▄\033[38;5;239;48;5;232m▄\033[38;5;234;48;5;52m▄\033[38;5;52;49m▄\033[49m    \033[m

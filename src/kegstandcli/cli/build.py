@@ -1,21 +1,30 @@
+"""Build command for Kegstand CLI."""
+
 import os
 import shutil
 import subprocess  # nosec
 from operator import itemgetter
+from typing import Any
 
 import click
 
 
 @click.command()
 @click.pass_context
-def build(ctx):
-    project_dir, config, verbose = itemgetter("project_dir", "config", "verbose")(
-        ctx.obj
-    )
+def build(ctx: click.Context) -> None:
+    """Build the project for deployment."""
+    project_dir, config, verbose = itemgetter("project_dir", "config", "verbose")(ctx.obj)
     build_command(verbose, project_dir, config)
 
 
-def build_command(verbose: bool, project_dir: str, config: dict):
+def build_command(verbose: bool, project_dir: str, config: dict[str, Any]) -> None:
+    """Execute the build process for the project.
+
+    Args:
+        verbose: Whether to show verbose output
+        project_dir: Path to the project directory
+        config: Project configuration dictionary
+    """
     # Create a directory to hold the build artifacts, and make sure it is empty
     build_dir = create_empty_folder(project_dir, "dist")
 
@@ -25,15 +34,24 @@ def build_command(verbose: bool, project_dir: str, config: dict):
             config, verbose, project_dir, create_empty_folder(build_dir, "api_gw_src")
         )
     if "api" in config:
-        build_api(
-            config, verbose, project_dir, create_empty_folder(build_dir, "api_src")
-        )
+        build_api(config, verbose, project_dir, create_empty_folder(build_dir, "api_src"))
     click.echo("Finished building application!")
 
 
 def build_api_gateway(
-    config: dict, verbose: bool, project_dir: str, module_build_dir: str
-):
+    config: dict[str, Any],  # noqa: ARG001
+    verbose: bool,  # noqa: ARG001
+    project_dir: str,  # noqa: ARG001
+    module_build_dir: str,
+) -> None:
+    """Build the API Gateway module.
+
+    Args:
+        config: Project configuration dictionary
+        verbose: Whether to show verbose output
+        project_dir: Path to the project directory
+        module_build_dir: Directory to build the module in
+    """
     create_empty_folder(module_build_dir, "api")
 
     # Inject health check endpoint
@@ -47,7 +65,17 @@ def build_api_gateway(
     )
 
 
-def build_api(config: dict, verbose: bool, project_dir: str, module_build_dir: str):
+def build_api(
+    config: dict[str, Any], verbose: bool, project_dir: str, module_build_dir: str
+) -> None:
+    """Build the API module.
+
+    Args:
+        config: Project configuration dictionary
+        verbose: Whether to show verbose output
+        project_dir: Path to the project directory
+        module_build_dir: Directory to build the module in
+    """
     # Copy everything in the project_dir/src folder to the module_build_dir
     src_dir = os.path.join(project_dir, "src")
     shutil.copytree(src_dir, module_build_dir, dirs_exist_ok=True)
@@ -60,48 +88,68 @@ def build_api(config: dict, verbose: bool, project_dir: str, module_build_dir: s
             if verbose:
                 click.echo("No lambda.py file in api folder, using default")
             shutil.copyfile(
-                os.path.join(
-                    os.path.dirname(os.path.abspath(__file__)), "default_lambda.py.tmpl"
-                ),
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), "default_lambda.py.tmpl"),
                 lambda_file,
             )
 
     # Export the dependencies to a requirements.txt file
     click.echo("Exporting service dependencies to requirements.txt file...")
     export_command = [
-        "poetry",
-        "export",
+        "uv",
+        "pip",
+        "compile",
+        "--exclude-extras",
+        "dev",
+        "--exclude-extras",
+        "lambda-builtins",
         "-o",
         f"{module_build_dir}/requirements.txt",
-        "--without",
-        "dev",
-        "--without",
-        "lambda-builtins",
-        "--without-hashes",
+        ".",
     ]
     if verbose:
-        export_command.append("-vv")
-    else:
-        export_command.append("-q")
+        export_command.append("--verbose")
 
-    subprocess.run(export_command, cwd=project_dir, check=True)  # nosec B603
+    subprocess.run(  # noqa: S603
+        export_command,
+        check=True,
+        shell=False,
+        stdout=subprocess.DEVNULL if not verbose else None,
+        cwd=project_dir,
+    )
 
     # Install the dependencies to the build folder using pip
     click.echo("Installing dependencies in module build folder...")
     install_command = [
+        "uv",
         "pip",
         "install",
         "-r",
         f"{module_build_dir}/requirements.txt",
-        "-t",
+        "--target",
         module_build_dir,
     ]
-    subprocess.run(
-        install_command, check=True, stdout=subprocess.DEVNULL if not verbose else None
-    )  # nosec B603
+    subprocess.run(  # noqa: S603
+        install_command,
+        check=True,
+        shell=False,
+        stdout=subprocess.DEVNULL if not verbose else None,
+        cwd=project_dir,
+    )
 
 
-def create_empty_folder(parent_folder: str, folder_name: str):
+def create_empty_folder(parent_folder: str, folder_name: str) -> str:
+    """Create an empty folder, removing it first if it exists.
+
+    Args:
+        parent_folder: Path to the parent directory
+        folder_name: Name of the folder to create
+
+    Returns:
+        str: Path to the created folder
+
+    Raises:
+        ValueError: If folder_name is empty
+    """
     if folder_name == "":
         raise ValueError("folder_name cannot be empty")
 

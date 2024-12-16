@@ -1,3 +1,5 @@
+"""Deploy command for Kegstand CLI."""
+
 import os
 import subprocess  # nosec
 from operator import itemgetter
@@ -22,7 +24,15 @@ from kegstandcli.cli.build import build_command
     default=False,
     help="Skip building the project before deploying",
 )
-def deploy(ctx, region, hotswap, skip_build):
+def deploy(ctx: click.Context, region: str, hotswap: bool, skip_build: bool) -> None:
+    """Deploy the project to AWS.
+
+    Args:
+        ctx: Click context
+        region: AWS region to deploy to
+        hotswap: Whether to attempt deployment without creating a new CloudFormation stack
+        skip_build: Whether to skip building the project before deploying
+    """
     project_dir, config_file, config, verbose = itemgetter(
         "project_dir", "config_file", "config", "verbose"
     )(ctx.obj)
@@ -32,12 +42,29 @@ def deploy(ctx, region, hotswap, skip_build):
     deploy_command(verbose, project_dir, config_file, region, hotswap)
 
 
-def deploy_command(verbose, project_dir, config_file, region, hotswap):
+def deploy_command(
+    verbose: bool, project_dir: str, config_file: str, region: str, hotswap: bool
+) -> None:
+    """Execute the deployment process.
+
+    Args:
+        verbose: Whether to show verbose output
+        project_dir: Path to the project directory
+        config_file: Path to the configuration file
+        region: AWS region to deploy to
+        hotswap: Whether to attempt deployment without creating a new CloudFormation stack
+    """
     # Get the dir of the kegstandcli package (one level up from here)
     kegstandcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+    # Validate paths
+    if not os.path.isdir(project_dir):
+        raise click.ClickException(f"Project directory not found: {project_dir}")
+    if not os.path.isfile(config_file):
+        raise click.ClickException(f"Config file not found: {config_file}")
+
     click.echo("Deploying...")
-    command = [  # pylint: disable=duplicate-code
+    command = [
         "cdk",
         "deploy",
         "--app",
@@ -61,10 +88,16 @@ def deploy_command(verbose, project_dir, config_file, region, hotswap):
     if verbose:
         command.append("--verbose")
 
-    subprocess.run(
+    # Validate command
+    if not all(isinstance(arg, str) for arg in command):
+        raise click.ClickException("Invalid command arguments")
+
+    # We use a fixed command list with validated paths, so we can safely ignore S603
+    subprocess.run(  # noqa: S603
         command,
         cwd=kegstandcli_dir,
         check=True,
+        shell=False,
         stdout=subprocess.DEVNULL if not verbose else None,
-    )  # nosec B603
+    )
     click.echo("Finished deploying application!")

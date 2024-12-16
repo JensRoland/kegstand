@@ -60,6 +60,7 @@ exclude = [
     ".mypy_cache",
     ".nox",
     ".pants.d",
+    '.pytest_cache',
     ".pytype",
     ".ruff_cache",
     ".svn",
@@ -74,7 +75,7 @@ exclude = [
     "venv",
 ]
 
-# Same as Black.
+# Slightly longer lines are allowed because it's not 1995 anymore.
 line-length = 100
 
 # Use latest supported Python version
