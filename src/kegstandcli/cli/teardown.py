@@ -1,8 +1,8 @@
 """Teardown command for Kegstand CLI."""
 
-import os
 import subprocess  # nosec
 from operator import itemgetter
+from pathlib import Path
 
 import click
 
@@ -31,12 +31,14 @@ def teardown_command(verbose: bool, project_dir: str, config_file: str, region: 
         region: AWS region where the stack is deployed
     """
     # Get the dir of the Kegstand CLI package itself (one level up from here)
-    kegstandcli_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    kegstandcli_dir = Path(__file__).parent.parent
 
     # Validate paths
-    if not os.path.isdir(project_dir):
+    project_path = Path(project_dir)
+    config_path = Path(config_file)
+    if not project_path.is_dir():
         raise click.ClickException(f"Project directory not found: {project_dir}")
-    if not os.path.isfile(config_file):
+    if not config_path.is_file():
         raise click.ClickException(f"Config file not found: {config_file}")
 
     command = [
@@ -45,7 +47,7 @@ def teardown_command(verbose: bool, project_dir: str, config_file: str, region: 
         "--app",
         "python infra/app.py",
         "--output",
-        f"{project_dir}/cdk.out",
+        str(project_path / "cdk.out"),
         "--all",
         "--context",
         f"region={region}",
@@ -65,7 +67,7 @@ def teardown_command(verbose: bool, project_dir: str, config_file: str, region: 
     # We use a fixed command list with validated paths, so we can safely ignore S603
     subprocess.run(  # noqa: S603
         command,
-        cwd=kegstandcli_dir,
+        cwd=str(kegstandcli_dir),
         check=True,
         shell=False,
     )

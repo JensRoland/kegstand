@@ -1,7 +1,8 @@
 """Project creation command for Kegstand CLI."""
 
-import os
 import shutil
+from pathlib import Path
+from typing import Any
 
 import click
 from copier import run_copy
@@ -32,10 +33,11 @@ def new_command(verbose: bool, project_dir: str) -> None:
         click.ClickException: If the project directory already exists
         click.Abort: If there is an error creating the project
     """
-    project_name = os.path.basename(project_dir)
-    project_parent_dir = os.path.dirname(project_dir)
+    project_path = Path(project_dir)
+    project_name = project_path.name
+    project_parent_dir = str(project_path.parent)
 
-    if os.path.exists(project_dir):
+    if project_path.exists():
         raise click.ClickException(f"Folder {project_name} already exists")
 
     try:
@@ -51,5 +53,6 @@ def new_command(verbose: bool, project_dir: str) -> None:
 
     except Exception as err:
         click.echo(f"Error creating project: {err}", err=True)
-        shutil.rmtree(project_dir)
+        if project_path.exists():
+            shutil.rmtree(project_path)
         raise click.Abort() from err

@@ -1,5 +1,6 @@
 """REST API Gateway infrastructure stack."""
 
+from pathlib import Path
 from typing import Any
 
 import click
@@ -43,12 +44,14 @@ class RestApiGateway(Construct):
 
         # provision_with_authorizer = user_pool is not None
 
+        api_gw_src_path = Path(config["project_dir"]) / "dist" / "api_gw_src"
+
         # Lambda API backend
         default_function_props = lambda_.FunctionProps(
             function_name=f"{construct_id}-DefaultGatewayFunction",
             runtime=lambda_.Runtime.PYTHON_3_9,
             handler="api.lambda.handler",
-            code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_gw_src'),
+            code=lambda_.Code.from_asset(str(api_gw_src_path)),
             memory_size=256,
             tracing=lambda_.Tracing.ACTIVE,
             environment={
@@ -65,7 +68,7 @@ class RestApiGateway(Construct):
             function_name=f"{construct_id}-HealthCheckFunction",
             runtime=lambda_.Runtime.PYTHON_3_9,
             handler="api.lambda.handler",
-            code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_gw_src'),
+            code=lambda_.Code.from_asset(str(api_gw_src_path)),
             memory_size=256,
             tracing=lambda_.Tracing.ACTIVE,
             environment={
@@ -82,8 +85,8 @@ class RestApiGateway(Construct):
             # Return an error if domain_certificate_arn is not specified
             if "domain_certificate_arn" not in config[MODULE_CONFIG_KEY]:
                 raise click.ClickException(
-                    "Config [api_gateway].domain_certificate_arn must be \
-                    specified when using a custom domain name."
+                    "Config [api_gateway].domain_certificate_arn must be "
+                    "specified when using a custom domain name."
                 )
 
             # API Gateway w. custom domain name

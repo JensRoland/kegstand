@@ -1,5 +1,6 @@
 """REST API backend infrastructure stack."""
 
+from pathlib import Path
 from typing import Any
 
 import click
@@ -43,7 +44,8 @@ class RestApiBackend(Construct):
         provision_with_authorizer = user_pool is not None
 
         # Find all the resource modules in the API source directory
-        resource_modules = find_resource_modules(f'{config["project_dir"]}/dist/api_src')
+        api_src_path = Path(config["project_dir"]) / "dist" / "api_src"
+        resource_modules = find_resource_modules(str(api_src_path))
 
         # Output all modules found
         click.echo("API backend: Found the following resource modules:")
@@ -65,7 +67,7 @@ class RestApiBackend(Construct):
             function_name=f"{construct_id}-Function",
             runtime=lambda_.Runtime.PYTHON_3_9,
             handler=config[MODULE_CONFIG_KEY]["entrypoint"],
-            code=lambda_.Code.from_asset(f'{config["project_dir"]}/dist/api_src'),
+            code=lambda_.Code.from_asset(str(api_src_path)),
             layers=[  # See Lambda Powertools: https://awslabs.github.io/aws-lambda-powertools-python/2.4.0/
                 lambda_.LayerVersion.from_layer_version_arn(
                     self,

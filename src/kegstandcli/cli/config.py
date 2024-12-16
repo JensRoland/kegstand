@@ -1,6 +1,5 @@
 """Configuration handling for Kegstand CLI."""
 
-import os
 import re
 from pathlib import Path
 from typing import Any
@@ -27,11 +26,11 @@ def find_config_file(verbose: bool, config_file: str | None) -> str:  # noqa: AR
     # If no config file is specified, locate it automatically
     if config_file is None:
         for name in CONFIG_FILE_NAMES:
-            if os.path.exists(name):
+            if Path(name).exists():
                 config_file = name
                 break
 
-    if not config_file or not os.path.exists(config_file):
+    if not config_file or not Path(config_file).exists():
         raise click.ClickException(f"Configuration file not found: {config_file}")
 
     return config_file
@@ -51,11 +50,11 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
     Raises:
         click.BadParameter: If the project name is invalid
     """
-    config_path = os.path.join(project_dir, config_file)
+    config_path = Path(project_dir) / config_file
     if verbose:
         click.echo(f"Loading configuration from {config_path}")
 
-    parsed_toml_config = loads(Path(config_path).read_text(encoding="utf-8"))
+    parsed_toml_config = loads(config_path.read_text(encoding="utf-8"))
 
     # If the config file is pyproject.toml, the config will be under the 'tool.kegstand' key
     if config_file.endswith("pyproject.toml"):
@@ -79,8 +78,8 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
             f"Name '{config['project']['name']}' is not following PEP 508 naming conventions."
         )
 
-    config["project_dir"] = project_dir
-    config["config_file"] = config_path
+    config["project_dir"] = str(config_path.parent)
+    config["config_file"] = str(config_path)
 
     # Set defaults where missing
     config_defaults = {"api": {"name": "Untitled API", "entrypoint": "api.lambda.handler"}}

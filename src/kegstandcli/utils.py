@@ -1,6 +1,6 @@
 """Utility functions for Kegstand CLI."""
 
-import os
+from pathlib import Path
 from typing import Any
 
 import click
@@ -30,21 +30,21 @@ def find_resource_modules(api_src_dir: str) -> list[dict[str, Any]]:
 
     # Loop over folders in api_src_dir and list the resource modules
     for api_folder in api_folders:
-        api_folder_full = os.path.join(api_src_dir, api_folder["name"])
-        if not os.path.isdir(api_folder_full):
-            click.echo(f"API source folder {api_folder_full} does not exist, skipping...")
+        api_folder_path = Path(api_src_dir) / api_folder["name"]
+        if not api_folder_path.is_dir():
+            click.echo(f"API source folder {api_folder_path} does not exist, skipping...")
             continue
 
-        for file_descriptor in os.listdir(api_folder_full):
+        for file_path in api_folder_path.iterdir():
             # Ignore folders, only look at files
-            if os.path.isdir(os.path.join(api_folder_full, file_descriptor)):
+            if file_path.is_dir():
                 continue
 
             # Skip dotfiles and special files
-            if file_descriptor.startswith((".", "__")) or file_descriptor == "lambda.py":
+            if file_path.name.startswith((".", "__")) or file_path.name == "lambda.py":
                 continue
 
-            resource_name = os.path.splitext(file_descriptor)[0]
+            resource_name = file_path.stem
             resources.append(
                 {
                     "name": resource_name,

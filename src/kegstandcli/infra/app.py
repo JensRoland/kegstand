@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-import os
+"""CDK app for Kegstand infrastructure."""
+
 import sys
+from pathlib import Path
 
 import aws_cdk as cdk
 import boto3
@@ -30,7 +32,7 @@ parent_stack = cdk.Stack(
     app,
     parent_stack_name,
     description=f"{config['project']['name']} v.{config['project']['version']}",
-    env=cdk.Environment(account=os.environ["CDK_DEFAULT_ACCOUNT"], region=region),
+    env=cdk.Environment(account=cdk.Aws.ACCOUNT_ID, region=region),
 )
 
 # Create stacks/modules
@@ -39,8 +41,8 @@ modules = {}
 if "cdk" in config:
     click.echo("Creating additional resources [cdk]...")
     # Import the project's infra module
-    project_infra_path = os.path.join(project_dir, config["cdk"]["path_to_infra"])
-    sys.path.append(project_infra_path)
+    project_infra_path = Path(project_dir) / config["cdk"]["path_to_infra"]
+    sys.path.append(str(project_infra_path))
     from main import custom_infra  # pylint: disable=import-error
 
     custom_infra_config = custom_infra(parent_stack, region)
@@ -79,7 +81,7 @@ if "api" in config:
             resource["id"] for resource in response["items"] if resource["path"] == "/"
         ]
         if len(root_resource_id) == 0:
-            raise Exception("Could not find root resource ID for API Gateway")
+            raise click.ClickException("Could not find root resource ID for API Gateway")
         click.echo(f"Found API Gateway root resource ID: {root_resource_id[0]}")
         root_resource_id = root_resource_id[0]
 

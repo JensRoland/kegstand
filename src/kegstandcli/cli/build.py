@@ -1,12 +1,14 @@
 """Build command for Kegstand CLI."""
 
-import os
 import shutil
 import subprocess  # nosec
 from operator import itemgetter
+from pathlib import Path
 from typing import Any
 
 import click
+
+from kegstandcli.cli.build import build_command
 
 
 @click.command()
@@ -55,12 +57,9 @@ def build_api_gateway(
     create_empty_folder(module_build_dir, "api")
 
     # Inject health check endpoint
-    lambda_file = os.path.join(module_build_dir, "api", "lambda.py")
+    lambda_file = Path(module_build_dir) / "api" / "lambda.py"
     shutil.copyfile(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "rest_api_gateway_health_check.py.tmpl",
-        ),
+        Path(__file__).parent / "rest_api_gateway_health_check.py.tmpl",
         lambda_file,
     )
 
@@ -77,23 +76,24 @@ def build_api(
         module_build_dir: Directory to build the module in
     """
     # Copy everything in the project_dir/src folder to the module_build_dir
-    src_dir = os.path.join(project_dir, "src")
+    src_dir = Path(project_dir) / "src"
     shutil.copytree(src_dir, module_build_dir, dirs_exist_ok=True)
 
     # If using the default entrypoint but the lambda.py file doesn't exist,
     # we inject it (this is just a convenience for the user)
     if config["api"]["entrypoint"] == "api.lambda.handler":
-        lambda_file = os.path.join(module_build_dir, "api", "lambda.py")
-        if not os.path.exists(lambda_file):
+        lambda_file = Path(module_build_dir) / "api" / "lambda.py"
+        if not lambda_file.exists():
             if verbose:
                 click.echo("No lambda.py file in api folder, using default")
             shutil.copyfile(
-                os.path.join(os.path.dirname(os.path.abspath(__file__)), "default_lambda.py.tmpl"),
+                Path(__file__).parent / "default_lambda.py.tmpl",
                 lambda_file,
             )
 
     # Export the dependencies to a requirements.txt file
     click.echo("Exporting service dependencies to requirements.txt file...")
+    requirements_file = Path(module_build_dir) / "requirements.txt"
     export_command = [
         "uv",
         "pip",
@@ -103,19 +103,19 @@ def build_api(
         "--exclude-extras",
         "lambda-builtins",
         "-o",
-        f"{module_build_dir}/requirements.txt",
+        str(requirements_file),
         ".",
     ]
     if verbose:
         export_command.append("--verbose")
 
-    subprocess.run(  # noqa: S603
+    subprocess.run(
         export_command,
         check=True,
         shell=False,
         stdout=subprocess.DEVNULL if not verbose else None,
         cwd=project_dir,
-    )
+    )  # noqa: S603
 
     # Install the dependencies to the build folder using pip
     click.echo("Installing dependencies in module build folder...")
@@ -124,17 +124,17 @@ def build_api(
         "pip",
         "install",
         "-r",
-        f"{module_build_dir}/requirements.txt",
+        str(requirements_file),
         "--target",
         module_build_dir,
     ]
-    subprocess.run(  # noqa: S603
+    subprocess.run(
         install_command,
         check=True,
         shell=False,
         stdout=subprocess.DEVNULL if not verbose else None,
         cwd=project_dir,
-    )
+    )  # noqa: S603
 
 
 def create_empty_folder(parent_folder: str, folder_name: str) -> str:
@@ -153,8 +153,9 @@ def create_empty_folder(parent_folder: str, folder_name: str) -> str:
     if folder_name == "":
         raise ValueError("folder_name cannot be empty")
 
-    folder_path = os.path.join(parent_folder, folder_name)
-    shutil.rmtree(folder_path, ignore_errors=True)
-    os.makedirs(folder_path, exist_ok=True)
+    folder_path = Path(parent_folder) / folder_name
+    if folder_path.exists():
+        shutil.rmtree(folder_path)
+    folder_path.mkdir(parents=True, exist_ok=True)
 
-    return folder_path
+    return str(folder_path)
