@@ -8,8 +8,6 @@ from typing import Any
 
 import click
 
-from kegstandcli.cli.build import build_command
-
 
 @click.command()
 @click.pass_context

@@ -1,4 +1,5 @@
 from unittest import mock
+from pytest_subprocess import FakeProcess
 
 from kegstandcli.cli.build import build_api
 
@@ -7,15 +8,15 @@ from kegstandcli.cli.build import build_api
 
 @mock.patch("shutil.copyfile", mock.Mock())
 @mock.patch("shutil.copytree", mock.Mock())
-def test_build_calls_poetry_export(fp):
-    fp.keep_last_process(True)
-    fp.register(["poetry", "export", fp.any()])
-    fp.register(["pip", "install", "-r", fp.any()])
+def test_build_calls_uv_pip_compile(fake_process: FakeProcess):
+    fake_process.keep_last_process(True)
+    fake_process.register(["uv", "pip", "compile", fake_process.any()])
+    fake_process.register(["uv", "pip", "install", "-r", fake_process.any()])
 
     config = {"api": {"entrypoint": "api.lambda.handler"}}
     project_dir = "./test_project_dir"
     module_build_dir = "./test_project_dir/dist/api_src"
     build_api(config, False, project_dir, module_build_dir)
 
-    assert fp.call_count(["poetry", "export", fp.any()]) == 1
-    assert fp.call_count(["pip", "install", "-r", fp.any()]) == 1
+    assert fake_process.call_count(["uv", "pip", "compile", fake_process.any()]) == 1
+    assert fake_process.call_count(["uv", "pip", "install", "-r", fake_process.any()]) == 1
