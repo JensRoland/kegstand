@@ -31,14 +31,17 @@ def build_command(verbose: bool, project_dir: str, config: dict):
     click.echo("Finished building application!")
 
 
-def build_api_gateway(config: dict, verbose: bool, project_dir: str, module_build_dir: str):
+def build_api_gateway(
+    config: dict, verbose: bool, project_dir: str, module_build_dir: str
+):
     create_empty_folder(module_build_dir, "api")
 
     # Inject health check endpoint
     lambda_file = os.path.join(module_build_dir, "api", "lambda.py")
     shutil.copyfile(
         os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "rest_api_gateway_health_check.py.tmpl"
+            os.path.dirname(os.path.abspath(__file__)),
+            "rest_api_gateway_health_check.py.tmpl",
         ),
         lambda_file,
     )

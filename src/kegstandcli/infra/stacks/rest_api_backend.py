@@ -1,5 +1,4 @@
 import click
-
 from aws_cdk import Stack
 from aws_cdk import aws_apigateway as apigw
 from aws_cdk import aws_lambda as lambda_
@@ -9,8 +8,16 @@ from kegstandcli.utils import find_resource_modules
 
 MODULE_CONFIG_KEY = "api"
 
+
 class RestApiBackend(Construct):
-    def __init__(self, scope: Construct, id: str, config: dict, rest_api_gw: apigw.RestApi, user_pool) -> None:
+    def __init__(
+        self,
+        scope: Construct,
+        id: str,
+        config: dict,
+        rest_api_gw: apigw.RestApi,
+        user_pool,
+    ) -> None:
         super().__init__(scope, id)
 
         provision_with_authorizer = user_pool is not None
@@ -27,7 +34,7 @@ class RestApiBackend(Construct):
             click.echo(f"   Module path: {resource['module_path']}")
             click.echo(f"   Fromlist: {resource['fromlist']}")
             click.echo(f"   Is public: {resource['is_public']}")
-        
+
         powertools_layer_package = {
             "x86_64": "AWSLambdaPowertoolsPythonV2:25",
             "arm64": "AWSLambdaPowertoolsPythonV2-Arm64:25",
@@ -37,7 +44,8 @@ class RestApiBackend(Construct):
 
         # Lambda API backend
         self.lambda_function = lambda_.Function(
-            self, f"{id}-Backend",
+            self,
+            f"{id}-Backend",
             function_name=f"{id}-Function",
             runtime=lambda_.Runtime.PYTHON_3_9,
             handler=config[MODULE_CONFIG_KEY]["entrypoint"],
@@ -53,7 +61,7 @@ class RestApiBackend(Construct):
             tracing=lambda_.Tracing.ACTIVE,
             environment={
                 "LOG_LEVEL": "INFO",
-                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00", # "0.05",  # Use log level DEBUG for 5% of invocations
+                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00",  # "0.05",  # Use log level DEBUG for 5% of invocations
                 "POWERTOOLS_LOGGER_LOG_EVENT": "true",
                 "POWERTOOLS_SERVICE_NAME": f"{id}-Function",
             },
@@ -78,15 +86,19 @@ class RestApiBackend(Construct):
                         authorizer=self.authorizer,  # Apply the authorizer
                     ),
                 )
-                resource_root.add_method("ANY", apigw.LambdaIntegration(self.lambda_function))
+                resource_root.add_method(
+                    "ANY", apigw.LambdaIntegration(self.lambda_function)
+                )
                 resource_root.add_proxy()
             else:
                 # Public (no auth required) endpoints
                 resource_root = rest_api_gw.root.add_resource(
                     resource["name"],
-                    default_integration=apigw.LambdaIntegration(self.lambda_function)
+                    default_integration=apigw.LambdaIntegration(self.lambda_function),
                 )
-                resource_root.add_method("ANY", apigw.LambdaIntegration(self.lambda_function))
+                resource_root.add_method(
+                    "ANY", apigw.LambdaIntegration(self.lambda_function)
+                )
                 resource_root.add_proxy()
 
         self.deployment = apigw.Deployment(self, f"{id}-Deployment", api=rest_api_gw)

@@ -47,5 +47,6 @@ def find_resource_modules(api_src_dir: str) -> list:
             )
     return resources
 
+
 def hosted_zone_from_domain(domain: str) -> str:
     return ".".join(domain.split(".")[-2:])

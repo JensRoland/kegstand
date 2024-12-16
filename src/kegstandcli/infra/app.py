@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import boto3
-import click
 import os
 import sys
 
 import aws_cdk as cdk
+import boto3
+import click
 from aws_cdk import aws_apigateway as apigw
 from aws_cdk import aws_cognito as cognito
 
@@ -30,10 +30,7 @@ parent_stack = cdk.Stack(
     app,
     parent_stack_name,
     description=f"{config['project']['name']} v.{config['project']['version']}",
-    env=cdk.Environment(
-        account=os.environ["CDK_DEFAULT_ACCOUNT"],
-        region=region
-    )
+    env=cdk.Environment(account=os.environ["CDK_DEFAULT_ACCOUNT"], region=region),
 )
 
 # Create stacks/modules
@@ -77,13 +74,9 @@ if "api" in config:
         # TODO: Move this to utils.py
         # Get the root resource ID from the API Gateway
         apigw_client = boto3.client("apigateway", region_name=region)
-        response = apigw_client.get_resources(
-            restApiId=rest_api_id
-        )
+        response = apigw_client.get_resources(restApiId=rest_api_id)
         root_resource_id = [
-            resource["id"]
-            for resource in response["items"]
-            if resource["path"] == "/"
+            resource["id"] for resource in response["items"] if resource["path"] == "/"
         ]
         if len(root_resource_id) == 0:
             raise Exception("Could not find root resource ID for API Gateway")
@@ -99,20 +92,27 @@ if "api" in config:
     else:
         gateway = modules["api_gateway"].api if "api_gateway" in modules else None
 
-    
-    user_pool = parent_stack.node.try_find_child("UserPool") if "api_gateway" in modules else (
-        cognito.UserPool.from_user_pool_id(
-            parent_stack, "UserPool", config["api"]["user_pool_id"]
+    user_pool = (
+        parent_stack.node.try_find_child("UserPool")
+        if "api_gateway" in modules
+        else (
+            cognito.UserPool.from_user_pool_id(
+                parent_stack, "UserPool", config["api"]["user_pool_id"]
+            )
+            if "user_pool_id" in config["api"]
+            else None
         )
-        if "user_pool_id" in config["api"]
-        else None
     )
 
     click.echo(f"API is passed a UserPool?: {user_pool is not None}")
 
     api_construct_name = config["api"]["name"].replace(" ", "-")
     api_construct = RestApiBackend(
-        parent_stack, api_construct_name, config, rest_api_gw=gateway, user_pool=user_pool
+        parent_stack,
+        api_construct_name,
+        config,
+        rest_api_gw=gateway,
+        user_pool=user_pool,
     )
 
     # Add custom environment variables if provided

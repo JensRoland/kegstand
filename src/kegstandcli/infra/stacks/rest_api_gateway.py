@@ -1,8 +1,7 @@
 import click
-
 from aws_cdk import aws_apigateway as apigw
-from aws_cdk import aws_lambda as lambda_
 from aws_cdk import aws_certificatemanager as acm
+from aws_cdk import aws_lambda as lambda_
 from aws_cdk import aws_route53 as route53
 from aws_cdk import aws_route53_targets as targets
 from aws_solutions_constructs import aws_apigateway_lambda as apigw_lambda
@@ -12,6 +11,7 @@ from kegstandcli.utils import hosted_zone_from_domain
 
 MODULE_CONFIG_KEY = "api_gateway"
 
+
 class RestApiGateway(Construct):
     def __init__(self, scope: Construct, id: str, config: dict, user_pool) -> None:
         super().__init__(scope, id)
@@ -19,7 +19,7 @@ class RestApiGateway(Construct):
         provision_with_authorizer = user_pool is not None
 
         # Lambda API backend
-        default_function_props=lambda_.FunctionProps(
+        default_function_props = lambda_.FunctionProps(
             function_name=f"{id}-DefaultGatewayFunction",
             runtime=lambda_.Runtime.PYTHON_3_9,
             handler="api.lambda.handler",
@@ -28,14 +28,15 @@ class RestApiGateway(Construct):
             tracing=lambda_.Tracing.ACTIVE,
             environment={
                 "LOG_LEVEL": "INFO",
-                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00", # "0.05",  # Use log level DEBUG for 5% of invocations
+                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00",  # "0.05",  # Use log level DEBUG for 5% of invocations
                 "POWERTOOLS_LOGGER_LOG_EVENT": "true",
                 "POWERTOOLS_SERVICE_NAME": f"{id}-DefaultGatewayFunction",
             },
         )
 
         health_lambda_function = lambda_.Function(
-            self, f"{id}-HealthCheckFunction",
+            self,
+            f"{id}-HealthCheckFunction",
             function_name=f"{id}-HealthCheckFunction",
             runtime=lambda_.Runtime.PYTHON_3_9,
             handler="api.lambda.handler",
@@ -44,7 +45,7 @@ class RestApiGateway(Construct):
             tracing=lambda_.Tracing.ACTIVE,
             environment={
                 "LOG_LEVEL": "INFO",
-                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00", # "0.05",  # Use log level DEBUG for 5% of invocations
+                "POWERTOOLS_LOGGER_SAMPLE_RATE": "1.00",  # "0.05",  # Use log level DEBUG for 5% of invocations
                 "POWERTOOLS_LOGGER_LOG_EVENT": "true",
                 "POWERTOOLS_SERVICE_NAME": f"{id}-HealthCheckFunction",
             },
@@ -60,7 +61,7 @@ class RestApiGateway(Construct):
                 )
 
             # API Gateway w. custom domain name
-            api_gateway_props=apigw.LambdaRestApiProps(
+            api_gateway_props = apigw.LambdaRestApiProps(
                 rest_api_name=f"{id}-RestApi",
                 handler=health_lambda_function,
                 proxy=False,  # Disable default proxy resource
@@ -77,7 +78,9 @@ class RestApiGateway(Construct):
                     certificate=acm.Certificate.from_certificate_arn(
                         self,
                         "ApiCertificate",
-                        certificate_arn=config[MODULE_CONFIG_KEY]["domain_certificate_arn"],
+                        certificate_arn=config[MODULE_CONFIG_KEY][
+                            "domain_certificate_arn"
+                        ],
                     ),
                 ),
             )
@@ -93,7 +96,13 @@ class RestApiGateway(Construct):
             api = api_gateway_to_lambda.api_gateway
 
             # Add the Route53 record for the API subdomain
-            hosted_zone = route53.HostedZone.from_lookup(self, "HostedZone", domain_name=hosted_zone_from_domain(config[MODULE_CONFIG_KEY]["domain_name"]))
+            hosted_zone = route53.HostedZone.from_lookup(
+                self,
+                "HostedZone",
+                domain_name=hosted_zone_from_domain(
+                    config[MODULE_CONFIG_KEY]["domain_name"]
+                ),
+            )
             route53.ARecord(
                 self,
                 "ApiSubdomainDnsRecord",
@@ -104,7 +113,7 @@ class RestApiGateway(Construct):
 
         else:
             # API Gateway w/o custom domain name
-            api_gateway_props=apigw.LambdaRestApiProps(
+            api_gateway_props = apigw.LambdaRestApiProps(
                 rest_api_name=f"{id}-RestApi",
                 handler=health_lambda_function,
                 proxy=False,  # Disable default proxy resource
@@ -115,7 +124,7 @@ class RestApiGateway(Construct):
                     logging_level=apigw.MethodLoggingLevel.INFO,
                     metrics_enabled=True,
                     tracing_enabled=True,
-                )
+                ),
             )
 
             # Official 'ApiGatewayToLambda' AWS Solution Construct
