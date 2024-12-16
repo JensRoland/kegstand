@@ -28,7 +28,7 @@ Learn more on the [Kegstand website](https://kegstand.dev/).
 ## Prerequisites
 
 - [Python 3.8+](https://www.python.org/downloads/)
-- [Poetry](https://python-poetry.org/docs/#installation) (recommended)
+- [uv](https://github.com/astral-sh/uv) for fast, reliable Python package management
 - An [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 - The [CDK CLI configured on the local machine and initialized on the AWS account](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
 - The AWS CLI [configured with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
@@ -69,13 +69,13 @@ To install the dependencies for the new project:
 
 ```shell
 > cd my-service
-> poetry install
+> uv pip install -r requirements.txt -r requirements-dev.txt
 ```
 
 Finally, to build and deploy the service to AWS:
 
 ```shell
-> poetry run keg deploy
+> keg deploy
 ```
 
 You should now be able to access the API endpoint at `https://<api-id>.execute-api.<region>.amazonaws.com/prod/hello`.
@@ -120,7 +120,7 @@ Here are some notable changes, fixes and features that are planned for developme
 - [ ] Include more goodies from [Lambda Powertools](https://awslabs.github.io/aws-lambda-powertools-python/2.11.0/) - tracing, metrics, etc.
 - [ ] Add support for APIs using pure [Lambda Powertools](https://awslabs.github.io/aws-lambda-powertools-python/2.11.0/) instead of the default Kegstand API framework, and just provide deployment helpers for the API Gateway and Lambda
 - [ ] Unit testing helpers (wrap moto and make it all a little more DRY and intuitive)
-- [ ] Secure endpoints which require re-authentication (and/or MFA) so a refreshed token isn’t enough (to, say, delete your account or change your credit card info)
+- [ ] Secure endpoints which require re-authentication (and/or MFA) so a refreshed token isn't enough (to, say, delete your account or change your credit card info)
 - [ ] Live Lambda development a la SST
 - [ ] Build and deploy gRPC endpoints (or similar alternative)
 - [ ] Build and deploy GraphQL endpoints

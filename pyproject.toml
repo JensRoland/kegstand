@@ -1,49 +1,49 @@
-[tool.poetry]
+[project]
 name = "kegstandcli"
 version = "0.3.9"
 description = "The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS"
-authors = ["JensRoland <mail@jensroland.com>"]
-license = "MIT"
-repository = "https://github.com/jensroland/kegstand"
-homepage = "https://kegstand.dev"
+authors = [
+    { name = "JensRoland", email = "mail@jensroland.com" }
+]
+license = { text = "MIT" }
 readme = "README.md"
-packages = [
-    { include = "kegstandcli", from = "src" },
-]
-# Keywords description https://python-poetry.org/docs/pyproject/#keywords
-keywords = []  #! Update me
-
-# Pypi classifiers: https://pypi.org/classifiers/
+requires-python = ">=3.9"
+keywords = []
 classifiers = [
-  "Development Status :: 4 - Beta",
-  "Intended Audience :: Developers",
-  "Operating System :: OS Independent",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    "aws-cdk-lib>=2.67.0",
+    "aws-solutions-constructs-aws-apigateway-lambda>=2.39.0",
+    "boto3>=1.17.113",
+    "click>=8.0.3",
+    "constructs>=10.0.0,<11.0.0",
+    "copier>=6.2.0",  # 7.0.1 has a bug that deletes the template folder, see https://github.com/copier-org/copier/issues/1029
+    "pyjwt>=2.1.0",
+    "tomlkit>=0.11.7",
+    "xxhash>=3.2.0",
 ]
 
-[tool.poetry.scripts]
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.3.0",
+    "pytest-subprocess>=1.5.0",
+]
+
+[project.scripts]
 keg = "kegstandcli.cli.__main__:kegstandcli"
 
-[tool.poetry.dependencies]
-aws-cdk-lib = "^2.67.0"
-aws-solutions-constructs-aws-apigateway-lambda = "^2.39.0"
-boto3 = "^1.17.113"
-click = "^8.0.3"
-constructs = ">=10.0.0,<11.0.0"
-copier = "^6.2.0"  # 7.0.1 has a bug that deletes the template folder, see https://github.com/copier-org/copier/issues/1029
-pyjwt = "^2.1.0"
-python = "^3.9"
-tomlkit = "^0.11.7"
-xxhash = "^3.2.0"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.3.0"
-pytest-subprocess = "^1.5.0"
+[project.urls]
+Homepage = "https://kegstand.dev"
+Repository = "https://github.com/jensroland/kegstand"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
