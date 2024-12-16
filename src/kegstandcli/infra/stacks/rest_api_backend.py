@@ -38,9 +38,7 @@ class RestApiBackend(Construct):
         powertools_layer_package = {
             "x86_64": "AWSLambdaPowertoolsPythonV2:25",
             "arm64": "AWSLambdaPowertoolsPythonV2-Arm64:25",
-        }[
-            "x86_64"
-        ]  # TODO: make this configurable
+        }["x86_64"]  # TODO: make this configurable
 
         # Lambda API backend
         self.lambda_function = lambda_.Function(

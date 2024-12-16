@@ -69,7 +69,7 @@ To install the dependencies for the new project:
 
 ```shell
 > cd my-service
-> uv pip install -r requirements.txt -r requirements-dev.txt
+> uv sync
 ```
 
 Finally, to build and deploy the service to AWS:
