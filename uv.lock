@@ -408,7 +408,7 @@ wheels = [
 
 [[package]]
 name = "kegstandcli"
-version = "0.3.9"
+version = "0.3.11"
 source = { editable = "." }
 dependencies = [
     { name = "aws-cdk-lib" },

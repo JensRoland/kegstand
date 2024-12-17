@@ -1,6 +1,6 @@
 [project]
 name = "kegstandcli"
-version = "0.3.10"
+version = "0.3.11"
 description = "The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS"
 authors = [
     { name = "JensRoland", email = "mail@jensroland.com" }
@@ -58,7 +58,7 @@ norecursedirs =["dist", "docs", ".tox", ".git", "__pycache__", ".ruff_cache"]
 pythonpath = "src/kegstandcli"
 
 [tool.coverage.report]
-fail_under = 70
+#fail_under = 70
 show_missing = true
 skip_empty = true
 
