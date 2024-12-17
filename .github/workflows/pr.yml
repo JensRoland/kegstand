@@ -29,7 +29,7 @@ jobs:
           python-version-file: "pyproject.toml"
 
       - name: Install Poetry  # needed by a few unit tests
-        run: pipx install poetry      
+        run: pipx install poetry==1.8.5
 
       - name: Install dependencies (incl. dev)
         run: uv sync --all-extras --dev
