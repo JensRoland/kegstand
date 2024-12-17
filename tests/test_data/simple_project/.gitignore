@@ -1,15 +1,14 @@
-.DS_Store
-*.swp
-package-lock.json
-__pycache__
-.pytest_cache
-.mypy_cache
-.ruff_cache
 .venv
-dist/
-*.egg-info
+*.pyc
+__pycache__
+dist
+build
+.pytest_cache
+.coverage
+.mypy_cache
+.env
+.DS_Store
 
 # CDK asset staging directory
 .cdk.staging
 cdk.out
-cdk.context.json
