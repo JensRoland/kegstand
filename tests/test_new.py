@@ -22,6 +22,7 @@ def test_new_command_creates_project_mocked(temp_path: Path) -> None:
             src_path="gh:JensRoland/kegstand-project-template.git",
             dst_path=str(temp_path),
             data={"project_name": project_name},
+            defaults=False,
             quiet=True,
         )
 
@@ -40,6 +41,7 @@ def test_new_command_passes_copier_data(temp_path: Path) -> None:
             src_path="gh:JensRoland/kegstand-project-template.git",
             dst_path=str(temp_path),
             data={"project_name": project_name, **copier_data},
+            defaults=False,
             quiet=True,
         )
 
@@ -48,7 +50,7 @@ def test_new_command_creates_project_real(temp_path: Path, assert_files_exist) -
     """Test that new_command creates a project successfully."""
     project_name = "test-project"
     project_path = temp_path / project_name
-    new_command(verbose=False, project_dir=str(project_path), copier_data={"include_tests": "n"})
+    new_command(verbose=False, project_dir=str(project_path), defaults=True)
 
     # Verify the project directory was created
     assert project_path.exists()
@@ -105,5 +107,6 @@ def test_new_command_with_verbose_output(temp_path: Path) -> None:
             src_path="gh:JensRoland/kegstand-project-template.git",
             dst_path=str(temp_path),
             data={"project_name": project_name},
+            defaults=False,
             quiet=False,
         )

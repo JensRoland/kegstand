@@ -33,6 +33,11 @@ mypy:
 .PHONY: lint
 lint: lint-check mypy
 
+#* Poetry (used for unit testing)
+.PHONY: poetry-download
+poetry-download:
+	curl -sSL https://install.python-poetry.org | $(PYTHON) -
+
 #* Test
 .PHONY: test
 test:

@@ -26,13 +26,16 @@ def new(ctx: click.Context, project_dir: str, data_file: Path) -> None:
     new_command(verbose, project_dir, copier_data)
 
 
-def new_command(verbose: bool, project_dir: str, copier_data: dict | None = None) -> None:
+def new_command(
+    verbose: bool, project_dir: str, copier_data: dict | None = None, defaults: bool = False
+) -> None:
     """Execute the project creation process.
 
     Args:
         verbose: Whether to show verbose output
         project_dir: Path to create the new project in
         data_file: Path to a Copier input data file
+        defaults: Whether to use default values for Copier input data
 
     Raises:
         click.ClickException: If the project directory already exists
@@ -55,6 +58,7 @@ def new_command(verbose: bool, project_dir: str, copier_data: dict | None = None
             src_path=template_path,
             dst_path=project_parent_dir,
             data=input_data,
+            defaults=defaults,
             quiet=not verbose,
         )
         click.echo(f"\n🥂💃🕺 Successfully created {project_name}! 🥂💃🕺\n")
