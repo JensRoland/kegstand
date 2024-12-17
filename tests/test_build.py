@@ -66,7 +66,7 @@ def test_build_api(project_simple: Path, assert_files_exist) -> None:
     config = {"api": {"entrypoint": "api.lambda.handler"}}
     build_command(False, str(project_simple), config)
 
-    #DisplayTree(project_simple, maxDepth=3)
+    # DisplayTree(project_simple, maxDepth=3)
 
     # Verify files were created
     assert_files_exist(project_simple / "dist" / "api_src", ["api/lambda.py", "requirements.txt"])
@@ -84,7 +84,7 @@ def test_build_command_with_multiple_modules(project_simple: Path, assert_files_
     config = {"api": {"entrypoint": "api.lambda.handler"}, "api_gateway": {}}
     build_command(False, str(project_simple), config)
 
-    #DisplayTree(project_simple, maxDepth=3)
+    # DisplayTree(project_simple, maxDepth=3)
 
     # Verify files were created
     assert_files_exist(

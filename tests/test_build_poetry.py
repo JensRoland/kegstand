@@ -26,7 +26,7 @@ def test_build_api(project_simple_poetry: Path, assert_files_exist) -> None:
     config = {"api": {"entrypoint": "api.lambda.handler"}}
     build_command(True, str(project_simple_poetry), config)
 
-    #DisplayTree(project_simple_poetry, maxDepth=3)
+    # DisplayTree(project_simple_poetry, maxDepth=3)
 
     # Verify files were created
     assert_files_exist(
@@ -48,7 +48,7 @@ def test_build_command_with_multiple_modules(
     config = {"api": {"entrypoint": "api.lambda.handler"}, "api_gateway": {}}
     build_command(True, str(project_simple_poetry), config)
 
-    #DisplayTree(project_simple_poetry, maxDepth=3)
+    # DisplayTree(project_simple_poetry, maxDepth=3)
 
     # Verify files were created
     assert_files_exist(

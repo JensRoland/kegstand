@@ -26,7 +26,9 @@ def new(ctx: click.Context, project_dir: str, data_file: Path) -> None:
     new_command(verbose, project_dir, copier_data)
 
 
-def new_command(verbose: bool, project_dir: str, copier_data: dict | None = None, defaults: bool = False) -> None:
+def new_command(
+    verbose: bool, project_dir: str, copier_data: dict | None = None, defaults: bool = False
+) -> None:
     """Execute the project creation process.
 
     Args:
