@@ -44,7 +44,7 @@ You can create this in a few seconds, either with the Kegstand CLI or using [Cop
 
 ```shell
 # Using the Kegstand CLI
-> pipx install kegstandcli
+> uvx install kegstandcli  # Or `pipx install kegstandcli`
 > keg new my-service
 
 # Using Copier
@@ -78,7 +78,7 @@ Finally, to build and deploy the service to AWS:
 > uv run keg deploy
 ```
 
-> **Note**: If you installed the Kegstand CLI globally with `pipx`, you could also run `keg deploy` directly, but it is recommended to use `uv run` to ensure that you are using the correct CLI version for the specific project.
+> **Note**: If you installed the Kegstand CLI globally with `uvx` or `pipx`, you could also run `keg deploy` directly, but it is recommended to use `uv run` to ensure that you are using the correct CLI version for the specific project.
 
 You should now be able to access the API endpoint at `https://<api-id>.execute-api.<region>.amazonaws.com/prod/hello`.
 
