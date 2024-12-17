@@ -3,6 +3,11 @@ name: Pull Request
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths-ignore:
+      - '*.md'
+      - docs/**
+      - ChangeLog
+      - LICENSE
 
 jobs:
   lint-test:
