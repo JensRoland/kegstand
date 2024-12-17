@@ -30,10 +30,8 @@ Learn more on the [Kegstand website](https://kegstand.dev/).
 - [Python 3.12+](https://www.python.org/downloads/)
 - [uv](https://github.com/astral-sh/uv) or [Poetry](https://python-poetry.org/docs/#installation)
 - An [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
-- The [CDK CLI configured on the local machine and initialized on the AWS account](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
 - The AWS CLI [configured with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
-- [Copier](https://copier.readthedocs.io/en/stable/#installation) project scaffolding tool (recommended)
-- [npx](https://docs.npmjs.com/cli/v9/commands/npx) for installing CLI tools (recommended)
+- The [CDK CLI configured on the local machine and initialized on the AWS account](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
 - A well-poured [Belgian style brown ale](https://www.grimbergen.com/)
 
 ## Quick start
