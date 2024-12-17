@@ -97,9 +97,11 @@ Here are some notable changes, fixes and features that are planned for developme
 - [X] Support multiple repos using the same domain (and API Gateway)
 - [X] Simplify the folder structure from `src/api/resources/<resource-name>/<method>.py` to `src/api/<resource-name>.py`
 - [X] Add support for [uv](https://docs.astral.sh/uv/) for package management in projects
+- [X] Write unit tests
 
 ### Pre-1.0.0
 
+- [ ] Increase test coverage to >70% and configure CI to enforce this for all PRs
 - [ ] Specify event triggers for Lambda functions: S3, SNS, SQS, DynamoDB, Cloudwatch CRON scheduled events, etc.
 - [ ] Pagination helper
 - [ ] [Record a screencast](https://asciinema.org/) for the README
