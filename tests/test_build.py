@@ -4,26 +4,24 @@ import tempfile
 from pathlib import Path
 
 import pytest
-from directory_tree import DisplayTree  # type: ignore
 
 from kegstandcli.cli.build import build_command, create_empty_folder
 
+# @pytest.fixture
+# def mock_templates_path() -> Path:
+#     """Create mock template files that would normally be in the CLI package."""
+#     with tempfile.TemporaryDirectory() as temp_dir:
+#         templates_path = Path(temp_dir)
 
-@pytest.fixture
-def mock_templates_path() -> Path:
-    """Create mock template files that would normally be in the CLI package."""
-    with tempfile.TemporaryDirectory() as temp_dir:
-        templates_path = Path(temp_dir)
+#         # Create mock template files
+#         (templates_path / "default_lambda.py.tmpl").write_text(
+#             "def handler(event, context): return {'statusCode': 200}"
+#         )
+#         (templates_path / "rest_api_gateway_health_check.py.tmpl").write_text(
+#             "def handler(event, context): return {'statusCode': 200}"
+#         )
 
-        # Create mock template files
-        (templates_path / "default_lambda.py.tmpl").write_text(
-            "def handler(event, context): return {'statusCode': 200}"
-        )
-        (templates_path / "rest_api_gateway_health_check.py.tmpl").write_text(
-            "def handler(event, context): return {'statusCode': 200}"
-        )
-
-        return templates_path
+#         return templates_path
 
 
 def test_create_empty_folder() -> None:
@@ -59,8 +57,6 @@ def test_build_api_gateway(project_simple: Path, assert_files_exist) -> None:
     config: dict[str, dict] = {"api_gateway": {}}
     build_command(False, str(project_simple), config)
 
-    DisplayTree(project_simple, maxDepth=3)
-
     # Verify files were created
     assert_files_exist(project_simple / "dist" / "api_gw_src", ["api/lambda.py"])
 
@@ -70,10 +66,17 @@ def test_build_api(project_simple: Path, assert_files_exist) -> None:
     config = {"api": {"entrypoint": "api.lambda.handler"}}
     build_command(False, str(project_simple), config)
 
-    DisplayTree(project_simple, maxDepth=3)
+    #DisplayTree(project_simple, maxDepth=3)
 
     # Verify files were created
     assert_files_exist(project_simple / "dist" / "api_src", ["api/lambda.py", "requirements.txt"])
+
+    # Read the requirements.txt file and verify that it includes expected dependencies
+    # and not dev dependencies
+    with open(project_simple / "dist" / "api_src" / "requirements.txt") as f:
+        requirements = f.read()
+        assert "kegstand==" in requirements
+        assert "kegstandcli==" not in requirements
 
 
 def test_build_command_with_multiple_modules(project_simple: Path, assert_files_exist) -> None:
@@ -81,7 +84,7 @@ def test_build_command_with_multiple_modules(project_simple: Path, assert_files_
     config = {"api": {"entrypoint": "api.lambda.handler"}, "api_gateway": {}}
     build_command(False, str(project_simple), config)
 
-    DisplayTree(project_simple, maxDepth=3)
+    #DisplayTree(project_simple, maxDepth=3)
 
     # Verify files were created
     assert_files_exist(

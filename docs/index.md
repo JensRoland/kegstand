@@ -62,7 +62,7 @@ Deploying it takes just a single command:
 > keg deploy
 ```
 
-This will automatically deploy the new endpoint to AWS, and it should be ready to take requests in a few minutes. Under the hood, Kegstand uses CDK, so all the corresponding cloud resources deploy together as a stack in the AWS Cloudformation console.
+This will automatically build the project, deploy the new endpoint to AWS, and it should be ready to take requests in a few minutes. Under the hood, Kegstand uses CDK, so all the corresponding cloud resources deploy together as a stack in the AWS Cloudformation console.
 
 To test the endpoint, you simply issue a GET request to the generated endpoint URL, either by opening it in a browser or by using a tool like curl or [HTTPie](https://httpie.org/). For example, using HTTPie:
 
@@ -95,14 +95,14 @@ user_pool_id = "__USER_POOL_ID__"
 Then, create a new file `diary.py` under `src/api` for our new API resource. The folder structure should now look like this:
 
 ```shell
-my-service
-├── .gitignore                        # Gitignore file
-├── pyproject.toml                    # Project configuration
-└── src
-    └── api
-        ├── diary.py                  # Logic for /diary/
-        └── public
-            └── hello.py              # Logic for /hello/
+📁 my-service
+├── 📄 .gitignore                    # Standard .gitignore file
+├── 📄 pyproject.toml                # Project configuration
+└── 📁 src
+    └── 📁 api
+        ├── 📄 diary.py              # Logic for /diary/
+        └── 📁 public
+            └── 📄 hello.py          # Logic for /hello/
 ```
 
 (Remember to sprinkle in some `__init__.py` files until it looks like a Python project.)
@@ -173,7 +173,7 @@ When most popular serverless productivity tools call it a night, Kegstand taps t
 
 ## Comparison to other tools
 
-Why not just use SAM? Or Serverless Framework? Or Chalice? Or...? There are a lot of tools out there for building serverless applications, and they all have their strengths and weaknesses. Kegstand might not be right for you or your team. Maybe you need something more opinionated - or less? Maybe you need a tool backed by a large organisation or with a large community? Maybe you just don't like to be productive and happy? Who knows!
+Why not just use SAM? Or Serverless Framework? Or Chalice? Or Winglang? Or...? There are a lot of tools out there for building serverless applications, and they all have their strengths and weaknesses. Kegstand might not be right for you or your team. Maybe you need something more opinionated - or less? Maybe you need a tool backed by a large organisation or with a large community? Maybe you just don't like to be productive and happy? Who knows!
 
 Anyway, Here are some key differences between Kegstand and some of the other tools out there.
 

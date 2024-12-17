@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 import click
-from tomlkit import loads
+from tomlkit import loads as parse_toml
 
 CONFIG_FILE_NAMES = ["kegstand.toml", ".kegstand", "pyproject.toml"]
 
@@ -54,7 +54,7 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
     if verbose:
         click.echo(f"Loading configuration from {config_path}")
 
-    parsed_toml_config = loads(config_path.read_text(encoding="utf-8"))
+    parsed_toml_config = parse_toml(config_path.read_text(encoding="utf-8"))
 
     # If the config file is pyproject.toml, the config will be under the 'tool.kegstand' key
     if config_file.endswith("pyproject.toml"):

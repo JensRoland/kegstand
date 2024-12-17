@@ -8,6 +8,8 @@ from typing import Any
 
 import click
 
+from kegstandcli.utils import PackageManager, identify_package_manager
+
 
 @click.command()
 @click.pass_context
@@ -90,7 +92,50 @@ def build_api(
             )
 
     # Export the dependencies to a requirements.txt file
-    click.echo("Exporting service dependencies to requirements.txt file...")
+    package_manager: PackageManager = identify_package_manager(Path(project_dir))
+    click.echo(
+        f"Exporting service dependencies to requirements.txt file using {package_manager}..."
+    )
+    requirements_file: Path
+    if package_manager == PackageManager.POETRY:
+        requirements_file = _compile_requirements_with_poetry(
+            project_dir, module_build_dir, verbose
+        )
+    elif package_manager == PackageManager.UV:
+        requirements_file = _compile_requirements_with_uv(project_dir, module_build_dir, verbose)
+    else:
+        raise ValueError(f"Invalid package manager: {package_manager}")
+
+    # Install the dependencies to the build folder using pip
+    click.echo("Installing dependencies in module build folder...")
+    install_command: list[str]
+    if package_manager == PackageManager.POETRY:
+        install_command = _format_install_command_with_poetry(module_build_dir, requirements_file)
+    elif package_manager == PackageManager.UV:
+        install_command = _format_install_command_with_uv(module_build_dir, requirements_file)
+    else:
+        raise ValueError(f"Invalid package manager: {package_manager}")
+
+    subprocess.run(  # noqa: S603
+        install_command,
+        check=True,
+        shell=False,
+        stdout=subprocess.DEVNULL if not verbose else None,
+        cwd=project_dir,
+    )
+
+
+def _compile_requirements_with_uv(project_dir: str, module_build_dir: str, verbose: bool) -> Path:
+    """Compile the project dependencies to a requirements.txt file.
+
+    Args:
+        project_dir: Path to the project directory
+        module_build_dir: Path to the module build directory (e.g. `/dist/api_src/`)
+        verbose: Whether to show verbose output
+
+    Returns:
+        Path: Path to the requirements.txt file
+    """
     requirements_file = Path(module_build_dir) / "requirements.txt"
     export_command = [
         "uv",
@@ -111,9 +156,48 @@ def build_api(
         cwd=project_dir,
     )
 
-    # Install the dependencies to the build folder using pip
-    click.echo("Installing dependencies in module build folder...")
-    install_command = [
+    return requirements_file
+
+
+def _compile_requirements_with_poetry(
+    project_dir: str, module_build_dir: str, verbose: bool
+) -> Path:
+    """Compile the project dependencies to a requirements.txt file using Poetry.
+
+    Args:
+        project_dir: Path to the project directory
+        module_build_dir: Path to the module build directory (e.g. `/dist/api_src/`)
+        verbose: Whether to show verbose output
+
+    Returns:
+        Path: Path to the requirements.txt file
+    """
+    requirements_file = Path(module_build_dir) / "requirements.txt"
+    export_command = [
+        "poetry",
+        "export",
+        "-o",
+        str(requirements_file),
+        # "--without=dev",
+        # "--without=lambda-builtins",
+        "--without-hashes",
+    ]
+    if verbose:
+        export_command.append("-vv")
+    else:
+        export_command.append("-q")
+
+    subprocess.run(  # noqa: S603
+        export_command,
+        check=True,
+        cwd=project_dir,
+    )
+
+    return requirements_file
+
+
+def _format_install_command_with_uv(module_build_dir: str, requirements_file: Path) -> list[str]:
+    return [
         "uv",
         "pip",
         "install",
@@ -122,13 +206,19 @@ def build_api(
         "--target",
         module_build_dir,
     ]
-    subprocess.run(  # noqa: S603
-        install_command,
-        check=True,
-        shell=False,
-        stdout=subprocess.DEVNULL if not verbose else None,
-        cwd=project_dir,
-    )
+
+
+def _format_install_command_with_poetry(
+    module_build_dir: str, requirements_file: Path
+) -> list[str]:
+    return [
+        "pip",
+        "install",
+        "-r",
+        str(requirements_file),
+        "-t",
+        module_build_dir,
+    ]
 
 
 def create_empty_folder(parent_folder: str, folder_name: str) -> str:

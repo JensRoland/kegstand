@@ -6,6 +6,7 @@ from pathlib import Path
 
 import click
 from copier import run_copy
+from directory_tree import DisplayTree  # type: ignore
 
 
 @click.command()
@@ -56,7 +57,8 @@ def new_command(verbose: bool, project_dir: str, copier_data: dict | None = None
             data=input_data,
             quiet=not verbose,
         )
-        click.echo(f"Successfully created a new Kegstand project: {project_name}")
+        click.echo(f"\n🥂💃🕺 Successfully created {project_name}! 🥂💃🕺\n")
+        DisplayTree(project_path, maxDepth=4, ignoreList=["__init__.py"])
 
     except Exception as err:
         click.echo(f"Error creating project: {err}", err=True)

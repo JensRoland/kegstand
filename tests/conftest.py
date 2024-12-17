@@ -91,6 +91,22 @@ def project_simple() -> Generator[Path, None, None]:
         yield temp_project_path
 
 
+@pytest.fixture(scope="function")
+def project_simple_poetry() -> Generator[Path, None, None]:
+    """Create a temporary directory with a Poetry-based Kegstand project.
+
+    Yields:
+        Path: Path to the temporary project directory
+    """
+    # Copy files from tests/test_data/simple_poetry_project to a temporary directory
+    test_project_path = Path("tests/test_data/simple_poetry_project")
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_project_path = Path(temp_dir) / "simple_poetry_project"
+        shutil.copytree(test_project_path, temp_project_path)
+
+        yield temp_project_path
+
+
 @pytest.fixture
 def assert_files_exist():
     """Create a helper function to verify generated files.

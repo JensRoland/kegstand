@@ -1,9 +1,21 @@
 """Utility functions for Kegstand CLI."""
 
+from enum import Enum as PythonEnum
 from pathlib import Path
 from typing import Any
 
 import click
+from tomlkit import loads as parse_toml
+
+
+class PackageManager(str, PythonEnum):
+    """Package manager types."""
+
+    POETRY = "Poetry"
+    UV = "uv"
+
+    def __str__(self) -> str:
+        return self.value
 
 
 def find_resource_modules(api_src_dir: str) -> list[dict[str, Any]]:
@@ -66,3 +78,38 @@ def hosted_zone_from_domain(domain: str) -> str:
         str: Hosted zone name (e.g., example.com)
     """
     return ".".join(domain.split(".")[-2:])
+
+
+def get_pyproject_config(project_path: Path) -> dict[str, Any]:
+    """Load and parse the pyproject.toml file.
+
+    Args:
+        project_path (Path): Path to the project directory
+
+    Returns:
+        dict: The parsed configuration
+    """
+    pyproject_path = project_path / "pyproject.toml"
+    if not pyproject_path.exists():
+        raise FileNotFoundError(f"pyproject.toml file not found in {project_path}")
+
+    parsed_toml_config = parse_toml(pyproject_path.read_text(encoding="utf-8"))
+    return parsed_toml_config
+
+
+def identify_package_manager(project_path) -> PackageManager:
+    """Identify the package manager used in the project.
+
+    Args:
+        project_path (Path): Path to the project directory
+
+    Returns:
+        PackageManager: The package manager used in the project (poetry or uv)
+    """
+    pyproject_config = get_pyproject_config(project_path)
+    # If the pyproject.toml file contains a [tool.poetry] section, we assume
+    # the project uses Poetry as the package manager
+    if "tool" in pyproject_config and "poetry" in pyproject_config["tool"]:
+        return PackageManager.POETRY
+
+    return PackageManager.UV

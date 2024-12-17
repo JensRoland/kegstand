@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "simple_poetry_project"
+version = "0.1.0"
+description = "My API description"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+kegstand = "^0.3.6"
+python = "^3.9"
+
+[tool.poetry.group.dev.dependencies]
+kegstandcli = "^0.3.8"
+
+[tool.kegstand.api_gateway]
+name = "My API Gateway"
+# user_pool_id = "eu-west-1_vatofacid"
+
+[tool.kegstand.api]
+name = "My Service API"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
