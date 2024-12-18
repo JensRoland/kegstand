@@ -41,4 +41,4 @@ poetry-download:
 #* Test
 .PHONY: test
 test:
-	uv run pytest -c pyproject.toml --cov-report=term --cov=src tests
+	uv run pytest -n auto -c pyproject.toml --cov-report=term --cov=src tests

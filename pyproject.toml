@@ -1,6 +1,6 @@
 [project]
 name = "kegstandcli"
-version = "0.3.11"
+version = "0.4.0"
 description = "The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS"
 authors = [
     { name = "JensRoland", email = "mail@jensroland.com" }
@@ -35,6 +35,7 @@ dependencies = [
 dev = [
     "boto3-stubs>=1.35.82",
     "mypy>=1.13.0",
+    "pytest-xdist>=3.6.1",
     "pytest>=7.3.0",
     "pytest-cov>=4.0.0",
     "pytest-subprocess>=1.5.0",
