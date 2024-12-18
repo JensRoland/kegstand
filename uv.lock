@@ -328,6 +328,15 @@ wheels = [
 ]
 
 [[package]]
+name = "execnet"
+version = "2.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/bb/ff/b4c0dc78fbe20c3e59c0c7334de0c27eb4001a2b2017999af398bf730817/execnet-2.1.1.tar.gz", hash = "sha256:5189b52c6121c24feae288166ab41b32549c7e2348652736540b9e6e7d4e72e3", size = 166524 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/43/09/2aea36ff60d16dd8879bdb2f5b3ee0ba8d08cbbdcdfe870e695ce3784385/execnet-2.1.1-py3-none-any.whl", hash = "sha256:26dee51f1b80cebd6d0ca8e74dd8745419761d3bef34163928cbebbdc4749fdc", size = 40612 },
+]
+
+[[package]]
 name = "funcy"
 version = "2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -430,6 +439,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-subprocess" },
+    { name = "pytest-xdist" },
     { name = "ruff" },
 ]
 
@@ -454,6 +464,7 @@ dev = [
     { name = "pytest", specifier = ">=7.3.0" },
     { name = "pytest-cov", specifier = ">=4.0.0" },
     { name = "pytest-subprocess", specifier = ">=1.5.0" },
+    { name = "pytest-xdist", specifier = ">=3.6.1" },
     { name = "ruff", specifier = ">=0.1.9" },
 ]
 
@@ -696,6 +707,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/3d/02/0c8323e6013ea967f0461ef5653bd129b2d673d74f070c681c7a8663285c/pytest_subprocess-1.5.2.tar.gz", hash = "sha256:ad3ca8a35e798bf9c82d9f16d88700b30d98c5a28236117b86c5d6e581a8ed97", size = 40468 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/10/77/a80e8f9126b95ffd5ad4d04bd14005c68dcbf0d88f53b2b14893f6cc7232/pytest_subprocess-1.5.2-py3-none-any.whl", hash = "sha256:23ac7732aa8bd45f1757265b1316eb72a7f55b41fb21e2ca22e149ba3629fa46", size = 20886 },
+]
+
+[[package]]
+name = "pytest-xdist"
+version = "3.6.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "execnet" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/41/c4/3c310a19bc1f1e9ef50075582652673ef2bfc8cd62afef9585683821902f/pytest_xdist-3.6.1.tar.gz", hash = "sha256:ead156a4db231eec769737f57668ef58a2084a34b2e55c4a8fa20d861107300d", size = 84060 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6d/82/1d96bf03ee4c0fdc3c0cbe61470070e659ca78dc0086fb88b66c185e2449/pytest_xdist-3.6.1-py3-none-any.whl", hash = "sha256:9ed4adfb68a016610848639bb7e02c9352d5d9f03d04809919e2dafc3be4cca7", size = 46108 },
 ]
 
 [[package]]
