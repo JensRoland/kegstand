@@ -27,7 +27,7 @@ Learn more on the [Kegstand website](https://kegstand.dev/).
 
 ## Prerequisites
 
-- [Python 3.12+](https://www.python.org/downloads/)
+- Supports [Python](https://www.python.org/downloads/) 3.10, 3.11, 3.12, and 3.13
 - [uv](https://github.com/astral-sh/uv) or [Poetry](https://python-poetry.org/docs/#installation)
 - [AWS account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 - AWS CLI [configured with credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
