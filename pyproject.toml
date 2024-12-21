@@ -1,6 +1,6 @@
 [project]
 name = "kegstandcli"
-version = "0.4.0"
+version = "0.4.1"
 description = "The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS"
 authors = [
     { name = "JensRoland", email = "mail@jensroland.com" }

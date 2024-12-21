@@ -10,7 +10,7 @@ from aws_cdk import aws_cognito as cognito
 from aws_cdk import aws_lambda as lambda_
 from constructs import Construct
 
-from kegstandcli.utils import find_resource_modules
+from kegstandcli.utils import LambdaRuntime, find_resource_modules
 
 MODULE_CONFIG_KEY = "api"
 
@@ -66,7 +66,7 @@ class RestApiBackend(Construct):
             self,
             f"{construct_id}-Backend",
             function_name=f"{construct_id}-Function",
-            runtime=lambda_.Runtime.PYTHON_3_9,
+            runtime=LambdaRuntime(config[MODULE_CONFIG_KEY]["runtime"]).to_lambda_runtime(),
             handler=config[MODULE_CONFIG_KEY]["entrypoint"],
             code=lambda_.Code.from_asset(str(api_src_path)),
             layers=[  # See Lambda Powertools: https://awslabs.github.io/aws-lambda-powertools-python/2.4.0/
