@@ -59,15 +59,22 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
     # If the config file is pyproject.toml, the config will be under the 'tool.kegstand' key
     if config_file.endswith("pyproject.toml"):
         config = parsed_toml_config.get("tool", {}).get("kegstand", {})
-        # Some keys are used from the [project] section if not specified in [tool.kegstand]
+        # Some keys are used from the [project] or [tool.poetry] section if not specified in [tool.kegstand]
         properties_from_pyproject = ["name", "description", "version"]
         if "project" not in config:
             config["project"] = {}
         for property_name in properties_from_pyproject:
             if property_name not in config["project"]:
-                config["project"][property_name] = parsed_toml_config.get("project", {}).get(
-                    property_name
-                )
+                # Try to get the property from the [project] section
+                if property_name in parsed_toml_config.get("project", {}):
+                    config["project"][property_name] = parsed_toml_config.get("project", {}).get(
+                        property_name
+                    )
+                # Try to get the property from the [tool.poetry] section
+                elif property_name in parsed_toml_config.get("tool", {}).get("poetry", {}):
+                    config["project"][property_name] = parsed_toml_config.get("tool", {}).get(
+                        "poetry", {}
+                    ).get(property_name)
     else:
         config = parsed_toml_config
 
@@ -82,7 +89,7 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
     config["config_file"] = str(config_path)
 
     # Set defaults where missing
-    config_defaults = {"api": {"name": "Untitled API", "entrypoint": "api.lambda.handler"}}
+    config_defaults = {"api": {"name": "Untitled API", "entrypoint": "api.lambda.handler", "runtime": "python3.13"}}
     for section, defaults in config_defaults.items():
         if section not in config:
             config[section] = {}

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 import click
+from aws_cdk import aws_lambda as lambda_
 from tomlkit import loads as parse_toml
 
 
@@ -16,6 +17,25 @@ class PackageManager(str, PythonEnum):
 
     def __str__(self) -> str:
         return self.value
+
+class LambdaRuntime(str, PythonEnum):
+    """Lambda runtime types."""
+
+    PYTHON_3_10 = "python3.10"
+    PYTHON_3_11 = "python3.11"
+    PYTHON_3_12 = "python3.12"
+    PYTHON_3_13 = "python3.13"
+
+    def __str__(self) -> str:
+        return self.value
+
+    def to_lambda_runtime(self) -> lambda_.Runtime:
+        return {
+            LambdaRuntime.PYTHON_3_10: lambda_.Runtime.PYTHON_3_10,
+            LambdaRuntime.PYTHON_3_11: lambda_.Runtime.PYTHON_3_11,
+            LambdaRuntime.PYTHON_3_12: lambda_.Runtime.PYTHON_3_12,
+            LambdaRuntime.PYTHON_3_13: lambda_.Runtime.PYTHON_3_13,
+        }[self]
 
 
 def find_resource_modules(api_src_dir: str) -> list[dict[str, Any]]:
