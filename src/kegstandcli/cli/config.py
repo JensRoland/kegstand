@@ -36,7 +36,7 @@ def find_config_file(verbose: bool, config_file: str | None) -> str:  # noqa: AR
     return config_file
 
 
-def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> dict[str, Any]:
+def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> dict[str, Any]:  # noqa: PLR0912
     """Load and parse the Kegstand configuration.
 
     Args:
@@ -59,7 +59,8 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
     # If the config file is pyproject.toml, the config will be under the 'tool.kegstand' key
     if config_file.endswith("pyproject.toml"):
         config = parsed_toml_config.get("tool", {}).get("kegstand", {})
-        # Some keys are used from the [project] or [tool.poetry] section if not specified in [tool.kegstand]
+        # Some keys are used from the [project] or [tool.poetry] section
+        # if not specified in [tool.kegstand]
         properties_from_pyproject = ["name", "description", "version"]
         if "project" not in config:
             config["project"] = {}
@@ -72,9 +73,9 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
                     )
                 # Try to get the property from the [tool.poetry] section
                 elif property_name in parsed_toml_config.get("tool", {}).get("poetry", {}):
-                    config["project"][property_name] = parsed_toml_config.get("tool", {}).get(
-                        "poetry", {}
-                    ).get(property_name)
+                    config["project"][property_name] = (
+                        parsed_toml_config.get("tool", {}).get("poetry", {}).get(property_name)
+                    )
     else:
         config = parsed_toml_config
 
@@ -89,7 +90,9 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
     config["config_file"] = str(config_path)
 
     # Set defaults where missing
-    config_defaults = {"api": {"name": "Untitled API", "entrypoint": "api.lambda.handler", "runtime": "python3.13"}}
+    config_defaults = {
+        "api": {"name": "Untitled API", "entrypoint": "api.lambda.handler", "runtime": "python3.13"}
+    }
     for section, defaults in config_defaults.items():
         if section not in config:
             config[section] = {}

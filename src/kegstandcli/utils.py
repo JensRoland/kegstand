@@ -18,6 +18,7 @@ class PackageManager(str, PythonEnum):
     def __str__(self) -> str:
         return self.value
 
+
 class LambdaRuntime(str, PythonEnum):
     """Lambda runtime types."""
 

@@ -10,7 +10,7 @@ from aws_cdk import aws_cognito as cognito
 from aws_cdk import aws_lambda as lambda_
 from constructs import Construct
 
-from kegstandcli.utils import find_resource_modules, LambdaRuntime
+from kegstandcli.utils import LambdaRuntime, find_resource_modules
 
 MODULE_CONFIG_KEY = "api"
 
