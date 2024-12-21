@@ -36,6 +36,9 @@ def deploy(ctx: click.Context, region: str, hotswap: bool, skip_build: bool) -> 
     project_dir, config_file, config, verbose = itemgetter(
         "project_dir", "config_file", "config", "verbose"
     )(ctx.obj)
+    if config is None:
+        click.Abort("Config file not found.")
+
     if not skip_build:
         build_command(verbose, project_dir, config)
 

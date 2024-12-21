@@ -1,0 +1,2 @@
+package_manager: uv
+include_tests: false

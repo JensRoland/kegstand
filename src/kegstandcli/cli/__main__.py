@@ -1,6 +1,7 @@
 """Main entry point for the Kegstand CLI."""
 
 import contextlib
+import os
 from pathlib import Path
 
 import click
@@ -73,8 +74,8 @@ def kegstandcli(
     The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS\033[m"""  # noqa: E501
 
     config_file = find_config_file(verbose, config_file)
-    project_dir = str(Path(config_file).parent)
-    config = get_kegstand_config(verbose, project_dir, config_file)
+    project_dir = str(Path(config_file).parent) if config_file else os.getcwd()
+    config = get_kegstand_config(verbose, project_dir, config_file) if config_file else None
 
     ctx.obj = {
         "config": config,

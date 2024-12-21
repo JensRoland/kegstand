@@ -1,19 +1,20 @@
 """Project creation command for Kegstand CLI."""
 
-import json
 import shutil
+from io import BytesIO
 from pathlib import Path
 
 import click
 from copier import run_copy
 from directory_tree import DisplayTree  # type: ignore
+from yaml import safe_load
 
 
 @click.command()
 @click.pass_context
 @click.argument("project_dir", type=click.Path(exists=False))
-@click.option("--data-file", type=click.Path(exists=True), help="Path to a Copier input data file")
-def new(ctx: click.Context, project_dir: str, data_file: Path) -> None:
+@click.option("--data-file", type=click.File("r"), help="Path to a Copier input (JSON/YAML) file")
+def new(ctx: click.Context, project_dir: str, data_file: BytesIO) -> None:
     """Create a new Kegstand project.
 
     Args:
@@ -22,7 +23,7 @@ def new(ctx: click.Context, project_dir: str, data_file: Path) -> None:
         data_file: Path to a Copier input data file
     """
     verbose = ctx.obj["verbose"]
-    copier_data: dict = json.loads(data_file.read_text()) if data_file else {}
+    copier_data: dict = safe_load(data_file.read()) if data_file else {}
     new_command(verbose, project_dir, copier_data)
 
 

@@ -1,3 +1,5 @@
+now := $(shell date -u '+%Y%m%d-%H%M')
+
 #* Install
 .PHONY: install
 install:
@@ -26,12 +28,12 @@ lint-fix:
 lint-check:
 	uv run ruff check
 
-.PHONY: mypy
-mypy:
+.PHONY: lint-types
+lint-types:
 	uv run mypy --config-file pyproject.toml src tests
 
 .PHONY: lint
-lint: lint-check mypy
+lint: lint-check lint-types
 
 #* Poetry (used for unit testing)
 .PHONY: poetry-download
@@ -41,4 +43,17 @@ poetry-download:
 #* Test
 .PHONY: test
 test:
-	uv run pytest -n auto -c pyproject.toml --cov-report=term --cov=src tests
+	uv run pytest -c pyproject.toml --cov-report=term --cov=src tests
+
+#* E2E Test
+.PHONY: e2e
+e2e:
+	@echo "Running E2E tests"
+	@rm -rf .temp
+	@mkdir -p .temp
+	@echo "Creating a new project in kegstand-test-$(now)..."
+	@cd .temp && uv run keg new --data-file ../tests/test_data/e2e-uv.yaml kegstand-test-$(now)
+	@echo "Building..."
+	@cd .temp/kegstand-test-$(now) && uv run keg build
+	@echo "Deploying..."
+	@cd .temp/kegstand-test-$(now) && uv run keg deploy

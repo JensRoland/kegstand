@@ -16,6 +16,9 @@ from kegstandcli.utils import PackageManager, identify_package_manager
 def build(ctx: click.Context) -> None:
     """Build the project for deployment."""
     project_dir, config, verbose = itemgetter("project_dir", "config", "verbose")(ctx.obj)
+    if config is None:
+        click.Abort("Config file not found.")
+
     build_command(verbose, project_dir, config)
 
 
