@@ -5,9 +5,11 @@
     "include": ["**"],
     "exclude": [
       "README.md",
+      "LICENSE",
       "cdk*.json",
       "requirements*.txt",
       "source.bat",
+      ".coverage",
       "**/__init__.py",
       "python/__pycache__",
       "tests"
