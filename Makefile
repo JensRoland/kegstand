@@ -11,6 +11,7 @@ clean:
 	rm -rf .mypy_cache
 	rm -rf .pytest_cache
 	rm -rf .ruff_cache
+	rm -rf .temp
 	rm -rf .uv
 	rm -rf dist
 	rm src/kegstandcli/cdk.context.json
@@ -35,6 +36,12 @@ lint-types:
 .PHONY: lint
 lint: lint-check lint-types
 
+#* CDK CLI
+.PHONY: cdk-download
+cdk-download:
+	@echo "Installing AWS CDK..."
+	@npm install -g aws-cdk
+
 #* Poetry (used for unit testing)
 .PHONY: poetry-download
 poetry-download:
@@ -52,8 +59,8 @@ e2e:
 	@rm -rf .temp
 	@mkdir -p .temp
 	@echo "Creating a new project in kegstand-test-$(now)..."
-	@cd .temp && uv run keg new --data-file ../tests/test_data/e2e-uv.yaml kegstand-test-$(now)
+	@cd .temp && uv run keg --verbose new --data-file ../tests/test_data/e2e-uv.yaml kegstand-test-$(now)
 	@echo "Building..."
-	@cd .temp/kegstand-test-$(now) && uv run keg build
+	@cd .temp/kegstand-test-$(now) && uv run keg --verbose build
 	@echo "Deploying..."
-	@cd .temp/kegstand-test-$(now) && uv run keg deploy
+	@cd .temp/kegstand-test-$(now) && uv run keg --verbose deploy

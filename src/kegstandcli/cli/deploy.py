@@ -80,7 +80,7 @@ def deploy_command(
         "--context",
         f"region={region}",
         "--context",
-        f"project_dir={project_dir}",
+        f"project_dir={project_path.absolute()}",
         "--context",
         f"config_file={config_file}",
         "--context",
