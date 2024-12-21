@@ -366,15 +366,6 @@ wheels = [
 ]
 
 [[package]]
-name = "execnet"
-version = "2.1.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/bb/ff/b4c0dc78fbe20c3e59c0c7334de0c27eb4001a2b2017999af398bf730817/execnet-2.1.1.tar.gz", hash = "sha256:5189b52c6121c24feae288166ab41b32549c7e2348652736540b9e6e7d4e72e3", size = 166524 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/09/2aea36ff60d16dd8879bdb2f5b3ee0ba8d08cbbdcdfe870e695ce3784385/execnet-2.1.1-py3-none-any.whl", hash = "sha256:26dee51f1b80cebd6d0ca8e74dd8745419761d3bef34163928cbebbdc4749fdc", size = 40612 },
-]
-
-[[package]]
 name = "funcy"
 version = "2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -477,8 +468,9 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-subprocess" },
-    { name = "pytest-xdist" },
     { name = "ruff" },
+    { name = "types-click" },
+    { name = "types-pyyaml" },
 ]
 
 [package.metadata]
@@ -502,8 +494,9 @@ dev = [
     { name = "pytest", specifier = ">=7.3.0" },
     { name = "pytest-cov", specifier = ">=4.0.0" },
     { name = "pytest-subprocess", specifier = ">=1.5.0" },
-    { name = "pytest-xdist", specifier = ">=3.6.1" },
     { name = "ruff", specifier = ">=0.8.4" },
+    { name = "types-click", specifier = ">=7.1.8" },
+    { name = "types-pyyaml", specifier = ">=6.0.12.20241221" },
 ]
 
 [[package]]
@@ -817,19 +810,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytest-xdist"
-version = "3.6.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "execnet" },
-    { name = "pytest" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/41/c4/3c310a19bc1f1e9ef50075582652673ef2bfc8cd62afef9585683821902f/pytest_xdist-3.6.1.tar.gz", hash = "sha256:ead156a4db231eec769737f57668ef58a2084a34b2e55c4a8fa20d861107300d", size = 84060 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/82/1d96bf03ee4c0fdc3c0cbe61470070e659ca78dc0086fb88b66c185e2449/pytest_xdist-3.6.1-py3-none-any.whl", hash = "sha256:9ed4adfb68a016610848639bb7e02c9352d5d9f03d04809919e2dafc3be4cca7", size = 46108 },
-]
-
-[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 source = { registry = "https://pypi.org/simple" }
@@ -1026,6 +1006,24 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/a8/0e/43d0e3adfd4eb6943071279e16f97bc5adf931668a3894a40a7443e81086/types_awscrt-0.23.4.tar.gz", hash = "sha256:b1b9bb10f337e3fe8f5f508860eb354d9fe093f02e1485955a9e0bdd4e250074", size = 15120 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/82/7762fba9223429924d110a5f4972462af99e94eda853b4da10af0ae7d314/types_awscrt-0.23.4-py3-none-any.whl", hash = "sha256:eeb4bd596100927704c8b9f964ec8a246be4943d546f3fd2a8efdddebea422ea", size = 19025 },
+]
+
+[[package]]
+name = "types-click"
+version = "7.1.8"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/00/ff/0e6a56108d45c80c61cdd4743312d0304d8192482aea4cce96c554aaa90d/types-click-7.1.8.tar.gz", hash = "sha256:b6604968be6401dc516311ca50708a0a28baa7a0cb840efd7412f0dbbff4e092", size = 10015 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ee/ad/607454a5f991c5b3e14693a7113926758f889138371058a5f72f567fa131/types_click-7.1.8-py3-none-any.whl", hash = "sha256:8cb030a669e2e927461be9827375f83c16b8178c365852c060a34e24871e7e81", size = 12929 },
+]
+
+[[package]]
+name = "types-pyyaml"
+version = "6.0.12.20241221"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/60/ba3f23024bdd406e65c359b9dbd9757f058986bd57d94f6639015f9a9fae/types_pyyaml-6.0.12.20241221.tar.gz", hash = "sha256:4f149aa893ff6a46889a30af4c794b23833014c469cc57cbc3ad77498a58996f", size = 17034 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4b/04/1cc4fffeb4ace85c205e84cd48eb12cb37ec6ffb68245b7eef8f2086d490/types_PyYAML-6.0.12.20241221-py3-none-any.whl", hash = "sha256:0657a4ff8411a030a2116a196e8e008ea679696b5b1a8e1a6aa8ebb737b34688", size = 20023 },
 ]
 
 [[package]]
