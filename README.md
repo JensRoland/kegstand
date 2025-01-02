@@ -1,7 +1,7 @@
 <!-- markdownlint-disable first-line-h1 line-length no-inline-html -->
 <p align="center">
   <a href="https://kegstand.dev/">
-    <img src="https://kegstand.dev/assets/kegstand-logotype.png" width="540px" alt="Kegstand logo" />
+    <img src="https://kegstand.dev/img/kegstand-logotype.webp" width="540px" alt="Kegstand logo" />
   </a>
 </p>
 
