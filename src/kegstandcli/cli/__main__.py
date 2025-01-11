@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 import click
-
+from kegstandcli import __version__
 from kegstandcli.cli.build import build
 from kegstandcli.cli.config import find_config_file, get_kegstand_config
 from kegstandcli.cli.deploy import deploy
@@ -78,8 +78,7 @@ def kegstandcli(
     config = get_kegstand_config(verbose, project_dir, config_file) if config_file else None
 
     if verbose:
-        cli_version = config.get("project", {}).get("version", "N/A")  # type: ignore
-        click.echo(f"CLI version: {cli_version}")
+        click.echo(f"CLI version: {__version__}")
         click.echo(f"Project root: {os.path.abspath(project_dir)}")
         click.echo("-" * 80)
 

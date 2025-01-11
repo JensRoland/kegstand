@@ -6,7 +6,7 @@ The Kegstand CLI is published on PyPI as [kegstandcli](https://pypi.org/project/
 
 To publish a new version of the Kegstand CLI, follow these steps:
 
-1. Update the version number in `pyproject.toml` according to SemVer
-2. Commit and push
+1. Update the version with `uv run bump-my-version bump (major | minor | patch)`, which will update relevant files including `pyproject.toml`
+2. Push the change to the main branch
 3. Create a new release on GitHub (manually, with the same version number)
 4. The `release-python` workflow will automatically build and publish the new version to PyPI
