@@ -59,7 +59,7 @@ build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 # Directories that are not visited by pytest collector:
-norecursedirs =["dist", "docs", ".tox", ".git", "__pycache__", ".ruff_cache"]
+norecursedirs =["dist", "build", "docs", ".tox", ".git", "__pycache__", ".ruff_cache"]
 pythonpath = "src/kegstandcli"
 
 [tool.coverage.report]

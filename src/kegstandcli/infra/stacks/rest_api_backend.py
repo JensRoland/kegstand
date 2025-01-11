@@ -45,7 +45,7 @@ class RestApiBackend(Construct):
         provision_with_authorizer = user_pool is not None
 
         # Find all the resource modules in the API source directory
-        api_src_path = Path(config["project_dir"]) / "dist" / "api_src"
+        api_src_path = Path(config["project_dir"]) / "build" / "api_src"
         resource_modules = find_resource_modules(str(api_src_path))
 
         # Output all modules found

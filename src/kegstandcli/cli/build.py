@@ -31,7 +31,7 @@ def build_command(verbose: bool, project_dir: str, config: dict[str, Any]) -> No
         config: Project configuration dictionary
     """
     # Create a directory to hold the build artifacts, and make sure it is empty
-    build_dir = create_empty_folder(project_dir, "dist")
+    build_dir = create_empty_folder(project_dir, "build")
 
     # Handle the different types ('modules') of build
     if "api_gateway" in config:
@@ -133,7 +133,7 @@ def _compile_requirements_with_uv(project_dir: str, module_build_dir: str, verbo
 
     Args:
         project_dir: Path to the project directory
-        module_build_dir: Path to the module build directory (e.g. `/dist/api_src/`)
+        module_build_dir: Path to the module build directory (e.g. `/build/api_src/`)
         verbose: Whether to show verbose output
 
     Returns:
@@ -169,7 +169,7 @@ def _compile_requirements_with_poetry(
 
     Args:
         project_dir: Path to the project directory
-        module_build_dir: Path to the module build directory (e.g. `/dist/api_src/`)
+        module_build_dir: Path to the module build directory (e.g. `/build/api_src/`)
         verbose: Whether to show verbose output
 
     Returns:
