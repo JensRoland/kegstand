@@ -52,7 +52,7 @@ def teardown_command(verbose: bool, project_dir: str, config_file: str, region: 
         "--context",
         f"region={region}",
         "--context",
-        f"project_dir={project_dir}",
+        f"project_dir={project_path.absolute()}",
         "--context",
         f"config_file={config_file}",
         "--context",
