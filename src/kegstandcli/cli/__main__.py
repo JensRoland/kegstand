@@ -35,6 +35,7 @@ class AliasedGroup(click.Group):
 
 
 @click.group(cls=AliasedGroup)
+@click.version_option(package_name="kegstandcli", version=__version__)
 @click.option("--config", "config_file", help="Path to Kegstand configuration file.")
 @click.option("--verbose", is_flag=True, default=False, help="Show verbose output")
 @click.pass_context
