@@ -13,7 +13,7 @@ clean:
 	rm -rf .ruff_cache
 	rm -rf .temp
 	rm -rf .uv
-	rm -rf dist
+	rm -rf build
 	rm src/kegstandcli/cdk.context.json
 	find . -name '__pycache__' -exec rm -rf {} +
 	find . -name '*.pyc' -exec rm -f {} +
@@ -64,3 +64,8 @@ e2e:
 	@cd .temp/kegstand-test-$(now) && uv run keg --verbose build
 	@echo "Deploying..."
 	@cd .temp/kegstand-test-$(now) && uv run keg --verbose deploy
+# TODO: Test endpoints with curl or something
+#	@echo "Testing..."
+	@echo "Tearing down..."
+	@cd .temp/kegstand-test-$(now) && uv run keg --verbose teardown
+	@echo "Done"

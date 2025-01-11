@@ -45,11 +45,11 @@ def test_create_empty_folder() -> None:
             create_empty_folder(str(temp_path), "")
 
 
-def test_build_command_creates_dist_directory(project_simple: Path) -> None:
-    """Test build_command creates dist directory."""
+def test_build_command_creates_build_directory(project_simple: Path) -> None:
+    """Test build_command creates build directory."""
     config: dict[str, dict] = {}
     build_command(False, str(project_simple), config)
-    assert (project_simple / "dist").exists()
+    assert (project_simple / "build").exists()
 
 
 def test_build_api_gateway(project_simple: Path, assert_files_exist) -> None:
@@ -58,7 +58,7 @@ def test_build_api_gateway(project_simple: Path, assert_files_exist) -> None:
     build_command(False, str(project_simple), config)
 
     # Verify files were created
-    assert_files_exist(project_simple / "dist" / "api_gw_src", ["api/lambda.py"])
+    assert_files_exist(project_simple / "build" / "api_gw_src", ["api/lambda.py"])
 
 
 def test_build_api(project_simple: Path, assert_files_exist) -> None:
@@ -69,11 +69,11 @@ def test_build_api(project_simple: Path, assert_files_exist) -> None:
     # DisplayTree(project_simple, maxDepth=3)
 
     # Verify files were created
-    assert_files_exist(project_simple / "dist" / "api_src", ["api/lambda.py", "requirements.txt"])
+    assert_files_exist(project_simple / "build" / "api_src", ["api/lambda.py", "requirements.txt"])
 
     # Read the requirements.txt file and verify that it includes expected dependencies
     # and not dev dependencies
-    with open(project_simple / "dist" / "api_src" / "requirements.txt") as f:
+    with open(project_simple / "build" / "api_src" / "requirements.txt") as f:
         requirements = f.read()
         assert "kegstand==" in requirements
         assert "kegstandcli==" not in requirements
@@ -88,6 +88,6 @@ def test_build_command_with_multiple_modules(project_simple: Path, assert_files_
 
     # Verify files were created
     assert_files_exist(
-        project_simple / "dist",
+        project_simple / "build",
         ["api_src/api/lambda.py", "api_src/requirements.txt", "api_gw_src/api/lambda.py"],
     )

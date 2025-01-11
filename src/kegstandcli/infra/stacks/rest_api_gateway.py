@@ -44,7 +44,7 @@ class RestApiGateway(Construct):
 
         # provision_with_authorizer = user_pool is not None
 
-        api_gw_src_path = Path(config["project_dir"]) / "dist" / "api_gw_src"
+        api_gw_src_path = Path(config["project_dir"]) / "build" / "api_gw_src"
 
         # Lambda API backend
         default_function_props = lambda_.FunctionProps(
