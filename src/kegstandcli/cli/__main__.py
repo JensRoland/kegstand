@@ -77,6 +77,12 @@ def kegstandcli(
     project_dir = str(Path(config_file).parent) if config_file else os.getcwd()
     config = get_kegstand_config(verbose, project_dir, config_file) if config_file else None
 
+    if verbose:
+        cli_version = config.get("project", {}).get("version", "N/A")  # type: ignore
+        click.echo(f"CLI version: {cli_version}")
+        click.echo(f"Project root: {os.path.abspath(project_dir)}")
+        click.echo("-" * 80)
+
     ctx.obj = {
         "config": config,
         "config_file": config_file,
