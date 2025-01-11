@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 
 import click
+
 from kegstandcli import __version__
 from kegstandcli.cli.build import build
 from kegstandcli.cli.config import find_config_file, get_kegstand_config
