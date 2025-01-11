@@ -125,7 +125,7 @@ class RestApiBackend(Construct):
             CfnOutput(
                 scope,
                 f"{resource['name']}Url",
-                value=rest_api_gw.url_for_path(resource_root.path),
+                value=rest_api_gw.url_for_path(resource_root.path),  # type: ignore
                 description=f"Endpoint URL for the {resource['name']} resource",
             )
 
