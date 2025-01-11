@@ -10,7 +10,7 @@ from tomlkit import loads as parse_toml
 CONFIG_FILE_NAMES = ["kegstand.toml", ".kegstand", "pyproject.toml"]
 
 
-def find_config_file(verbose: bool, config_file: str | None) -> str | None:  # noqa: ARG001
+def find_config_file(verbose: bool, config_file: str | None) -> tuple[Path | None, str | None]:  # noqa: ARG001
     """Find the configuration file to use.
 
     Args:
@@ -18,7 +18,8 @@ def find_config_file(verbose: bool, config_file: str | None) -> str | None:  # n
         config_file: Path to the configuration file, or None to search for one
 
     Returns:
-        str | None: Path to the configuration file, or None if not found
+        tuple: The absolute path to the configuration file and its name
+
     """
     # If no config file is specified, locate it automatically
     if config_file is None:
@@ -30,9 +31,12 @@ def find_config_file(verbose: bool, config_file: str | None) -> str | None:  # n
     if not config_file or not Path(config_file).exists():
         if verbose:
             click.echo(f"Configuration file not found: {config_file}")
-        return None
+        return None, None
 
-    return config_file
+    config_file_absolute = Path(config_file).resolve()
+    config_file_name = config_file_absolute.name
+
+    return config_file_absolute, config_file_name
 
 
 def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> dict[str, Any]:  # noqa: PLR0912

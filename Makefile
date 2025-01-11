@@ -59,17 +59,20 @@ test:
 #* E2E Test
 .PHONY: e2e
 e2e:
-	@echo "Running E2E tests"
+	@echo "Running E2E tests..."
 	@rm -rf .temp
 	@mkdir -p .temp
 	@echo "Creating a new project in kegstand-test-$(now)..."
-	@cd .temp && uv run keg --verbose new --data-file ../tests/test_data/e2e-uv.yaml kegstand-test-$(now)
+	@cd .temp && uv run keg new --data-file ../tests/test_data/e2e-uv.yaml kegstand-test-$(now)
 	@echo "Building..."
-	@cd .temp/kegstand-test-$(now) && uv run keg --verbose build
+	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml build
 	@echo "Deploying..."
-	@cd .temp/kegstand-test-$(now) && uv run keg --verbose deploy
-# TODO: Test endpoints with curl or something
-#	@echo "Testing..."
+	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml deploy
+	@echo "Testing..."
+	@(uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml test-api-endpoint hello || (EXIT_CODE=$$?; \
+		echo "Tearing down after test failure..." && \
+		cd .temp/kegstand-test-$(now) && uv run keg teardown && \
+		exit $$EXIT_CODE))
 	@echo "Tearing down..."
-	@cd .temp/kegstand-test-$(now) && uv run keg --verbose teardown
+	@cd .temp/kegstand-test-$(now) && uv run keg teardown
 	@echo "Done"

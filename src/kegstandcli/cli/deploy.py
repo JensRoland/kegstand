@@ -77,6 +77,8 @@ def deploy_command(
         "--output",
         str(project_path / "cdk.out"),
         "--all",
+        "--outputs-file",
+        str(project_path / ".stack-outputs.json"),
         "--context",
         f"region={region}",
         "--context",
