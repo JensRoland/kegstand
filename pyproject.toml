@@ -25,7 +25,7 @@ dependencies = [
     "aws-cdk-lib>=2.67.0",
     "aws-solutions-constructs-aws-apigateway-lambda>=2.39.0",
     "boto3>=1.17.113",
-    "click>=8.0.3",
+    "click>=8.1.8",
     "constructs>=10.0.0,<11.0.0",
     "copier>=9.4.1",
     "directory-tree>=1.0.0",
@@ -43,7 +43,6 @@ dev = [
     "pytest-subprocess>=1.5.0",
     "ruff>=0.8.4",
     "types-pyyaml>=6.0.12.20241221",
-    "types-click>=7.1.8",
     "bump-my-version>=0.29.0",
 ]
 
