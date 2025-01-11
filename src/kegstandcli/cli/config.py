@@ -29,7 +29,7 @@ def find_config_file(verbose: bool, config_file: str | None) -> str | None:  # n
 
     if not config_file or not Path(config_file).exists():
         if verbose:
-            click.echo("No configuration file found")
+            click.echo(f"Configuration file not found: {config_file}")
         return None
 
     return config_file
@@ -48,10 +48,14 @@ def get_kegstand_config(verbose: bool, project_dir: str, config_file: str) -> di
 
     Raises:
         click.BadParameter: If the project name is invalid
+        FileNotFoundError: If the configuration file is not found
     """
     config_path = Path(project_dir) / config_file
     if verbose:
         click.echo(f"Loading configuration from {config_path}")
+
+    if not config_path.exists():
+        raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
     parsed_toml_config = parse_toml(config_path.read_text(encoding="utf-8"))
 

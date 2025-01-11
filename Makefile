@@ -6,17 +6,21 @@ install:
 	uv sync
 
 #* Clean
-.PHONY: clean
-clean:
+.PHONY: purgecache
+purgecache:
 	rm -rf .mypy_cache
 	rm -rf .pytest_cache
 	rm -rf .ruff_cache
+	find . -name '__pycache__' -exec rm -rf {} +
+	find . -name '*.pyc' -exec rm -f {} +
+
+#* Clean
+.PHONY: clean
+clean: purgecache
 	rm -rf .temp
 	rm -rf .uv
 	rm -rf build
 	rm src/kegstandcli/cdk.context.json
-	find . -name '__pycache__' -exec rm -rf {} +
-	find . -name '*.pyc' -exec rm -f {} +
 
 #* Format
 .PHONY: lint-fix
