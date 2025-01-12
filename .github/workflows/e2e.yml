@@ -72,5 +72,17 @@ jobs:
       - name: Install dependencies (incl. the CLI itself)
         run: uv sync --all-extras
 
-      - name: E2E test
-        run: make e2e
+      - name: Create temporary project
+        run: make e2e-create-project
+
+      - name: Build project
+        run: make e2e-build
+
+      - name: Deploy project
+        run: make e2e-deploy
+
+      - name: Test endpoint
+        run: make e2e-test
+
+      - name: Teardown project
+        run: make e2e-teardown
