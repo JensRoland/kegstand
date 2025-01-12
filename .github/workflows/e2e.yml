@@ -52,6 +52,9 @@ jobs:
           role-to-assume: arn:aws:iam::315498636918:role/kegstand-e2e-test-role
           role-session-name: Kegstand-E2E-test-${{ matrix.python-version }}
 
+      - name: Install CDK CLI
+        run: npm install -g aws-cdk
+
       - uses: actions/checkout@v4
 
       - name: Install uv
