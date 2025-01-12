@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import click
-from aws_cdk import Stack
+from aws_cdk import CfnOutput, Stack
 from aws_cdk import aws_apigateway as apigw
 from aws_cdk import aws_cognito as cognito
 from aws_cdk import aws_lambda as lambda_
@@ -120,5 +120,13 @@ class RestApiBackend(Construct):
                 )
                 resource_root.add_method("ANY", apigw.LambdaIntegration(self.lambda_function))
                 resource_root.add_proxy()
+
+            # Add a CfnOutput with the resource URL
+            CfnOutput(
+                scope,
+                f"{resource['name']}Url",
+                value=rest_api_gw.url_for_path(resource_root.path),  # type: ignore
+                description=f"Endpoint URL for the {resource['name']} resource",
+            )
 
         self.deployment = apigw.Deployment(self, f"{construct_id}-Deployment", api=rest_api_gw)

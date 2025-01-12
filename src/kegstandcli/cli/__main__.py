@@ -2,6 +2,8 @@
 
 import contextlib
 import os
+import subprocess  # nosec
+from operator import itemgetter
 from pathlib import Path
 
 import click
@@ -75,18 +77,21 @@ def kegstandcli(
     ===================================================================
     The Developer's Toolbelt For Accelerating Mean-Time-To-Party on AWS\033[m"""  # noqa: E501
 
-    config_file = find_config_file(verbose, config_file)
-    project_dir = str(Path(config_file).parent) if config_file else os.getcwd()
-    config = get_kegstand_config(verbose, project_dir, config_file) if config_file else None
+    config_file_absolute, config_file_name = find_config_file(verbose, config_file)
+    project_dir = str(Path(config_file_absolute).parent) if config_file_absolute else os.getcwd()
 
     if verbose:
         click.echo(f"CLI version: {__version__}")
         click.echo(f"Project root: {os.path.abspath(project_dir)}")
         click.echo("-" * 80)
 
+    config = (
+        get_kegstand_config(verbose, project_dir, config_file_name) if config_file_name else None
+    )
+
     ctx.obj = {
         "config": config,
-        "config_file": config_file,
+        "config_file": config_file_absolute,
         "project_dir": project_dir,
         "verbose": verbose,
     }
@@ -94,6 +99,55 @@ def kegstandcli(
 
 for command in [new, build, deploy, teardown]:
     kegstandcli.add_command(command)
+
+
+@kegstandcli.command()
+@click.pass_context
+@click.argument("endpoint_name", type=str, required=True)
+def test_api_endpoint(ctx: click.Context, endpoint_name: str) -> None:
+    """Send a request to a deployed public API endpoint."""
+    project_dir, config_file, config, verbose = itemgetter(
+        "project_dir", "config_file", "config", "verbose"
+    )(ctx.obj)
+    if config is None:
+        click.Abort("Config file not found.")
+
+    stack_name = config["project"]["name"]
+    stack_output_key = f"{endpoint_name}Url"
+
+    command = [
+        "aws",
+        "cloudformation",
+        "describe-stacks",
+        "--stack-name",
+        stack_name,
+        "--query",
+        f"Stacks[0].Outputs[?OutputKey=='{stack_output_key}'].OutputValue",
+        "--output",
+        "text",
+        "--no-cli-pager",
+    ]
+
+    if verbose:
+        click.echo(f"Running command: {' '.join(command)}")
+
+    try:
+        endpoint_url = subprocess.check_output(command, text=True).strip()  # noqa: S603
+    except subprocess.CalledProcessError as e:
+        raise click.ClickException(f"Failed to retrieve output from deployed stack: {e}") from e
+
+    click.echo(f"Found endpoint URL: {endpoint_url}, sending a GET request...")
+
+    command = ["curl", "-sSX", "GET", endpoint_url, "--fail"]
+
+    if verbose:
+        click.echo(f"Running command: {' '.join(command)}")
+
+    try:
+        response = subprocess.check_output(command, text=True)  # noqa: S603
+        click.echo(response)
+    except subprocess.CalledProcessError as e:
+        raise click.ClickException(f"Failed to connect to endpoint: {e}") from e
 
 
 if __name__ == "__main__":
