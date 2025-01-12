@@ -15,4 +15,3 @@ dist/
 .cdk.staging
 cdk.out
 cdk.context.json
-.stack-outputs.json
