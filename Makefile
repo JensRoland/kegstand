@@ -67,7 +67,7 @@ e2e:
 	@echo "Building..."
 	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml build
 	@echo "Deploying..."
-	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml deploy --verbose --skip-build
+	@uv run keg --verbose --config .temp/kegstand-test-$(now)/pyproject.toml deploy --skip-build
 	@echo "Testing..."
 	@(uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml test-api-endpoint hello || (EXIT_CODE=$$?; \
 		echo "Tearing down after test failure..." && \
