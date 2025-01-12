@@ -73,7 +73,10 @@ jobs:
         run: uv sync --all-extras
 
       - name: Generate unique suffix for test run
-        run: echo "SUFFIX=$(date -u '+%Y%m%d-%H%M')-${{ matrix.python-version }}" >> $GITHUB_ENV
+        run: |
+          PYTHON_VERSION=${{ matrix.python-version }}
+          PYTHON_VERSION_UNDERSCORE=${PYTHON_VERSION//./-}
+          echo "SUFFIX=${PYTHON_VERSION_UNDERSCORE}-$(date -u '+%Y%m%d-%H%M')" >> $GITHUB_ENV
 
       - name: Create temporary project
         run: make e2e-create-project suffix=$SUFFIX
