@@ -38,6 +38,13 @@ jobs:
         python-version: ["3.13"]
 
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-1
+          role-to-assume: arn:aws:iam::315498636918:role/kegstand-e2e-test-role
+          role-session-name: Kegstand-E2E-test-${{ matrix.python-version }}
+
       - uses: actions/checkout@v4
 
       - name: Install uv
@@ -55,5 +62,5 @@ jobs:
       - name: Install dependencies (incl. the CLI itself)
         run: uv sync --all-extras
 
-      - name: E2e test
+      - name: E2E test
         run: make e2e
