@@ -56,44 +56,55 @@ poetry-download:
 test:
 	uv run pytest -c pyproject.toml --cov-report=term --cov=src tests
 
-# Splitting the e2e into multiple steps to make it easier to debug:
+#* E2E Test - Fail if suffix is not set
+.PHONY: fail-if-no-suffix
+fail-if-no-suffix:
+ifeq ($(suffix),)
+	$(error suffix is not set)
+endif
+
 #* E2E Test - Create
 .PHONY: e2e-create-project
-e2e-create-project:
+e2e-create-project: fail-if-no-suffix
 	@echo "Running E2E tests..."
 	@rm -rf .temp
 	@mkdir -p .temp
-	@echo "Creating a new project in kegstand-test-$(now)..."
-	@cd .temp && uv run keg new --data-file ../tests/test_data/e2e-uv.yaml kegstand-test-$(now)
+	@echo "Creating a new project in kegstand-test-$(suffix)..."
+	@cd .temp && uv run keg new --data-file ../tests/test_data/e2e-uv.yaml kegstand-test-$(suffix)
 
 #* E2E Test - Build
 .PHONY: e2e-build
-e2e-build:
+e2e-build: fail-if-no-suffix
 	@echo "Building..."
-	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml build
+	@uv run keg --config .temp/kegstand-test-$(suffix)/pyproject.toml build
 
 #* E2E Test - Deploy
 .PHONY: e2e-deploy
-e2e-deploy:
+e2e-deploy: fail-if-no-suffix
 	@echo "Deploying..."
-	@uv run keg --verbose --config .temp/kegstand-test-$(now)/pyproject.toml deploy --skip-build
+	@uv run keg --verbose --config .temp/kegstand-test-$(suffix)/pyproject.toml deploy --skip-build
 
 #* E2E Test - Test
 .PHONY: e2e-test
-e2e-test:
+e2e-test: fail-if-no-suffix
 	@echo "Testing..."
-	@(uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml test-api-endpoint hello || (EXIT_CODE=$$?; \
+	@(uv run keg --config .temp/kegstand-test-$(suffix)/pyproject.toml test-api-endpoint hello || (EXIT_CODE=$$?; \
 		echo "Tearing down after test failure..." && \
-		cd .temp/kegstand-test-$(now) && uv run keg teardown && \
+		cd .temp/kegstand-test-$(suffix) && uv run keg teardown && \
 		exit $$EXIT_CODE))
 
 #* E2E Test - Teardown
 .PHONY: e2e-teardown
-e2e-teardown:
+e2e-teardown: fail-if-no-suffix
 	@echo "Tearing down..."
-	@cd .temp/kegstand-test-$(now) && uv run keg teardown
+	@cd .temp/kegstand-test-$(suffix) && uv run keg teardown
 	@echo "Done"
 
 #* E2E Test - All
 .PHONY: e2e
-e2e: | e2e-create-project e2e-build e2e-deploy e2e-test e2e-teardown
+e2e:
+	@make e2e-create-project suffix=$(now)
+	@make e2e-build suffix=$(now)
+	@make e2e-deploy suffix=$(now)
+	@make e2e-test suffix=$(now)
+	@make e2e-teardown suffix=$(now)

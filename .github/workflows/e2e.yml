@@ -72,17 +72,20 @@ jobs:
       - name: Install dependencies (incl. the CLI itself)
         run: uv sync --all-extras
 
+      - name: Generate unique suffix for test run
+        run: echo "SUFFIX=$(date -u '+%Y%m%d-%H%M')-${{ matrix.python-version }}" >> $GITHUB_ENV
+
       - name: Create temporary project
-        run: make e2e-create-project
+        run: make e2e-create-project suffix=$SUFFIX
 
       - name: Build project
-        run: make e2e-build
+        run: make e2e-build suffix=$SUFFIX
 
       - name: Deploy project
-        run: make e2e-deploy
+        run: make e2e-deploy suffix=$SUFFIX
 
       - name: Test endpoint
-        run: make e2e-test
+        run: make e2e-test suffix=$SUFFIX
 
       - name: Teardown project
-        run: make e2e-teardown
+        run: make e2e-teardown suffix=$SUFFIX
