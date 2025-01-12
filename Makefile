@@ -65,9 +65,9 @@ e2e:
 	@echo "Creating a new project in kegstand-test-$(now)..."
 	@cd .temp && uv run keg new --data-file ../tests/test_data/e2e-uv.yaml kegstand-test-$(now)
 	@echo "Building..."
-	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml build
+	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml build --skip-deploy
 	@echo "Deploying..."
-	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml deploy
+	@uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml deploy --verbose
 	@echo "Testing..."
 	@(uv run keg --config .temp/kegstand-test-$(now)/pyproject.toml test-api-endpoint hello || (EXIT_CODE=$$?; \
 		echo "Tearing down after test failure..." && \

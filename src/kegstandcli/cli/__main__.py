@@ -137,7 +137,7 @@ def test_api_endpoint(ctx: click.Context, endpoint_name: str) -> None:
 
     click.echo(f"Found endpoint URL: {endpoint_url}, sending a GET request...")
 
-    command = ["curl", "-sSX", "GET", endpoint_url + "dd", "--fail"]
+    command = ["curl", "-sSX", "GET", endpoint_url, "--fail"]
 
     if verbose:
         click.echo(f"Running command: {' '.join(command)}")
