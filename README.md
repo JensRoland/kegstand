@@ -7,7 +7,7 @@
 
 <h3 align="center">The Developer's Toolbelt For Accelerating <em>Mean Time To Party</em> on AWS</h3>
 <p align="center">Created by <a href="https://jensroland.com/">Jens Roland</a> and fueled by a non-zero amount of alcohol</p>
-<p align="center"><a href="https://kegstand.dev/demo">Watch a 3-minute demo</a></p><!-- markdown-link-check-disable-line -->
+<!--p align="center"><a href="https://kegstand.dev/demo">Watch a 3-minute demo</a></p-->
 
 <br />
 
@@ -21,7 +21,25 @@ Kegstand is a free and open-source framework for creating Python APIs and servic
 - A decorator based framework abstracting away the boilerplate of AWS Lambda, API Gateway, Cognito, and more.
 - The full power of CDK to define and deploy arbitrary AWS resources with your services.
 
-> _"Experience a streamlined cloud development process, enhanced productivity, and hit that "party" button sooner with Kegstand!"_ > **&mdash; GPT-4, official spokesbot for the Kegstand team**
+> _**"I was asked to write a testimonial. I deployed an API instead. Took 30 seconds."**_
+>
+> &mdash; Claude Opus 4.5, official spokesbot for the Kegstand team
+
+> _**"Lambda, but make it fun."**_
+>
+> &mdash; Gemini 3 Pro
+
+> _**"Zero to prod before your coffee gets cold."**_
+>
+> &mdash; Gemini 3 Pro
+
+> _**"I've seen a lot of frameworks. This is the first one that made me wish I could drink."**_
+>
+> &mdash; Claude Opus 4.5, official spokesbot for the Kegstand team
+
+> _**"They told me to write infrastructure code. I wrote three decorators and went to the party."**_
+>
+> &mdash; Claude Opus 4.5, official spokesbot for the Kegstand team
 
 Learn more on the [Kegstand website](https://kegstand.dev/).
 
